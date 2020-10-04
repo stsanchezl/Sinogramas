@@ -9,8 +9,10 @@ public class CommandLines {
         super();
     }
 
-    
-    
+    public static String input() {
+        return input.next();
+    }
+
     public static String getElement() {
         System.out.println("Type the element to be added");
         return input.next();
@@ -20,6 +22,7 @@ public class CommandLines {
         System.out.println("Type a phrase");
         return input.nextLine();
     }
+
 
     public static String dataTypeSelection() {
         System.out.println("What kind of data type you would like to use?");

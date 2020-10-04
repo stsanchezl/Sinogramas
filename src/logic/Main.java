@@ -15,7 +15,8 @@ public class Main {
         UndoButton frame = new UndoButton();
         frame.setVisible(true);
         */
-        String pathToFile = "/home/stiven/Documentos/Chino/mergeFiles.txt";
+        CommandLines.print("Ingrese el camino al archivo .txt (inclutendo el archivo)");
+        String pathToFile = CommandLines.input();
         ChineseCharacters letras = new ChineseCharacters(pathToFile);
         try {
             letras.openFile();
