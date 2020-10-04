@@ -132,6 +132,20 @@ public class ChineseCharacters {
             }
             currentTime = new Timestamp(System.currentTimeMillis());
             CommandLines.print(currentTime.toString());
+            switch (selection) {
+                case "l":
+                    CommandLines.print(String.valueOf(tempList.length()));
+                    CommandLines.print(tempList.toString());
+                    break;
+                case "q":
+                    CommandLines.print(String.valueOf(tempQueue.length()));
+                    break;
+                case "s":
+                    CommandLines.print(String.valueOf(tempStack.length()));
+                    break;
+                default:
+                    break;
+            }
         } else {
             System.err.println("No regex found, set one using setRegex() method.");
         }
