@@ -1,3 +1,6 @@
+/**
+ * Undocumentated methods are descripted in the interface this class implements.
+ */
 package data;
 
 /**
@@ -48,31 +51,6 @@ public class StackArrayGeneric<T> implements StackGeneric<T> {
         top++;
     }
 
-    /**
-     * This method place the n-element of the stack in the n-l position; l is the size of the stack
-     */
-    public void invert() {
-        T[] tempArray = (T[]) new Object[top];
-        int bottom = 0;
-        for (int i = this.stackArray.length-1; i>=0; i--) {
-            tempArray[bottom] = stackArray[i];
-            bottom++;
-        }
-        this.stackArray = tempArray;
-    }
-
-    /**
-     * This method returns the size of the stack;
-     * @return a int representing the size of the stack;
-     */
-    public int length() {
-        return this.stackArray.length;
-    }
-
-    /**
-     * This method returns a String to be printed
-     * @return a String with the objects of the StackArray
-     */
     @Override
     public String toString() {
         StringBuilder toPrint = new StringBuilder("[");
@@ -87,7 +65,7 @@ public class StackArrayGeneric<T> implements StackGeneric<T> {
         return toPrint.toString();   
     }
 
-    public int size() {
+    public int length() {
         return this.stackArray.length;
     }
 }

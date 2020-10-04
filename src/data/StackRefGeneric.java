@@ -1,10 +1,24 @@
+/**
+ * Undocumentated methods are descripted in the interface this class implements.
+ */
 package data;
+
+/**
+ * This class is a "fixed" version of the Stack with Nodes seen in the data structures class 
+ * @author Stiven Leonardo Sánchez León
+ * @version 2.0
+ * @since 17/09/2020
+ */
 
 public class StackRefGeneric<T> implements StackGeneric<T> {
 
     private NodeGeneric<T> top;
-    private int counter = 0;
+    private int counter = 0;  //Counter added so one can keep tracks of the length of the Stack.
 
+    /**
+     * Constructor.
+     * Initalizates null node, so at first the Stack is empty
+     */
     public StackRefGeneric() {
         top = null;
     }
@@ -48,7 +62,8 @@ public class StackRefGeneric<T> implements StackGeneric<T> {
         return toReturn;
     }
 
-    public int size(){
+    @Override
+    public int length(){
         return counter;
     }
     

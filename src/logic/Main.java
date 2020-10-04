@@ -8,28 +8,28 @@ import ui.*;
 public class Main {
 
     public static void main(String[] args) {
-        //reverse(CommandLines.dataTypeSelection());
-        //palindrome();
-        //testQueue(CommandLines.dataTypeSelection());
-        /*
-        UndoButton frame = new UndoButton();
-        frame.setVisible(true);
-        */
-        //Mine is = /home/stiven/Documentos/Java/estructurasDeDatos/Unihan/mergedFiles.txt
+
+        //My path is = /home/stiven/Documentos/Java/estructurasDeDatos/Unihan/mergedFiles.txt
         CommandLines.print("Ingrese el camino al archivo .txt (inclutendo el archivo)");
         String pathToFile = CommandLines.input();
         ChineseCharacters letras = new ChineseCharacters(pathToFile);
+
         try {
             letras.openFile();
             letras.setRegex("[U].[\\dA-Z]{4,5}");
-            letras.readText();
+            letras.readText(CommandLines.selectDataStructure());
             letras.closeFile();
+            
         } catch (IOException e) {
             System.err.println("Error: "+e.getMessage());
         }
         
     }
 
+    /**
+     * This method is the reverse test program to try stacks.
+     * @param type: string to decided what kind of data type to use (primitives or objects)
+     */
     public static void reverse(String type) {
         String selection;
         int size;
@@ -80,6 +80,9 @@ public class Main {
         }
     }
     
+    /**
+     * This method is a palindrome checker, used to try stacks
+     */
     public static void palindrome() {
         int counter;
         int iterator;
@@ -116,6 +119,10 @@ public class Main {
         }
     }
 
+    /**
+     * This method is design to check how queues work by enqueuing and dequeuing elements
+     * @param type: string to decided what kind of data type to use (primitives or objects)
+     */
     public static void testQueue(String type) {
         String arrayOrRefSelection = CommandLines.selectArraysOrReferences();
         String selection;

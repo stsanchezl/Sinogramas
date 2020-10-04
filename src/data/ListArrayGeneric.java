@@ -1,4 +1,13 @@
+/**
+ * Undocumentated methods are descripted in the interface this class implements.
+ */
 package data;
+/**
+ * This class is a "fixed" version of the ListArray seen in the data structures class 
+ * @author Stiven Leonardo Sánchez León
+ * @version 2.0
+ * @since 15/09/2020
+ */
 
 public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T> {
     private int position;
@@ -100,6 +109,11 @@ public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T>
         return toPrint.toString();
     }
 
+    /**
+     * This method allows comparison
+     * @param item to be compared with the reference
+     * @return -1 if reference is less than the item, 0 if they're equal; 1 otherwise
+     */
     public int compareTo(T item) {
         int result;
         if (reference.compareTo(item)>0) {
@@ -112,5 +126,9 @@ public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T>
             }
         }
         return result;
+    }
+
+    public int length() {
+        return this.listArray.length;
     }
 }

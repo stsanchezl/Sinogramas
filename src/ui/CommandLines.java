@@ -1,4 +1,15 @@
+/**
+ * Every method is undocumentated for the sake of simplicity
+ */
 package ui;
+
+/**
+ * This class is a basic I/O promtp so we can display or ask the info that is needed for the program to run
+ * THIS CLASS WILL BE ERASED IN FUTURE VERSIONS
+ * @author Stiven Leonardo Sánchez León
+ * @version 1.0
+ * @since 21/10/2020
+ */
 
 import java.util.Scanner;
 
@@ -48,6 +59,11 @@ public class CommandLines {
         return selection;
     }
 
+    public static String selectDataStructure() {
+        System.out.println("Type 's' for stack, 'q' for queue or 'l' for list");
+        return input.next();
+    }
+
     public static int selectSize(String dataStructureType) {
         System.out.println("Type the size of the "+ dataStructureType);
         return Integer.parseInt(input.next());
@@ -57,6 +73,7 @@ public class CommandLines {
         System.out.println("Type 'c' to continue or 's' to stop");
         return input.next().toLowerCase();
     }
+
 
     public static String stopQueues() {
         System.out.println("Type 'e' for enqueue, 'd' for dequeue or 's' to stop");

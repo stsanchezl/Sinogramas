@@ -1,8 +1,19 @@
+/**
+ * Undocumentated methods are descripted in the interface this class implements.
+ */
 package data;
+
+/**
+ * This class is a "fixed" version of the LinkedList with Nodes seen in the data structures class 
+ * @author Stiven Leonardo Sánchez León
+ * @version 2.0
+ * @since 24/09/2020
+ */
 
 public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T>  {
 
     private NodeGeneric<T> head;
+    private int counter; //Counter added so one can keep tracks of the length of the Queue.
 
     /**
      * Constructor- Creating an empty list (a null Node)
@@ -39,15 +50,17 @@ public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T
             } else {
                 previous.setNext(newPointer);
             }
+            counter++;
         }
         return inserted;
     }
 
-    /**
+    /* 
      * TODO
      */
     @Override
     public boolean delete(T item) {
+        counter--;
         return false;
     }
 
@@ -72,6 +85,11 @@ public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T
     @Override
     public String toString() {
         return this.head.toString();
+    }
+
+    @Override
+    public int length() {
+        return this.counter;
     }
     
 }

@@ -1,5 +1,14 @@
 package data;
 
+/**
+ * This is an interface of a Queue.
+ * The user can choose using references or arrays
+ * This makes it easier for them to implement queues
+ * @author Stiven Leonardo Sánchez León
+ * @version 2.0
+ * @since 08/09/2020
+ */
+
 public interface QueueGeneric<T> {
 
     /**
@@ -31,4 +40,10 @@ public interface QueueGeneric<T> {
      * @return a string representation of the objects from the queue
      */
     public String toString();
+
+    /**
+     * This method shows the length of the queue
+     * @return an integer with the length of the queue
+     */
+    public int length();
 }

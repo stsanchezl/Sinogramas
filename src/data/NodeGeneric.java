@@ -1,14 +1,31 @@
+/**
+ * Undocumentated methods are getters and setters
+ */
 package data;
+
+/**
+ * This class is a "fixed" version of the Node class seen in the data structures class 
+ * @author Stiven Leonardo Sánchez León
+ * @version 2.0
+ * @since 15/09/2020
+ */
 
 public class NodeGeneric<T> {
     private T data;
     private NodeGeneric<T> next;
 
+    /**
+     * Constructor of a Node: stores a value in memory and sets the next node to null
+     * @param data: key to store
+     */
     public NodeGeneric(T data) {
         this.data = data;
         next = null;
     }
     
+    /**
+     * Constructor, calls the other constructor with the data being null;
+     */
     public NodeGeneric() {
         this(null);
     }
@@ -29,6 +46,10 @@ public class NodeGeneric<T> {
         this.next = next;
     }
 
+    /**
+     * This method gives a visual representation of a node, if next attribute is not empty, the nodes looks like a list
+     * @return a string with the data of a node within square brackes
+     */
     public String toString() {
         StringBuilder toPrint = new StringBuilder("[");
         NodeGeneric<T> ref = this;

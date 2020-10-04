@@ -1,7 +1,14 @@
 /**
- * Undocumentated methods are in the inteface that this class implements
+ * Undocumentated methods are descripted in the interface this class implements.
  */
 package data;
+
+/**
+ * This class is a "fixed" version of the QueueArray seen in the data structures class 
+ * @author Stiven Leonardo Sánchez León
+ * @version 2.0
+ * @since 08/09/2020
+ */
 
 public class QueueArrayGeneric<T> implements QueueGeneric<T> {
     private int front;
@@ -59,14 +66,6 @@ public class QueueArrayGeneric<T> implements QueueGeneric<T> {
     public int getCount() {
         return count;
     }
-
-    /**
-     * Method that returns the size of the queue
-     * @return the length of the queue
-     */
-    public int length() {
-        return this.queueArray.length;
-    }
  
     @Override
     public String toString() {
@@ -86,5 +85,10 @@ public class QueueArrayGeneric<T> implements QueueGeneric<T> {
         }
         
         return toPrint.toString();
+    }
+
+    @Override
+    public int length() {
+        return this.queueArray.length;
     }
 }

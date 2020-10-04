@@ -1,9 +1,20 @@
+/**
+ * Undocumentated methods are descripted in the interface this class implements.
+ */
 package data;
+
+/**
+ * This class is a "fixed" version of the Queue using Nodes seen in the data structures class 
+ * @author Stiven Leonardo Sánchez León
+ * @version 2.0
+ * @since 21/09/2020
+ */
 
 public class QueueRefGeneric<T> implements QueueGeneric<T> {
 
     private NodeGeneric<T> front;
     private NodeGeneric<T> rear;
+    private int counter; //Counter added so one can keep tracks of the length of the Queue.
 
     public QueueRefGeneric() {
         front = null;
@@ -28,6 +39,7 @@ public class QueueRefGeneric<T> implements QueueGeneric<T> {
         } else {
             front = front.getNext();
         }
+        counter--;
         return elementToReturn;
     }
 
@@ -40,6 +52,17 @@ public class QueueRefGeneric<T> implements QueueGeneric<T> {
             front = nodeToAdd;
         }
         rear = nodeToAdd;
+        counter++;
+    }
+
+    @Override
+    public String toString() {
+        return this.front.toString();
+    }
+
+    @Override
+    public int length() {
+        return counter;
     }
     
 }
