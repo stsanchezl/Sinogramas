@@ -9,6 +9,9 @@ import java.sql.Timestamp;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+/**
+ * Esta clase hace todo.
+ */
 
 public class ChineseCharacters {
 
@@ -47,7 +50,6 @@ public class ChineseCharacters {
     public void setRegex(String regex) {
         this.regex = regex;
     }
-
 
     public void openFile() throws FileNotFoundException{
         this.text = new BufferedReader(new FileReader(pathToFile));
