@@ -7,7 +7,10 @@ package logic;
  * This class is a test class where we try to read and store han characters in different data structures
  * Currently, we only use referenced structures as it is not clear the size of any structure 
  * We open a txt with the characters and we parsed them and add them to different data structures
- * @author Stiven Leonardo Sánchez León
+ * @author Cristian Davil Camilo Santos Gil
+ * @author Diego Esteban Quintero Rey
+ * @author Kevin Jair Gonzalez Sanchez
+ * @author Stiven Leonardo Sánchez León 
  * @version 1.1
  * @since 02/10/2020
  */

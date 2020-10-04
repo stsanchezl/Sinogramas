@@ -4,7 +4,10 @@ package data;
  * This is an interface of a Stack.
  * The user can choose using references or arrays
  * This makes it easier for them to implement stacks
- * @author Stiven Leonardo Sánchez León
+ * @author Cristian Davil Camilo Santos Gil
+ * @author Diego Esteban Quintero Rey
+ * @author Kevin Jair Gonzalez Sanchez
+ * @author Stiven Leonardo Sánchez León 
  * @version 2.0
  * @since 03/09/2020
  */

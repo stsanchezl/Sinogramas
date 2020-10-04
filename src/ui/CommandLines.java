@@ -6,7 +6,10 @@ package ui;
 /**
  * This class is a basic I/O promtp so we can display or ask the info that is needed for the program to run
  * THIS CLASS WILL BE ERASED IN FUTURE VERSIONS
- * @author Stiven Leonardo Sánchez León
+ * @author Cristian Davil Camilo Santos Gil
+ * @author Diego Esteban Quintero Rey
+ * @author Kevin Jair Gonzalez Sanchez
+ * @author Stiven Leonardo Sánchez León 
  * @version 1.0
  * @since 21/10/2020
  */

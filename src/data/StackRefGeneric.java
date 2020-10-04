@@ -5,7 +5,10 @@ package data;
 
 /**
  * This class is a "fixed" version of the Stack with Nodes seen in the data structures class 
- * @author Stiven Leonardo Sánchez León
+ * @author Cristian Davil Camilo Santos Gil
+ * @author Diego Esteban Quintero Rey
+ * @author Kevin Jair Gonzalez Sanchez
+ * @author Stiven Leonardo Sánchez León 
  * @version 2.0
  * @since 17/09/2020
  */
