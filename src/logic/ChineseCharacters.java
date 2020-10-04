@@ -74,13 +74,12 @@ public class ChineseCharacters {
                 if (matcher.find()) {
                     String found = matcher.group();
                     char elementToAdd = Character.toChars(Integer.parseInt(found.substring(2), 16))[0];
-                    tempStack.push(elementToAdd);
+                    tempQueue.enqueue(elementToAdd);
                 }
                 currentLine = readLine();
             }
             currentTime = new Timestamp(System.currentTimeMillis());
             System.out.println(currentTime);
-            System.out.println(tempStack.size());
         } else {
             System.err.println("No regex found, set one using setRegex() method.");
         }
