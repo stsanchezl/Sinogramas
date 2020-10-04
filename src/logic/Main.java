@@ -15,6 +15,7 @@ public class Main {
         UndoButton frame = new UndoButton();
         frame.setVisible(true);
         */
+        //Mine is = /home/stiven/Documentos/Java/estructurasDeDatos/Unihan/mergedFiles.txt
         CommandLines.print("Ingrese el camino al archivo .txt (inclutendo el archivo)");
         String pathToFile = CommandLines.input();
         ChineseCharacters letras = new ChineseCharacters(pathToFile);
