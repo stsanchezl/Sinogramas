@@ -1,4 +1,4 @@
-## Bienvenidos a nuestro proyeco de sinogramas
+## Bienvenidos a nuestro proyecto de sinogramas
 
 Montaremos el código en Java para nuestras proyecto.
 
