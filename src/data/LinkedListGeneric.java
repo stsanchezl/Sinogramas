@@ -63,8 +63,26 @@ public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T
      */
     @Override
     public boolean delete(T item) {
-        counter--;
-        return false;
+        boolean deleted = false;
+        if (!empty())
+            if (search(item)) {
+                NodeGeneric<T> ptr, prev;
+                ptr = head;
+                prev = null;
+                while (ptr != null && ptr.getData().compareTo(item) != 0) {
+                    prev = ptr;
+                    ptr = ptr.getNext();
+                }
+                if (ptr == null || ptr.getData().compareTo(item) == 0) {
+                    deleted = true;
+                    if (prev == null)
+                        head = ptr.getNext();
+                    else
+                        prev.setNext(ptr.getNext());
+                    counter--;
+                }
+            }
+        return deleted;
     }
 
     @Override
