@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.time.LocalDateTime;
 
 public class ChineseCharacters {
 
@@ -77,7 +78,7 @@ public class ChineseCharacters {
 
     /**
      * This method de-loads a file off memory
-     * @throws FileNotFoundException .
+     * @throws FileNotFoundException
      */
     public void closeFile() throws IOException{
         this.text.close();
@@ -85,7 +86,7 @@ public class ChineseCharacters {
     
     /**
      * This method reads a line: parse a complete line and skips over the next
-     * @return readed line - null if it is the end of the file;
+     * @return read line - null if it is the end of the file
      * @throws IOException 
      */
     public String readLine() throws IOException{
@@ -149,5 +150,37 @@ public class ChineseCharacters {
         } else {
             System.err.println("No regex found, set one using setRegex() method.");
         }
+    }
+
+    /**
+     * This method creates a string of the difference of two Timestamps that is easy to read
+     * @param beginning: First date
+     * @param ending: Second date
+     * @param withYear: For normal purposes, it is not necessary to have years, months and days, so it is 
+     *                  not added; however, it can be added  if needed.
+     * @return A string with format: (x years, x months, x days), x hours, x minutes, x seconds, x nanos
+     *         with x being an integer and the parenthetical expression is optional
+     */
+    private String adjustTime(Timestamp beginning, Timestamp ending, boolean withYear) {
+        StringBuilder toPrint = new StringBuilder("Total: ");
+        LocalDateTime firstDate = beginning.toLocalDateTime();
+        LocalDateTime secondDate = ending.toLocalDateTime();
+        if(withYear) {
+            int year = secondDate.getYear() - firstDate.getYear();
+            int month = secondDate.getMonthValue() - firstDate.getMonthValue();
+            int day = secondDate.getDayOfMonth() - firstDate.getDayOfMonth();
+            toPrint.append(year+ " years, ");
+            toPrint.append(month+ " months, ");
+            toPrint.append(day+ " days, ");
+        }
+        int hour = secondDate.getHour() - firstDate.getHour();
+        int minute = secondDate.getMinute() - firstDate.getMinute();
+        int second = secondDate.getSecond() - firstDate.getSecond();
+        int nano = secondDate.getNano() - firstDate.getNano();
+        toPrint.append(hour+ " hours, ");
+        toPrint.append(minute+ " minutes, ");
+        toPrint.append(second+ " seconds, ");
+        toPrint.append(nano+ " nanos. ");
+        return toPrint.toString();
     }
 }
