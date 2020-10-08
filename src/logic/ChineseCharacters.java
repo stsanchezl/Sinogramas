@@ -35,8 +35,6 @@ public class ChineseCharacters {
     private StackGeneric<Character> tempStack; 
     private ListGeneric<Character> tempList;
     private QueueGeneric<Character> tempQueue;
-    private ListArrayGeneric<Character> tempArrList;
-    private StackListArrayGeneric<Character> tempStackListArr;
 
     /**
      * Constructor: gets the path where txt is and initialites the strucures to use
