@@ -34,6 +34,8 @@ public class ChineseCharacters {
     private StackGeneric<Character> tempStack; 
     private ListGeneric<Character> tempList;
     private QueueGeneric<Character> tempQueue;
+    private ListArrayGeneric<Character> tempArrList;
+    private StackListArrayGeneric<Character> tempStackListArr;
 
     /**
      * Constructor: gets the path where txt is and initialites the strucures to use
@@ -44,6 +46,8 @@ public class ChineseCharacters {
         this.tempStack = new StackRefGeneric<>();
         this.tempList = new LinkedListGeneric<>();
         this.tempQueue = new QueueRefGeneric<>();
+        this.tempArrList = new ListArrayGeneric<>(70000);
+        this.tempStackListArr = new StackListArrayGeneric<>(3000000);
     }
 
     public String getPathToFile() {
@@ -60,6 +64,12 @@ public class ChineseCharacters {
     }
     public QueueGeneric<Character> getTempQueue() {
         return this.tempQueue;
+    }
+    public ListArrayGeneric<Character> getTempListArray() {
+        return this.tempArrList;
+    }
+    public StackListArrayGeneric<Character> getTempStackListArray() {
+        return this.tempStackListArr;
     }
     public String getRegex () {
         return this.regex;
@@ -100,7 +110,7 @@ public class ChineseCharacters {
      * @param selection: data structure to be used
      * @throws IOException 
      */
-    public void readText(String selection) throws IOException{
+    public void readText(String selection, String type) throws IOException{
         
         if (this.regex!= null) {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
@@ -116,7 +126,14 @@ public class ChineseCharacters {
                     char elementToAdd = Character.toChars(Integer.parseInt(found.substring(2), 16))[0];
                     switch (selection) {
                         case "l":
-                            tempList.insert(elementToAdd);
+                            switch (type) {
+                                case "a":
+                                    tempArrList.insert(elementToAdd);
+                                    break;
+                                case "r":
+                                    tempList.insert(elementToAdd);
+                                    break;
+                            }
                             break;
                         case "q":
                             tempQueue.enqueue(elementToAdd);
@@ -124,25 +141,46 @@ public class ChineseCharacters {
                         case "s":
                             tempStack.push(elementToAdd);
                             break;
+                            
+                        case "u":
+                            switch (type) {
+                                case "a":
+                                    tempStackListArr.push(elementToAdd);
+                                    break;
+                            }
+                            break;   
                         default:
                             break;
                     }
-                    tempQueue.enqueue(elementToAdd);
+                    // tempQueue.enqueue(elementToAdd); ?
+                    
                 }
                 currentLine = readLine();
             }
+            if (selection == "u") tempStackListArr.sort();
             currentTime = new Timestamp(System.currentTimeMillis());
             CommandLines.print(currentTime.toString());
             switch (selection) {
                 case "l":
-                    CommandLines.print(String.valueOf(tempList.length()));
-                    CommandLines.print(tempList.toString());
+                    switch (type) {
+                        case "a":
+                            CommandLines.print(String.valueOf(tempArrList.length()));
+                            CommandLines.print(tempArrList.toString());
+                            break;
+                        case "r":
+                            CommandLines.print(String.valueOf(tempList.length()));
+                            CommandLines.print(tempList.toString());
+                            break;
+                    }
                     break;
                 case "q":
                     CommandLines.print(String.valueOf(tempQueue.length()));
                     break;
                 case "s":
                     CommandLines.print(String.valueOf(tempStack.length()));
+                    break;
+                case "ul":
+                    CommandLines.print(String.valueOf(tempStackListArr.length()));
                     break;
                 default:
                     break;
