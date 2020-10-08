@@ -10,9 +10,9 @@ public class Main {
     public static void main(String[] args) {
 
         //My path is = /home/stiven/Documentos/Java/estructurasDeDatos/Unihan/mergedFiles.txt
-        CommandLines.print("Ingrese el camino al archivo .txt (inclutendo el archivo)");
+        CommandLines.print("Ingrese el camino al archivo .txt (incluyendo el archivo)");
         String pathToFile = CommandLines.input();
-        ChineseCharacters letras = new ChineseCharacters(pathToFile);
+        ChineseCharacters letras = new ChineseCharacters(pathToFile, CommandLines.selectArraysOrReferences());
 
         try {
             letras.openFile();

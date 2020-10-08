@@ -110,7 +110,7 @@ public class ChineseCharacters {
      * @param selection: data structure to be used
      * @throws IOException 
      */
-    public void readText(String selection, String type) throws IOException{
+    public void readText(String selection) throws IOException{
         if (this.regex!= null) {
             Timestamp firstTime = new Timestamp(System.currentTimeMillis());
             String currentLine = readLine();
