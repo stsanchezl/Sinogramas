@@ -29,8 +29,9 @@ import java.time.LocalDateTime;
 public class ChineseCharacters {
 
     private String regex; //Regular expresion to find info in the given text
-    private String pathToFile;  //Self-explanatory
+    private String pathToFile;  //Path to file in one person's computer
     private BufferedReader text;  //Representation of the text in memory
+    
     private StackGeneric<Character> tempStack; 
     private ListGeneric<Character> tempList;
     private QueueGeneric<Character> tempQueue;
@@ -40,14 +41,19 @@ public class ChineseCharacters {
     /**
      * Constructor: gets the path where txt is and initialites the strucures to use
      * @param pathToFile: path where the txt is in each pc
+     * @param arrayOrReferences: a string with one character that tells whether the structures is implemented
+     *                           by references or arrays
      */
-    public ChineseCharacters(String pathToFile) {
+    public ChineseCharacters(String pathToFile, String arrayOrReferences) {
         this.pathToFile = pathToFile;
-        this.tempStack = new StackRefGeneric<>();
-        this.tempList = new LinkedListGeneric<>();
-        this.tempQueue = new QueueRefGeneric<>();
-        this.tempArrList = new ListArrayGeneric<>(70000);
-        this.tempStackListArr = new StackListArrayGeneric<>(3000000);
+        if (arrayOrReferences.equals("r")) {
+            this.tempStack = new StackRefGeneric<>();
+            this.tempList = new LinkedListGeneric<>();
+            this.tempQueue = new QueueRefGeneric<>();
+        } else {
+            this.tempStack = new StackListArrayGeneric<>(3000000);
+            this.tempList = new ListArrayGeneric<>(70000);
+        }
     }
 
     public String getPathToFile() {
@@ -64,12 +70,6 @@ public class ChineseCharacters {
     }
     public QueueGeneric<Character> getTempQueue() {
         return this.tempQueue;
-    }
-    public ListArrayGeneric<Character> getTempListArray() {
-        return this.tempArrList;
-    }
-    public StackListArrayGeneric<Character> getTempStackListArray() {
-        return this.tempStackListArr;
     }
     public String getRegex () {
         return this.regex;
@@ -111,10 +111,8 @@ public class ChineseCharacters {
      * @throws IOException 
      */
     public void readText(String selection, String type) throws IOException{
-        
         if (this.regex!= null) {
-            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            CommandLines.print(currentTime.toString());
+            Timestamp firstTime = new Timestamp(System.currentTimeMillis());
             String currentLine = readLine();
             Pattern pattern;
             Matcher matcher;
@@ -126,61 +124,32 @@ public class ChineseCharacters {
                     char elementToAdd = Character.toChars(Integer.parseInt(found.substring(2), 16))[0];
                     switch (selection) {
                         case "l":
-                            switch (type) {
-                                case "a":
-                                    tempArrList.insert(elementToAdd);
-                                    break;
-                                case "r":
-                                    tempList.insert(elementToAdd);
-                                    break;
-                            }
+                            tempList.insert(elementToAdd);
                             break;
                         case "q":
                             tempQueue.enqueue(elementToAdd);
                             break;
                         case "s":
                             tempStack.push(elementToAdd);
-                            break;
-                            
-                        case "u":
-                            switch (type) {
-                                case "a":
-                                    tempStackListArr.push(elementToAdd);
-                                    break;
-                            }
-                            break;   
+                            break;  
                         default:
                             break;
                     }
                     // tempQueue.enqueue(elementToAdd); ?
-                    
                 }
                 currentLine = readLine();
             }
-            if (selection == "u") tempStackListArr.sort();
-            currentTime = new Timestamp(System.currentTimeMillis());
-            CommandLines.print(currentTime.toString());
+            Timestamp lastTime = new Timestamp(System.currentTimeMillis());
+
             switch (selection) {
                 case "l":
-                    switch (type) {
-                        case "a":
-                            CommandLines.print(String.valueOf(tempArrList.length()));
-                            CommandLines.print(tempArrList.toString());
-                            break;
-                        case "r":
-                            CommandLines.print(String.valueOf(tempList.length()));
-                            CommandLines.print(tempList.toString());
-                            break;
-                    }
+                    CommandLines.print(String.valueOf(tempList.length()));
                     break;
                 case "q":
                     CommandLines.print(String.valueOf(tempQueue.length()));
                     break;
                 case "s":
                     CommandLines.print(String.valueOf(tempStack.length()));
-                    break;
-                case "ul":
-                    CommandLines.print(String.valueOf(tempStackListArr.length()));
                     break;
                 default:
                     break;
