@@ -1,4 +1,6 @@
 /**
+ * NOT WORKING CLASS
+ * CONSTRUCTOR THROWS EXCEPTION
  * Undocumentated methods are descripted in the interface this class implements.
  */
 package data;
@@ -72,7 +74,7 @@ public class StackListArrayGeneric<T extends Comparable<T>> implements StackGene
     }
 
     public int length() {
-        return this.slarray.length;
+        return this.top;
     }
 
     //TODO
