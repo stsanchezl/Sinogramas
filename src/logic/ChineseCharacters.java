@@ -21,10 +21,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.time.LocalDateTime;
+import java.time.Duration;
+import java.time.Instant;
 
 public class ChineseCharacters {
 
@@ -49,8 +49,8 @@ public class ChineseCharacters {
             this.tempList = new LinkedListGeneric<>();
             this.tempQueue = new QueueRefGeneric<>();
         } else {
-            this.tempStack = new StackListArrayGeneric<>(3000000);
-            this.tempList = new ListArrayGeneric<>(70000);
+            //this.tempStack = new StackListArrayGeneric<>(1500000);
+            this.tempList = new ListArrayGeneric<>(1500000);
         }
     }
 
@@ -104,13 +104,13 @@ public class ChineseCharacters {
     /**
      * This method takes the text loaded in memory, looks everyline of it
      * Using regex, it finds the unicode characters and parse them so they can be added to the structures
-     * And print the time right before and right after the symbols are store so speed test can be performed
+     * And print the time it takes to store all characters it the structures so speed test can be performed
      * @param selection: data structure to be used
      * @throws IOException 
      */
     public void readText(String selection) throws IOException{
         if (this.regex!= null) {
-            Timestamp firstTime = new Timestamp(System.currentTimeMillis());
+            Instant firstTime = Instant.now();
             String currentLine = readLine();
             Pattern pattern;
             Matcher matcher;
@@ -137,8 +137,7 @@ public class ChineseCharacters {
                 }
                 currentLine = readLine();
             }
-            Timestamp lastTime = new Timestamp(System.currentTimeMillis());
-
+            Instant lastTime = Instant.now();
             switch (selection) {
                 case "l":
                     CommandLines.print(String.valueOf(tempList.length()));
@@ -152,40 +151,10 @@ public class ChineseCharacters {
                 default:
                     break;
             }
+            String totalTime = Duration.between(firstTime, lastTime).toString();
+            CommandLines.print(totalTime);
         } else {
             System.err.println("No regex found, set one using setRegex() method.");
         }
-    }
-
-    /**
-     * This method creates a string of the difference of two Timestamps that is easy to read
-     * @param beginning: First date
-     * @param ending: Second date
-     * @param withYear: For normal purposes, it is not necessary to have years, months and days, so it is 
-     *                  not added; however, it can be added  if needed.
-     * @return A string with format: (x years, x months, x days), x hours, x minutes, x seconds, x nanos
-     *         with x being an integer and the parenthetical expression is optional
-     */
-    private String adjustTime(Timestamp beginning, Timestamp ending, boolean withYear) {
-        StringBuilder toPrint = new StringBuilder("Total: ");
-        LocalDateTime firstDate = beginning.toLocalDateTime();
-        LocalDateTime secondDate = ending.toLocalDateTime();
-        if(withYear) {
-            int year = secondDate.getYear() - firstDate.getYear();
-            int month = secondDate.getMonthValue() - firstDate.getMonthValue();
-            int day = secondDate.getDayOfMonth() - firstDate.getDayOfMonth();
-            toPrint.append(year+ " years, ");
-            toPrint.append(month+ " months, ");
-            toPrint.append(day+ " days, ");
-        }
-        int hour = secondDate.getHour() - firstDate.getHour();
-        int minute = secondDate.getMinute() - firstDate.getMinute();
-        int second = secondDate.getSecond() - firstDate.getSecond();
-        int nano = secondDate.getNano() - firstDate.getNano();
-        toPrint.append(hour+ " hours, ");
-        toPrint.append(minute+ " minutes, ");
-        toPrint.append(second+ " seconds, ");
-        toPrint.append(nano+ " nanos. ");
-        return toPrint.toString();
     }
 }
