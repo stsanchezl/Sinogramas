@@ -92,6 +92,6 @@ public class QueueArrayGeneric<T> implements QueueGeneric<T> {
 
     @Override
     public int length() {
-        return this.queueArray.length;
+        return this.count;
     }
 }

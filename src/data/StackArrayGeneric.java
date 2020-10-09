@@ -69,7 +69,7 @@ public class StackArrayGeneric<T> implements StackGeneric<T> {
     }
 
     public int length() {
-        return this.stackArray.length;
+        return this.top;
     }
 }
 
