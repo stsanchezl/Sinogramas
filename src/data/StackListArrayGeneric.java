@@ -5,20 +5,22 @@ package data;
 
 /**
  * This class pretends to be a mix between a stack and a list to build an unordered list
- * Not sure if it's the right choice though
  * It only implements the stack push method for now, but it will also need a search and a delete implementation
  * @author Cristian Davil Camilo Santos Gil
  * @author Diego Esteban Quintero Rey
  * @author Kevin Jair Gonzalez Sanchez
  * @author Stiven Leonardo Sánchez León 
- * @version 2.0
- * @since 03/09/2020
+ * @version 1.1
+ * @since 08/10/2020
  */
 
-public class StackListArrayGeneric<T> implements StackGeneric<T>, ListGeneric<T> {
+ import logic.QuickSort;
+
+
+public class StackListArrayGeneric<T extends Comparable<T>> implements StackGeneric<T>, ListGeneric<T> {
     private int top;
     private T[] slarray;
-    private boolean ordered;
+    private boolean sorted;
 
     /**
      * Class constructor
@@ -27,7 +29,7 @@ public class StackListArrayGeneric<T> implements StackGeneric<T>, ListGeneric<T>
     public StackListArrayGeneric(int size) {
         this.top = 0;
         this.slarray = (T[]) new Object[size];
-        this.ordered = false;
+        this.sorted = false;
     }
 
     @Override
@@ -40,6 +42,7 @@ public class StackListArrayGeneric<T> implements StackGeneric<T>, ListGeneric<T>
         return top >= slarray.length;
     }
 
+    //TODO
     @Override
     public T pop() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -53,11 +56,44 @@ public class StackListArrayGeneric<T> implements StackGeneric<T>, ListGeneric<T>
         slarray[top] = item;
         top++;
     }
+
+    /**
+     * This method tells whether the stack is sorted or not
+     * @return true whenever the stack is sorted
+     */
+    public boolean isSorted() {
+        return this.sorted;
+    }
     
     public void sort() {
-        QuickSort qs = new QuickSort();
-        qs.sort(this.slarray, 0, slarray.length -1);
-        ordered = true;
+        QuickSort<T> qS = new QuickSort<>();
+        qS.sort(this.slarray, 0, this.top);
+        this.sorted = true;
+    }
+
+    public int length() {
+        return this.slarray.length;
+    }
+
+    //TODO
+    @Override
+    public boolean insert(T item) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    //TODO
+    @Override
+    public boolean delete(T item) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    //TODO
+    @Override
+    public boolean search(T item) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    //TODO
+    @Override
+    public void output() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -72,30 +108,6 @@ public class StackListArrayGeneric<T> implements StackGeneric<T>, ListGeneric<T>
             toPrint.setCharAt(toPrint.lastIndexOf(","), ']');
         }
         return toPrint.toString();   
-    }
-
-    public int length() {
-        return this.slarray.length;
-    }
-
-    @Override
-    public boolean insert(T item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean delete(T item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean search(T item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void output() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
 

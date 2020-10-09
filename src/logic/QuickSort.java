@@ -1,66 +1,70 @@
-// Java program for implementation of QuickSort 
-class QuickSort 
-{ 
-    /* This function takes last element as pivot, 
-       places the pivot element at its correct 
-       position in sorted array, and places all 
-       smaller (smaller than pivot) to left of 
-       pivot and all greater elements to right 
-       of pivot */
-    int partition(int arr[], int low, int high) 
-    { 
-        int pivot = arr[high];  
-        int i = (low-1); // index of smaller element 
-        for (int j=low; j<high; j++) 
-        { 
-            // If current element is smaller than or 
-            // equal to pivot 
-            if (arr[j] <= pivot) 
-            { 
+package logic;
+/** 
+ * Java program for implementation of QuickSort 
+ * @author Rajat Mishra
+ * @author Cristian Davil Camilo Santos Gil
+ * @author Diego Esteban Quintero Rey
+ * @author Kevin Jair Gonzalez Sanchez
+ * @author Stiven Leonardo Sánchez León 
+ * @version 2.0
+ */ 
+public class QuickSort<T extends Comparable<T>> { 
+
+    /**
+     * Constructor; no action to be performed
+     */
+    public QuickSort() {
+        super();
+    }
+
+    /**
+     * The main function that implements QuickSort(), it sorts from a given index to another one
+     * @param arr: Array to be sorted
+     * @param low Starting index
+     * @param high Ending index
+     */
+    public void sort(T[] arrayToBeSorted, int lowIndex, int highIndex) { 
+        if (lowIndex < highIndex) { 
+            int partitionIndex = partition(arrayToBeSorted, lowIndex, highIndex);
+            // Recursively sort elements before partition and after partition 
+            sort(arrayToBeSorted, lowIndex, partitionIndex-1); 
+            sort(arrayToBeSorted, partitionIndex+1, highIndex); 
+        } 
+    } 
+
+    /**
+     * The main function that implements QuickSort(), it sorts the whole array 
+     * @param arr: Array to be sorted
+     */
+    public void sort(T[] arr) {
+        sort(arr, 0, arr.length -1);
+    }
+
+    /**
+     * This method takes the last element as pivot, then places it at its correct position in the array
+     * and the smaller elements are places to the left and the greatest to the right of the pivot
+     * @param arr: Array to be sorted
+     * @param low: Starting index
+     * @param high: Ending index
+     * @return Partition index, so the it can continues
+     */
+    private int partition(T[] arrayToBeSorted, int lowIndex, int highIndex) { 
+        T pivot = arrayToBeSorted[highIndex];  
+        int i = (lowIndex-1); // index of smaller element 
+        for (int j=lowIndex; j<highIndex; j++) {
+            if (arrayToBeSorted[j].compareTo(pivot)<=0) { 
                 i++; 
-  
                 // swap arr[i] and arr[j] 
-                int temp = arr[i]; 
-                arr[i] = arr[j]; 
-                arr[j] = temp; 
+                T temp = arrayToBeSorted[i]; 
+                arrayToBeSorted[i] = arrayToBeSorted[j]; 
+                arrayToBeSorted[j] = temp; 
             } 
         } 
-  
         // swap arr[i+1] and arr[high] (or pivot) 
-        int temp = arr[i+1]; 
-        arr[i+1] = arr[high]; 
-        arr[high] = temp; 
-  
+        T temp = arrayToBeSorted[i+1]; 
+        arrayToBeSorted[i+1] = arrayToBeSorted[highIndex]; 
+        arrayToBeSorted[highIndex] = temp; 
         return i+1; 
-    } 
-  
-  
-    /* The main function that implements QuickSort() 
-      arr[] --> Array to be sorted, 
-      low  --> Starting index, 
-      high  --> Ending index */
-    void sort(int arr[], int low, int high) 
-    { 
-        if (low < high) 
-        { 
-            /* pi is partitioning index, arr[pi] is  
-              now at right place */
-            int pi = partition(arr, low, high); 
-  
-            // Recursively sort elements before 
-            // partition and after partition 
-            sort(arr, low, pi-1); 
-            sort(arr, pi+1, high); 
-        } 
-    } 
-  
-    /* A utility function to print array of size n */
-    static void printArray(int arr[]) 
-    { 
-        int n = arr.length; 
-        for (int i=0; i<n; ++i) 
-            System.out.print(arr[i]+" "); 
-        System.out.println(); 
     } 
 } 
 
