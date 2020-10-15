@@ -26,7 +26,7 @@ public class StackListArrayGeneric<T extends Comparable<T>> implements StackGene
 
     /**
      * Class constructor
-     * @param top: int that shows the top of the stack
+     * @param size: int that shows the top of the stack
      */
     public StackListArrayGeneric(int size) {
         this.top = 0;
