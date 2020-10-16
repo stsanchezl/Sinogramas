@@ -1,0 +1,9 @@
+{
+    "terminal.integrated.fontFamily": "MesloLGS NF",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    }
+}
