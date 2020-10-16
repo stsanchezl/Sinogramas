@@ -23,7 +23,24 @@ public class CommandLines {
         super();
     }
 
+    public static void menu() {
+        System.out.println("Type '1' to insert the characters from the text into the data structure.");
+        System.out.println("Type '2' to remove all the characters from the data structure.");
+        System.out.println("Type '3' to show the size of the data structure.");
+        System.out.println("Type '9' to restart the program.");
+        System.out.println("Type '0' to end the program.");
+    }
+    public static void welcome() {
+        System.out.println("****************WELCOME****************");
+        System.out.println("This is a try to test the speed for three linear data structures.");
+        System.out.println("First, select the linear data structure you'd like to use.");
+    }
+
     public static String input() {
+        return input.next();
+    }
+    public static String input(String toPrint) {
+        System.out.println(toPrint);
         return input.next();
     }
 
@@ -37,26 +54,15 @@ public class CommandLines {
         return input.nextLine();
     }
 
-
-    public static String dataTypeSelection() {
-        System.out.println("What kind of data type you would like to use?");
-        System.out.println("Type i for int, c for char, s for string");
-        return input.next().toLowerCase();
-    }
-
     public static void print(String toPrint) {
         System.out.println(toPrint);
     } 
 
-    public static void reverseMessage(String dataType) {
-        System.out.println("The reverse "+ dataType+"s are:");
-    }
-
     public static String selectArraysOrReferences() {
-        System.out.println("Type a or A for arrays, type r or R for references");
+        System.out.println("Type 'a' for arrays, type 'r' for references");
         String selection = input.next().toLowerCase();
         while (!(selection.equals("a") || selection.equals("r"))) {
-            System.out.println("Type a or A for arrays, type r or R for references");
+            System.out.println("Type 'a' for arrays, type 'r' for references");
             selection = input.next().toLowerCase();
         }
         return selection;
@@ -64,7 +70,12 @@ public class CommandLines {
 
     public static String selectDataStructure() {
         System.out.println("Type 's' for stack, 'q' for queue or 'l' for list");
-        return input.next();
+        String selection = input.next();
+        while (!(selection.equals("s") || selection.equals("q") || selection.equals("l"))) {
+            System.out.println("Type 's' for stack, 'q' for queue or 'l' for list");
+            selection = input.next().toLowerCase();
+        }
+        return selection;
     }
 
     public static int selectSize(String dataStructureType) {
