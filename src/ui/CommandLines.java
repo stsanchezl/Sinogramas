@@ -27,7 +27,7 @@ public class CommandLines {
         System.out.println("Type '1' to insert the characters from the text into the data structure.");
         System.out.println("Type '2' to remove all the characters from the data structure.");
         System.out.println("Type '3' to show the size of the data structure.");
-        System.out.println("Type '9' to restart the program.");
+        System.out.println("Type '4' to print the characters.");
         System.out.println("Type '0' to end the program.");
     }
     public static void welcome() {
@@ -74,6 +74,16 @@ public class CommandLines {
         while (!(selection.equals("s") || selection.equals("q") || selection.equals("l"))) {
             System.out.println("Type 's' for stack, 'q' for queue or 'l' for list");
             selection = input.next().toLowerCase();
+        }
+        return selection;
+    }
+
+    public static String selectOrderOrUnorderedList() {
+        System.out.println("Type 'u' for unordered lists, 'o' for ordered lists");
+        String selection = input.next();
+        while(!(selection.equals("u") || selection.equals("o"))) {
+            System.out.println("Type 'u' for unordered lists, 'o' for ordered lists");
+            selection = input.next();
         }
         return selection;
     }

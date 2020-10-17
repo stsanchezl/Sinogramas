@@ -8,35 +8,45 @@ public class Runner {
     public static void runner() {
         //My path is = /home/stiven/Documentos/Java/estructurasDeDatos/Unihan/mergedFiles.txt
         CommandLines.welcome();
+
         String dataStructure = CommandLines.selectDataStructure();
-        CommandLines.print("Type the path to the file (including the .txt extension).");
-        String pathToFile = CommandLines.input();
-        Archive letras = new Archive(pathToFile, CommandLines.selectArraysOrReferences());
+        String ordered = "o";
+        if (dataStructure.equals("l")) {
+            ordered = CommandLines.selectOrderOrUnorderedList();
+        }
+        String arrayOrReferences = CommandLines.selectArraysOrReferences();
+        String pathToFile = CommandLines.input("Type the path to the file with the .txt extension.");
+
+        Archive letras = new Archive(arrayOrReferences,dataStructure,ordered,pathToFile);
         CommandLines.menu();
+
         int selection = Integer.parseInt(CommandLines.input());
         while (selection<0 || selection>9) {
             CommandLines.menu();
             selection = Integer.parseInt(CommandLines.input());
         }
+
         while (selection!=0) {
             try {
                 switch(selection) {
                     case 1:
                         letras.openFile();
                         letras.setRegex("[U].[\\dA-Z]{4,5}");
-                        letras.readText(dataStructure);
+                        letras.readText();
                         letras.closeFile();
                         break;
                     case 2:
-                        letras.removeAll(dataStructure);
+                        letras.removeAll();
                         break;
                     case 3:
-                        letras.getDataStructureLength(dataStructure);
+                        letras.getDataStructureLength();
                         break;
-                    case 9:
-
+                    case 4:
+                        letras.print();
+                        break;
                     default:
                         selection =0;
+                        break;
                 }
                 selection = Integer.parseInt(CommandLines.input());
                 while (selection<0 || selection>9) {

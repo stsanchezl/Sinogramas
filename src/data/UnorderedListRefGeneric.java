@@ -3,25 +3,29 @@
  */
 package data;
 
+import logic.RefQuickSort;
+
 /**
- * This class is a "fixed" version of the LinkedList with Nodes seen in the data structures class 
+ * This class pretends to be a mix between a stack and a list to build an unordered list using nodes
  * @author Cristian Davil Camilo Santos Gil
  * @author Diego Esteban Quintero Rey
  * @author Kevin Jair Gonzalez Sanchez
  * @author Stiven Leonardo Sánchez León 
- * @version 2.0
- * @since 24/09/2020
+ * @version 1.0
+ * @since 16/10/2020
  */
 
-public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T>  {
+public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGeneric<T>  {
 
     private NodeGeneric<T> head;
     private int counter; //Counter added so one can keep tracks of the length of the Queue.
+    private NodeGeneric<T> top;
+    private boolean sorted = false;
 
     /**
      * Constructor- Creating an empty list (a null Node)
      */
-    public LinkedListGeneric() {
+    public UnorderedListRefGeneric() {
         head = null;
     }
 
@@ -37,25 +41,11 @@ public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T
 
     @Override
     public boolean insert(T item) {
-        boolean inserted = false;
-        NodeGeneric<T> pointer = this.head;
-        NodeGeneric<T> previous = null;
-        while (pointer!=null && pointer.getData().compareTo(item)<0) {
-            previous = pointer;
-            pointer = pointer.getNext();
-        }
-        if (pointer==null || pointer.getData().compareTo(item)!=0) {
-            inserted = true;
-            NodeGeneric<T> newPointer = new NodeGeneric<>(item);
-            newPointer.setNext(pointer);
-            if (previous == null) {
-                head = newPointer;
-            } else {
-                previous.setNext(newPointer);
-            }
-            counter++;
-        }
-        return inserted;
+        NodeGeneric<T> newItem = new NodeGeneric<>(item);
+        newItem.setNext(top);
+        top = newItem;
+        counter++;
+        return true;
     }
 
     @Override
@@ -108,8 +98,26 @@ public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T
         return this.counter;
     }
     
+    /**
+     * This method tells whether the stack is sorted or not
+     * @return true whenever the stack is sorted
+     */
+    public boolean isSorted() {
+        return this.sorted;
+    }
+    
+    /**
+     * This method sorts the unodered list using a quicksort algorithm.
+     */
     @Override
     public boolean sort() {
+        NodeGeneric<T> p = this.top; 
+        while(p.getNext() != null) p = p.getNext(); 
+        RefQuickSort<T> qS = new RefQuickSort<>();
+        qS.sort(this.top, p);
+        this.sorted = true;
         return true;
     }
+    
+    
 }
