@@ -6,7 +6,6 @@ package logic;
 /**
  * This class is meant to manage the data within the data structures.
  * @author Cristian Davil Camilo Santos Gil
- * @author Diego Esteban Quintero Rey
  * @author Kevin Jair Gonzalez Sanchez
  * @author Stiven Leonardo Sánchez León 
  * @version 1.0
