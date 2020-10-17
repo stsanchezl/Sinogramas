@@ -3,7 +3,7 @@
  */
 package data;
 
-import logic.QuickSortSLL;
+import logic.RefQuickSort;
 
 /**
  * This class pretends to be a mix between a stack and a list to build an unordered list using nodes
@@ -107,12 +107,12 @@ public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGen
     }
     
     /**
-     * This method sorts the unodered arra using a quicksort algorithm.
+     * This method sorts the unodered list using a quicksort algorithm.
      */
     public void sort() {
         NodeGeneric<T> p = this.top; 
         while(p.getNext() != null) p = p.getNext(); 
-        QuickSortSLL<T> qS = new QuickSortSLL<>();
+        RefQuickSort<T> qS = new RefQuickSort<>();
         qS.sort(this.top, p);
         this.sorted = true;
     }

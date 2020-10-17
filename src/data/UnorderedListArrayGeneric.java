@@ -13,7 +13,7 @@ package data;
  * @since 08/10/2020
  */
 
-import logic.QuickSort;
+import logic.ArrayQuickSort;
 
 public class UnorderedListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T> {
     private int top;
@@ -129,10 +129,10 @@ public class UnorderedListArrayGeneric<T extends Comparable<T>> implements ListG
     }
     
     /**
-     * This method sorts the unodered arra using a quicksort algorithm.
+     * This method sorts the unodered list using a quicksort algorithm.
      */
     public void sort() {
-        QuickSort<T> qS = new QuickSort<>();
+        ArrayQuickSort<T> qS = new ArrayQuickSort<>();
         qS.sort(this.slarray, 0, this.top);
         this.sorted = true;
     }
