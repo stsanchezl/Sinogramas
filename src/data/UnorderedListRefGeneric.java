@@ -83,6 +83,10 @@ public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGen
         return found;
     }
 
+    @Deprecated
+    /**
+     * Use toString() instead
+     */
     @Override
     public void output() {
         System.out.println(this.head);
@@ -90,7 +94,11 @@ public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGen
 
     @Override
     public String toString() {
-        return this.head.toString();
+        String toReturn = "[]";
+        if (head != null) {
+            toReturn = head.toString();
+        }
+        return toReturn;
     }
 
     @Override
