@@ -4,7 +4,7 @@
 package logic;
 
 /**
- * This class is meant to manage the data within the data structures.
+ * This class is meant to manage the data within the data structures. It can
  * @author Cristian Davil Camilo Santos Gil
  * @author Diego Esteban Quintero Rey
  * @author Kevin Jair Gonzalez Sanchez
@@ -34,17 +34,50 @@ public class Archive {
     private QueueGeneric<Character> tempQueue;
     private StackGeneric<Character> tempStack;
 
+    private String dataStructure;
+    private String ordered;
 
-    public Archive(String pathToFile, String arrayOrReferences) {
+    /**
+     * Class constructor, it initializates a specific linear data structure so they can hold the
+     * Han characters, it does not matter the implementation of the data structure
+     * @param arrayOrReferences: Implementation of the array
+     * @param dataStructure: Data structure to be used.
+     * @param ordered: Tell whether the structure is ordered or not
+     * @param pathToFile: String with the path to the file to the Unihan text
+     */
+    public Archive(String arrayOrReferences, String dataStructure, String ordered, String pathToFile) {
+        this.dataStructure = dataStructure;
+        this.ordered = ordered;
         this.pathToFile = pathToFile;
-        if (arrayOrReferences.equals("r")) {
-            this.tempList = new LinkedListGeneric<>();
-            this.tempQueue = new QueueRefGeneric<>();
-            this.tempStack = new StackRefGeneric<>();
-        } else {
-            this.tempList = new ListArrayGeneric<>(15000000);
-            this.tempQueue = new QueueArrayGeneric<>(10000000);
-            this.tempStack = new StackArrayGeneric<>(1500000);
+        switch (dataStructure) {
+            case "l":
+                if (ordered.equals("u")) {
+                    if (arrayOrReferences.equals("a")) {
+                        this.tempList = new UnorderedListArrayGeneric<>(1500000);
+                    } else {
+                        this.tempList = new UnorderedListRefGeneric<>();
+                    }
+                } else {
+                    if (arrayOrReferences.equals("a")) {
+                        this.tempList = new ListArrayGeneric<>(1500000);
+                    } else {
+                        this.tempList = new LinkedListGeneric<>();
+                    }
+                } 
+            case "q":
+                if (arrayOrReferences.equals("a")) {
+                    this.tempQueue = new QueueArrayGeneric<>(1500000);
+                } else {
+                    this.tempQueue = new QueueRefGeneric<>();
+                }
+            case "s":
+                if (arrayOrReferences.equals("a")) {
+                    this.tempStack = new StackArrayGeneric<>(1500000);
+                } else {
+                    this.tempStack = new StackRefGeneric<>();
+                }
+            default:
+                break;
         }
     }
 
@@ -102,7 +135,7 @@ public class Archive {
      * @param selection: data structure to be used
      * @throws IOException 
      */
-    public void readText(String selection) throws IOException{
+    public void readText() throws IOException{
         if (this.regex!= null) {
             Instant firstTime = Instant.now();
             String currentLine = readLine();
@@ -114,7 +147,7 @@ public class Archive {
                 if (matcher.find()) {
                     String found = matcher.group();
                     char elementToAdd = stringToChar(found.substring(2));
-                    switch (selection) {
+                    switch (this.dataStructure) {
                         case "l":
                             tempList.insert(elementToAdd);
                             break;
@@ -143,8 +176,8 @@ public class Archive {
      * @param elementToAdd: Char to be added
      * @param selectDataStructure: Data structure to be used
      */
-    public void addElement(char elementToAdd, String selectDataStructure) {
-        switch(selectDataStructure) {
+    public void addElement(char elementToAdd) {
+        switch(this.dataStructure) {
             case "l":
                 this.tempList.insert(elementToAdd);
                 break;
@@ -161,10 +194,9 @@ public class Archive {
 
     /**
      * This method removes a character from a specific data structure
-     * @param selectDataStructure: Data structure to be used
      */
-    public void removeElement(String selectDataStructure) {
-        switch(selectDataStructure) {
+    public void removeElement() {
+        switch(this.dataStructure) {
             case "l":
                 char toDelete = stringToChar(CommandLines.input("Char to remove:"));
                 this.tempList.delete(toDelete);
@@ -183,11 +215,10 @@ public class Archive {
     /**
      * This method removes all the elements from a specific data structure and displays in console
      * the time it took to do it.
-     * @param selectDataStructure: Data structure to be used.
      */
-    public void removeAll(String selectDataStructure) {
+    public void removeAll() {
         Instant firstTime = Instant.now();
-        switch(selectDataStructure) {
+        switch(this.dataStructure) {
             case "l":
                 throw new UnsupportedOperationException("Not yet implemented");
             case "q":
@@ -210,11 +241,10 @@ public class Archive {
 
     /**
      * This method shows the length of the data struture.
-     * @param selectDataStructure: Data structure to be used.
      */
-    public void getDataStructureLength(String selectDataStructure) {
+    public void getDataStructureLength() {
         int size;
-        switch(selectDataStructure) {
+        switch(this.dataStructure) {
             case "l":
                 size = tempList.length();
                 break;
@@ -231,7 +261,34 @@ public class Archive {
         CommandLines.print(String.valueOf("There are "+ size +" elements in the structure."));
     }
 
+    /**
+     * This method prints the characters of the data structures
+     */
+    public void print() {
+        switch(this.dataStructure) {
+            case "l":
+                CommandLines.print(tempList.toString());
+                break;
+            case "q":
+                CommandLines.print(tempQueue.toString());
+                break;
+            case "s":
+                CommandLines.print(tempStack.toString());
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * This method converts a string with the integer representation to its unicode equivalance
+     * to a char; e.g. "3400" to '\u3400'.
+     * @param stringToChar String to be converted
+     * @return the unicode equivalence character of Unihan
+     */
     private char stringToChar(String stringToChar) {
         return Character.toChars(Integer.parseInt(stringToChar,16))[0];
     }
+
+    
 }
