@@ -104,7 +104,7 @@ public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T>
         for (int i=0; i<this.count; i++) {
             toPrint.append(this.listArray[i] + ",");
         }
-        if (this.listArray.length == 0) {
+        if (toPrint.length()<2) {
             toPrint.append("]");
         } else {
             toPrint.setCharAt(toPrint.lastIndexOf(","), ']');

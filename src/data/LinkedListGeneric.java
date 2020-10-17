@@ -93,6 +93,10 @@ public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T
         return found;
     }
 
+    @Deprecated
+    /**
+     * Use toString() instead.
+     */
     @Override
     public void output() {
         System.out.println(this.head);
@@ -100,7 +104,11 @@ public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T
 
     @Override
     public String toString() {
-        return this.head.toString();
+        String toReturn = "[]";
+        if (head != null) {
+            toReturn = head.toString();
+        }
+        return toReturn;
     }
 
     @Override
