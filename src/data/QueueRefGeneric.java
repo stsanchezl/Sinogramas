@@ -60,7 +60,11 @@ public class QueueRefGeneric<T> implements QueueGeneric<T> {
 
     @Override
     public String toString() {
-        return this.front.toString();
+        String toReturn = "[]";
+        if (front != null) {
+            toReturn = front.toString();
+        }
+        return toReturn;
     }
 
     @Override
