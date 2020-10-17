@@ -58,10 +58,6 @@ public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T
         return inserted;
     }
 
-    /**
-     * TODO
-     * UNCHECKED NULLPOINTEREXCEPTION
-     */
     @Override
     public boolean delete(T item) {
         boolean deleted = false;
