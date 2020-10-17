@@ -1,6 +1,6 @@
 package logic;
 /** 
- * Java program for implementation of QuickSort 
+ * Java program for implementation of QuickSort for arrays-type structures
  * @author Rajat Mishra
  * @author Cristian Davil Camilo Santos Gil
  * @author Diego Esteban Quintero Rey
@@ -8,12 +8,12 @@ package logic;
  * @author Stiven Leonardo Sánchez León 
  * @version 2.0
  */ 
-public class QuickSort<T extends Comparable<T>> { 
+public class ArrayQuickSort<T extends Comparable<T>>{ 
 
     /**
      * Constructor; no action to be performed
      */
-    public QuickSort() {
+    public ArrayQuickSort() {
         super();
     }
 
@@ -48,7 +48,7 @@ public class QuickSort<T extends Comparable<T>> {
      * @param high: Ending index
      * @return Partition index, so the it can continues
      */
-    private int partition(T[] arrayToBeSorted, int lowIndex, int highIndex) { 
+    public int partition(T[] arrayToBeSorted, int lowIndex, int highIndex) { 
         T pivot = arrayToBeSorted[highIndex];  
         int i = (lowIndex-1); // index of smaller element 
         for (int j=lowIndex; j<highIndex; j++) {
@@ -65,7 +65,7 @@ public class QuickSort<T extends Comparable<T>> {
         arrayToBeSorted[i+1] = arrayToBeSorted[highIndex]; 
         arrayToBeSorted[highIndex] = temp; 
         return i+1; 
-    } 
+    }
 } 
 
 /*This code is contributed by Rajat Mishra */
