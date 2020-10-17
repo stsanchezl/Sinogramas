@@ -101,7 +101,7 @@ public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T>
     @Override
     public String toString() {
         StringBuilder toPrint = new StringBuilder("[");
-        for (int i=0; i<this.listArray.length; i++) {
+        for (int i=0; i<this.count; i++) {
             toPrint.append(this.listArray[i] + ",");
         }
         if (this.listArray.length == 0) {
