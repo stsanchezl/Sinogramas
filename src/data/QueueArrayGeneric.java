@@ -16,7 +16,8 @@ package data;
 public class QueueArrayGeneric<T> implements QueueGeneric<T> {
     private int front;
     private int rear;
-    private int count;
+    private int count;  //This keeps tracks of the elements of the array
+    private int size;   //This is the fixed size of the array
     private T[] queueArray;
 
     /**
@@ -26,6 +27,7 @@ public class QueueArrayGeneric<T> implements QueueGeneric<T> {
     public QueueArrayGeneric(int size) {
         front = rear = count =0;
         queueArray = (T[]) new Object[size];
+        this.size = size;
     }
     
     @Override
@@ -35,7 +37,7 @@ public class QueueArrayGeneric<T> implements QueueGeneric<T> {
 
     @Override
     public boolean full() {
-        return count>=this.length();
+        return count>=this.size;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class QueueArrayGeneric<T> implements QueueGeneric<T> {
             throw new RuntimeException("Queue is empty");
         } else {
             item = queueArray[front];
-            front = (front+1)% this.length();
+            front = (front+1)% this.size;
             count--;
         }
         return item;
@@ -57,7 +59,7 @@ public class QueueArrayGeneric<T> implements QueueGeneric<T> {
             throw new RuntimeException("Queue is full");
         } else {
             queueArray[rear] = item;
-            rear = (rear+1)%this.length();
+            rear = (rear+1)%this.size;
             count++; 
         }
     }
