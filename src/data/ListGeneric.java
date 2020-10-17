@@ -47,6 +47,9 @@ public interface ListGeneric<T> {
      */
     public boolean search(T item);
     
+
+    public boolean sort();
+
     /**
      * This method shows a representation of a List
      * @return a string representing the list

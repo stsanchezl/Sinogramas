@@ -108,4 +108,8 @@ public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T
         return this.counter;
     }
     
+    @Override
+    public boolean sort() {
+        return true;
+    }
 }

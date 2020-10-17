@@ -109,12 +109,14 @@ public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGen
     /**
      * This method sorts the unodered list using a quicksort algorithm.
      */
-    public void sort() {
+    @Override
+    public boolean sort() {
         NodeGeneric<T> p = this.top; 
         while(p.getNext() != null) p = p.getNext(); 
         RefQuickSort<T> qS = new RefQuickSort<>();
         qS.sort(this.top, p);
         this.sorted = true;
+        return true;
     }
     
     

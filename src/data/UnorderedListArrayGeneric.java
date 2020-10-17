@@ -131,10 +131,12 @@ public class UnorderedListArrayGeneric<T extends Comparable<T>> implements ListG
     /**
      * This method sorts the unodered list using a quicksort algorithm.
      */
-    public void sort() {
+    @Override
+    public boolean sort() {
         ArrayQuickSort<T> qS = new ArrayQuickSort<>();
         qS.sort(this.slarray, 0, this.top);
         this.sorted = true;
+        return true;
     }
 }
 

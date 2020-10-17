@@ -134,4 +134,9 @@ public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T>
     public int length() {
         return this.count;
     }
+
+    @Override
+    public boolean sort() {
+        return true;
+    }
 }
