@@ -36,6 +36,8 @@ public class Archive {
 
     private String dataStructure;
     private String ordered;
+    
+    private boolean needSort = false;
 
     /**
      * Class constructor, it initializates a specific linear data structure so they can hold the
@@ -52,6 +54,7 @@ public class Archive {
         switch (dataStructure) {
             case "l":
                 if (ordered.equals("u")) {
+                    needSort = true;
                     if (arrayOrReferences.equals("a")) {
                         this.tempList = new UnorderedListArrayGeneric<>(1500000);
                     } else {
@@ -163,6 +166,7 @@ public class Archive {
                 }
                 currentLine = readLine();
             }
+            if (needSort) tempList.sort();
             Instant lastTime = Instant.now();
             String totalTime = Duration.between(firstTime, lastTime).toString();
             CommandLines.print("It took "+totalTime+ " to insert all the characters.");
