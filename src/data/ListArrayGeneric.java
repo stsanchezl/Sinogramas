@@ -97,6 +97,7 @@ public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T>
         } 
         System.out.println();
     }
+    
 
     @Override
     public String toString() {

@@ -200,10 +200,15 @@ public class Archive {
      * This method removes a character from a specific data structure
      */
     public void removeElement() {
+        
         switch(this.dataStructure) {
             case "l":
                 char toDelete = stringToChar(CommandLines.input("Char to remove:"));
+                Instant firstTime = Instant.now();
                 this.tempList.delete(toDelete);
+                Instant lastTime = Instant.now();
+                String totalTime = Duration.between(firstTime, lastTime).toString();
+                CommandLines.print("It took "+totalTime+ " to delete this character.");
                 break;
             case "q":
                 this.tempQueue.dequeue();
