@@ -44,8 +44,11 @@ public class Runner {
                     case 4:
                         letras.print();
                         break;
+                    case 5:
+                        letras.removeElement();
+                        break;
                     default:
-                        selection =0;
+                        selection = 0;
                         break;
                 }
                 selection = Integer.parseInt(CommandLines.input());

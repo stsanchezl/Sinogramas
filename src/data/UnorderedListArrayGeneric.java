@@ -134,9 +134,13 @@ public class UnorderedListArrayGeneric<T extends Comparable<T>> implements ListG
     @Override
     public boolean sort() {
         ArrayQuickSort<T> qS = new ArrayQuickSort<>();
-        qS.sort(this.slarray, 0, this.top);
+        qS.sort(this.slarray, 0, this.top-1);
         this.sorted = true;
         return true;
+    }
+    
+    public int getTop() {
+        return top;
     }
 }
 

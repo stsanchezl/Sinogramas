@@ -28,6 +28,7 @@ public class CommandLines {
         System.out.println("Type '2' to remove all the characters from the data structure.");
         System.out.println("Type '3' to show the size of the data structure.");
         System.out.println("Type '4' to print the characters.");
+        System.out.println("Type '5' to remove a character");
         System.out.println("Type '0' to end the program.");
     }
     public static void welcome() {
