@@ -203,7 +203,8 @@ public class Archive {
         
         switch(this.dataStructure) {
             case "l":
-                char toDelete = stringToChar(CommandLines.input("Char to remove:"));
+                char toDelete = (char) Integer.parseInt(CommandLines.input("Char to remove:"));
+                System.out.println(toDelete);
                 Instant firstTime = Instant.now();
                 this.tempList.delete(toDelete);
                 Instant lastTime = Instant.now();

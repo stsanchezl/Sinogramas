@@ -17,7 +17,7 @@ import logic.RefQuickSort;
 
 public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGeneric<T>  {
 
-    private NodeGeneric<T> head;
+    // private NodeGeneric<T> head;
     private int counter; //Counter added so one can keep tracks of the length of the Queue.
     private NodeGeneric<T> top;
     private boolean sorted = false;
@@ -26,12 +26,12 @@ public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGen
      * Constructor- Creating an empty list (a null Node)
      */
     public UnorderedListRefGeneric() {
-        head = null;
+        top = null;
     }
 
     @Override
     public boolean empty() {
-        return head==null;
+        return top==null;
     }
 
     @Override
@@ -47,12 +47,12 @@ public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGen
         counter++;
         return true;
     }
-
+    
     @Override
     public boolean delete(T item) {
         boolean deleted = false;
         if (!empty() && search(item)) {
-            NodeGeneric<T> ptr = head;
+            NodeGeneric<T> ptr = top;
             NodeGeneric<T> prev = null;
             while (ptr != null && ptr.getData().compareTo(item) != 0) {
                 prev = ptr;
@@ -61,7 +61,7 @@ public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGen
             if (ptr == null || ptr.getData().compareTo(item) == 0) {
                 deleted = true;
                 if (prev == null)
-                    head = ptr.getNext();
+                    top = ptr.getNext();
                 else
                     prev.setNext(ptr.getNext());
                 counter--;
@@ -73,7 +73,7 @@ public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGen
     @Override
     public boolean search(T item) {
         boolean found = false;
-        NodeGeneric<T> pointer = head;
+        NodeGeneric<T> pointer = top;
         while (pointer!=null && !found) {
             if (pointer.getData().compareTo(item)==0) {
                 found = true;
@@ -89,14 +89,14 @@ public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGen
      */
     @Override
     public void output() {
-        System.out.println(this.head);
+        System.out.println(this.top);
     }
 
     @Override
     public String toString() {
         String toReturn = "[]";
-        if (head != null) {
-            toReturn = head.toString();
+        if (top != null) {
+            toReturn = top.toString();
         }
         return toReturn;
     }
@@ -117,6 +117,7 @@ public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGen
     /**
      * This method sorts the unodered list using a quicksort algorithm.
      */
+
     @Override
     public boolean sort() {
         NodeGeneric<T> p = this.top; 
@@ -125,7 +126,5 @@ public class UnorderedListRefGeneric<T extends Comparable<T>> implements ListGen
         qS.sort(this.top, p);
         this.sorted = true;
         return true;
-    }
-    
-    
+    }   
 }

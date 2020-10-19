@@ -140,4 +140,5 @@ public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T>
     public boolean sort() {
         return true;
     }
+    
 }
