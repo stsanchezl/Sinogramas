@@ -52,7 +52,7 @@ public class ArrayQuickSort<T extends Comparable<T>>{
         T pivot = arrayToBeSorted[highIndex];  
         int i = (lowIndex-1); // index of smaller element 
         for (int j=lowIndex; j<highIndex; j++) {
-            if (arrayToBeSorted[j].compareTo(pivot)<=0) { 
+            if (arrayToBeSorted[j].compareTo(pivot)<0) { 
                 i++; 
                 // swap arr[i] and arr[j] 
                 T temp = arrayToBeSorted[i]; 

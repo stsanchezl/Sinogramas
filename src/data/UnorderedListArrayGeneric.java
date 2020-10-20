@@ -25,6 +25,7 @@ public class UnorderedListArrayGeneric<T extends Comparable<T>> implements ListG
      * Class constructor
      * @param size: int that shows the top of the stack
      */
+    
     public UnorderedListArrayGeneric(int size) {
         this.top = 0;
         this.slarray = (T[]) new Comparable[size]; // newLine

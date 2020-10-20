@@ -24,6 +24,7 @@ public class LinkedListGeneric<T extends Comparable<T>> implements ListGeneric<T
     public LinkedListGeneric() {
         head = null;
     }
+    
 
     @Override
     public boolean empty() {
