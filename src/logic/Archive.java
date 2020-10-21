@@ -198,28 +198,32 @@ public class Archive {
 
     /**
      * This method removes a character from a specific data structure
+     * When used with lists, a character is needed to be passed
+     * The user must type the four or five hexadecimal symbols of the han character.
      */
     public void removeElement() {
-        
-        switch(this.dataStructure) {
-            case "l":
-                char toDelete = (char) Integer.parseInt(CommandLines.input("Char to remove:"));
-                System.out.println(toDelete);
-                Instant firstTime = Instant.now();
-                this.tempList.delete(toDelete);
-                Instant lastTime = Instant.now();
-                String totalTime = Duration.between(firstTime, lastTime).toString();
-                CommandLines.print("It took "+totalTime+ " to delete this character.");
-                break;
-            case "q":
-                this.tempQueue.dequeue();
-                break;
-            case "s":
-                this.tempStack.pop();
-                break;
-            default:
-                break;
+        Instant firstTime = Instant.now();
+        char toDelete;
+        boolean removed = true;
+        if (this.dataStructure.equals("l")) {
+            toDelete = stringToChar(CommandLines.input("Char to remove:"));
+            firstTime = Instant.now();
+            removed = this.tempList.delete(toDelete);
+        } else {
+            if (this.dataStructure.equals("q")) {
+                toDelete = this.tempQueue.dequeue();
+            } else {
+                toDelete = this.tempStack.pop();
+            }
         }
+        Instant lastTime = Instant.now();
+        String totalTime = Duration.between(firstTime, lastTime).toString();
+        if (removed) {
+            CommandLines.print("It took "+totalTime+ " to delete "+String.valueOf(toDelete));
+        } else {
+            CommandLines.print(String.valueOf(toDelete)+" was not removed.");
+        }
+        
     }
 
     /**
@@ -230,7 +234,7 @@ public class Archive {
         Instant firstTime = Instant.now();
         switch(this.dataStructure) {
             case "l":
-                throw new UnsupportedOperationException("Not yet implemented");
+                throw new UnsupportedOperationException("Not implemented yet");
             case "q":
                 while (!tempQueue.empty()) {
                     this.tempQueue.dequeue();
