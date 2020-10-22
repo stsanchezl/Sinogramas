@@ -79,7 +79,7 @@ public class QueueArrayGeneric<T> implements QueueGeneric<T> {
         for (int i=0; i<count; i++) {
             toPrint.append(queueArray[iterator] + ",");
             iterator++;
-            if (iterator%this.length()==0) {
+            if (iterator%this.size==0) {
                 iterator=0;
             }
         }
