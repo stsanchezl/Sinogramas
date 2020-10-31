@@ -13,7 +13,7 @@ package data.sinogramas;
  * @since 08/10/2020
  */
 
-import logic.ArrayQuickSort;
+import logic.sinogramas.ArrayQuickSort;
 
 public class UnorderedListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T> {
     private int top;

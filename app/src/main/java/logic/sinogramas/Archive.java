@@ -13,7 +13,9 @@ package logic.sinogramas;
  * @since 16/10/2020
  */
 
-
+import android.os.Build;
+import androidx.annotation.RequiresApi;
+import data.sinogramas.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
@@ -44,9 +46,8 @@ public class Archive {
      * @param arrayOrReferences: Implementation of the array
      * @param dataStructure: Data structure to be used.
      * @param ordered: Tell whether the structure is ordered or not
-     * @param pathToFile: String with the path to the file to the Unihan text
      */
-    public Archive(String arrayOrReferences, String dataStructure, String ordered, String pathToFile) {
+    public Archive(String arrayOrReferences, String dataStructure, String ordered) {
         this.dataStructure = dataStructure;
         this.ordered = ordered;
         this.pathToFile = pathToFile;
@@ -131,13 +132,14 @@ public class Archive {
     }
 
     /**
-     * This method takes the text loaded in memory, looks everyline of it
+     * This method takes the text loaded in memory, looks every line of it
      * Using regex, it finds the unicode characters and parse them so they can be added to the structures
      * And print the time it takes to store all characters it the structures so speed test can be performed
-     * @param selection: data structure to be used
-     * @throws IOException 
+     * @return String with the time passed from the begggining to the end of the insertion
+     * @throws IOException
      */
-    public void readText() throws IOException{
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String readText() throws IOException{
         if (this.regex!= null) {
             Instant firstTime = Instant.now();
             String currentLine = readLine();
@@ -167,8 +169,7 @@ public class Archive {
             }
             if (needSort) tempList.sort();
             Instant lastTime = Instant.now();
-            String totalTime = Duration.between(firstTime, lastTime).toString();
-            CommandLines.print("It took "+totalTime+ " to insert all the characters.");
+            return Duration.between(firstTime, lastTime).toString();
         } else {
             throw new UnsupportedOperationException("No regex found, try first setRegex method.");
         }
@@ -177,7 +178,6 @@ public class Archive {
     /**
      * This method adds a character to a specific data structure
      * @param elementToAdd: Char to be added
-     * @param selectDataStructure: Data structure to be used
      */
     public void addElement(char elementToAdd) {
         switch(this.dataStructure) {
@@ -200,14 +200,18 @@ public class Archive {
      * When used with lists, a character is needed to be passed
      * The user must type the four or five hexadecimal symbols of the han character.
      */
-    public void removeElement() {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String removeElement() {
         Instant firstTime = Instant.now();
         char toDelete;
         boolean removed = true;
         if (this.dataStructure.equals("l")) {
+            /*
             toDelete = stringToChar(CommandLines.input("Char to remove:"));
             firstTime = Instant.now();
             removed = this.tempList.delete(toDelete);
+            */
+            throw new UnsupportedOperationException();
         } else {
             if (this.dataStructure.equals("q")) {
                 toDelete = this.tempQueue.dequeue();
@@ -218,9 +222,9 @@ public class Archive {
         Instant lastTime = Instant.now();
         String totalTime = Duration.between(firstTime, lastTime).toString();
         if (removed) {
-            CommandLines.print("It took "+totalTime+ " to delete "+String.valueOf(toDelete));
+            return "It took "+totalTime+ " to delete "+String.valueOf(toDelete);
         } else {
-            CommandLines.print(String.valueOf(toDelete)+" was not removed.");
+            return String.valueOf(toDelete)+" was not removed.";
         }
         
     }
@@ -229,7 +233,8 @@ public class Archive {
      * This method removes all the elements from a specific data structure and displays in console
      * the time it took to do it.
      */
-    public void removeAll() {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String removeAll() {
         Instant firstTime = Instant.now();
         switch(this.dataStructure) {
             case "l":
@@ -248,14 +253,13 @@ public class Archive {
                 break;
         }
         Instant lastTime = Instant.now();
-        String totalTime = Duration.between(firstTime, lastTime).toString();
-        CommandLines.print("It took "+totalTime+ " to delete all the characters.");
+        return Duration.between(firstTime, lastTime).toString();
     }
 
     /**
      * This method shows the length of the data struture.
      */
-    public void getDataStructureLength() {
+    public String getDataStructureLength() {
         int size;
         switch(this.dataStructure) {
             case "l":
@@ -271,26 +275,30 @@ public class Archive {
                 size = -1;
                 break;
         }
-        CommandLines.print(String.valueOf("There are "+ size +" elements in the structure."));
+        return String.valueOf(size);
     }
 
     /**
      * This method prints the characters of the data structures
      */
-    public void print() {
+    public String print() {
+        String toReturn;
         switch(this.dataStructure) {
             case "l":
-                CommandLines.print(tempList.toString());
+                toReturn = tempList.toString();
                 break;
             case "q":
-                CommandLines.print(tempQueue.toString());
+                toReturn = tempQueue.toString();
                 break;
             case "s":
-                CommandLines.print(tempStack.toString());
+                toReturn = tempStack.toString();
                 break;
             default:
+                toReturn = "";
                 break;
         }
+        return toReturn;
+
     }
 
     /**
