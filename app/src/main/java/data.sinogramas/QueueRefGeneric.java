@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are descripted in the interface this class implements.
  */
-package data;
+package data.sinogramas;
 
 /**
  * This class is a "fixed" version of the Queue using Nodes seen in the data structures class 

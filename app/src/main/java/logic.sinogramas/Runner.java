@@ -1,4 +1,4 @@
-package logic;
+package logic.sinogramas;
 
 import java.io.IOException;
 import java.io.File;

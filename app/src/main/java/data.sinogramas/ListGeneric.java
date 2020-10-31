@@ -1,4 +1,4 @@
-package data;
+package data.sinogramas;
 
 /**
  * This is an interface of a List.

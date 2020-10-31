@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are getters and setters
  */
-package logic;
+package logic.sinogramas;
 
 /**
  * This class is meant to manage the data within the data structures. It can
@@ -13,8 +13,7 @@ package logic;
  * @since 16/10/2020
  */
 
-import data.*;
-import ui.CommandLines;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;

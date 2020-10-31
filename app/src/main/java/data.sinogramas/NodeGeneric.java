@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are getters and setters
  */
-package data;
+package data.sinogramas;
 
 /**
  * This class is a "fixed" version of the Node class seen in the data structures class 

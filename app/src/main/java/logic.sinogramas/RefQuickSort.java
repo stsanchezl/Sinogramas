@@ -1,6 +1,6 @@
-package logic;
+package logic.sinogramas;
 
-import data.NodeGeneric;
+import data.sinogramas.NodeGeneric;
 
 /** 
  * Java program for implementation of QuickSort 

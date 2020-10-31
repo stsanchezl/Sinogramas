@@ -1,4 +1,4 @@
-package logic;
+package logic.sinogramas;
 /** 
  * Java program for implementation of QuickSort for arrays-type structures
  * @author Rajat Mishra

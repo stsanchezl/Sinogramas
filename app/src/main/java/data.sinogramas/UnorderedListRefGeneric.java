@@ -1,9 +1,9 @@
 /**
  * Undocumentated methods are descripted in the interface this class implements.
  */
-package data;
+package data.sinogramas;
 
-import logic.RefQuickSort;
+import logic.sinogramas.RefQuickSort;
 
 /**
  * This class pretends to be a mix between a stack and a list to build an unordered list using nodes
