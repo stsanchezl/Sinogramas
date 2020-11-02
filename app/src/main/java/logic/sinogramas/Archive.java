@@ -20,6 +20,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.time.Duration;
@@ -27,30 +33,28 @@ import java.time.Instant;
 
 public class Archive {
 
-    private String pathToFile;  //Path to file in one person's computer
-    private String regex; //Regular expresion to find info in the given text
+    private boolean needSort = false;
+    private String dataStructure; //data structure to use.
+    private String regex = "[U].[\\dA-Z]{4,5}"; //Regular expresion to find info in the given text
     private BufferedReader text;  //Representation of the text in memory
+    private InputStream textToParse;
 
     private ListGeneric<Character> tempList;
     private QueueGeneric<Character> tempQueue;
     private StackGeneric<Character> tempStack;
-
-    private String dataStructure;
-    private String ordered;
-    
-    private boolean needSort = false;
 
     /**
      * Class constructor, it initializates a specific linear data structure so they can hold the
      * Han characters, it does not matter the implementation of the data structure
      * @param arrayOrReferences: Implementation of the array
      * @param dataStructure: Data structure to be used.
-     * @param ordered: Tell whether the structure is ordered or not
+     * @param ordered: whether the structure is ordered or not
+     * @param textToParse: InputStream with the file so it can be put onto a BufferReader
      */
-    public Archive(String arrayOrReferences, String dataStructure, String ordered) {
+    public Archive(String arrayOrReferences, String dataStructure, String ordered, InputStream textToParse) {
         this.dataStructure = dataStructure;
-        this.ordered = ordered;
-        this.pathToFile = pathToFile;
+        this.text = new BufferedReader(new InputStreamReader(textToParse, StandardCharsets.UTF_16));
+
         switch (dataStructure) {
             case "l":
                 if (ordered.equals("u")) {
@@ -83,12 +87,8 @@ public class Archive {
                 break;
         }
     }
-
-    public String getPathToFile() {
-        return this.pathToFile;
-    }
-    public void setPathToFile(String pathToFile) {
-        this.pathToFile = pathToFile;
+    public Archive(InputStream textToParse) {
+        this.textToParse = textToParse;
     }
     public StackGeneric<Character> getTempStack() {
         return this.tempStack;
@@ -106,14 +106,10 @@ public class Archive {
         this.regex = regex;
     }
 
-    /**
-     * This method loads a file into memory so it can be used
-     * @throws FileNotFoundException should the path be wrong or file non-existant
-     */
-    public void openFile() throws FileNotFoundException{
-        this.text = new BufferedReader(new FileReader(pathToFile));
-    }
 
+    public void openFile() throws IOException {
+        this.text = new BufferedReader(new InputStreamReader(this.textToParse));
+    }
     /**
      * This method de-loads a file off memory
      * @throws FileNotFoundException
@@ -121,12 +117,7 @@ public class Archive {
     public void closeFile() throws IOException{
         this.text.close();
     }
-    
-    /**
-     * This method reads a line: parse a complete line and skips over the next
-     * @return read line - null if it is the end of the file
-     * @throws IOException 
-     */
+
     public String readLine() throws IOException{
         return text.readLine();
     }
@@ -135,51 +126,49 @@ public class Archive {
      * This method takes the text loaded in memory, looks every line of it
      * Using regex, it finds the unicode characters and parse them so they can be added to the structures
      * And print the time it takes to store all characters it the structures so speed test can be performed
-     * @return String with the time passed from the begggining to the end of the insertion
+     * @return String with the time passed from the beginning to the end of the insertion
      * @throws IOException
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public String readText() throws IOException{
-        if (this.regex!= null) {
-            Instant firstTime = Instant.now();
-            String currentLine = readLine();
-            Pattern pattern;
-            Matcher matcher;
-            while (currentLine!=null) {
-                pattern = Pattern.compile(this.regex);
-                matcher = pattern.matcher(currentLine);
-                if (matcher.find()) {
-                    String found = matcher.group();
-                    char elementToAdd = stringToChar(found.substring(2));
-                    switch (this.dataStructure) {
-                        case "l":
-                            tempList.insert(elementToAdd);
-                            break;
-                        case "q":
-                            tempQueue.enqueue(elementToAdd);
-                            break;
-                        case "s":
-                            tempStack.push(elementToAdd);
-                            break;  
-                        default:
-                            break;
-                    }
+        long firstTime = System.nanoTime();
+        String currentLine = text.readLine();
+        Pattern pattern;
+        Matcher matcher;
+        while (currentLine!=null) {
+            pattern = Pattern.compile(this.regex);
+            matcher = pattern.matcher(currentLine);
+            if (matcher.find()) {
+                String found = matcher.group();
+                char elementToAdd = stringToChar(found.substring(2));
+                switch (this.dataStructure) {
+                    case "l":
+                        tempList.insert(elementToAdd);
+                        break;
+                    case "q":
+                        tempQueue.enqueue(elementToAdd);
+                        break;
+                    case "s":
+                        tempStack.push(elementToAdd);
+                        break;
+                    default:
+                        break;
                 }
-                currentLine = readLine();
             }
-            if (needSort) tempList.sort();
-            Instant lastTime = Instant.now();
-            return Duration.between(firstTime, lastTime).toString();
-        } else {
-            throw new UnsupportedOperationException("No regex found, try first setRegex method.");
+            currentLine = text.readLine();
         }
+        if (needSort) tempList.sort();
+        long lastTime = System.nanoTime();
+        long difference = TimeUnit.SECONDS.convert(lastTime-firstTime,TimeUnit.NANOSECONDS);
+        return String.valueOf(difference);
     }
 
     /**
      * This method adds a character to a specific data structure
      * @param elementToAdd: Char to be added
+     * @return String with the time passed during he addition
      */
-    public void addElement(char elementToAdd) {
+    public String addElement(char elementToAdd) {
+        long firstTime = System.nanoTime();
         switch(this.dataStructure) {
             case "l":
                 this.tempList.insert(elementToAdd);
@@ -193,6 +182,9 @@ public class Archive {
             default:
                 break;
         }
+        long lastTime = System.nanoTime();
+        long difference = TimeUnit.SECONDS.convert(lastTime-firstTime,TimeUnit.NANOSECONDS);
+        return String.valueOf(difference);
     }
 
     /**
@@ -200,9 +192,8 @@ public class Archive {
      * When used with lists, a character is needed to be passed
      * The user must type the four or five hexadecimal symbols of the han character.
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public String removeElement() {
-        Instant firstTime = Instant.now();
+        long firstTime = System.nanoTime();
         char toDelete;
         boolean removed = true;
         if (this.dataStructure.equals("l")) {
@@ -219,10 +210,10 @@ public class Archive {
                 toDelete = this.tempStack.pop();
             }
         }
-        Instant lastTime = Instant.now();
-        String totalTime = Duration.between(firstTime, lastTime).toString();
+        long lastTime = System.nanoTime();
+        long difference = TimeUnit.SECONDS.convert(lastTime-firstTime,TimeUnit.NANOSECONDS);
         if (removed) {
-            return "It took "+totalTime+ " to delete "+String.valueOf(toDelete);
+            return "It took "+difference+ " seconds to delete "+String.valueOf(toDelete);
         } else {
             return String.valueOf(toDelete)+" was not removed.";
         }
@@ -233,9 +224,8 @@ public class Archive {
      * This method removes all the elements from a specific data structure and displays in console
      * the time it took to do it.
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public String removeAll() {
-        Instant firstTime = Instant.now();
+        long firstTime = System.nanoTime();
         switch(this.dataStructure) {
             case "l":
                 throw new UnsupportedOperationException("Not implemented yet");
@@ -252,8 +242,9 @@ public class Archive {
             default:
                 break;
         }
-        Instant lastTime = Instant.now();
-        return Duration.between(firstTime, lastTime).toString();
+        long lastTime = System.nanoTime();
+        long difference = TimeUnit.SECONDS.convert(lastTime-firstTime,TimeUnit.NANOSECONDS);
+        return String.valueOf(difference);
     }
 
     /**
