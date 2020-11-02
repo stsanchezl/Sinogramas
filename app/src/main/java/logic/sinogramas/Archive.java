@@ -159,7 +159,7 @@ public class Archive {
         if (needSort) tempList.sort();
         long lastTime = System.nanoTime();
         long difference = TimeUnit.SECONDS.convert(lastTime-firstTime,TimeUnit.NANOSECONDS);
-        return String.valueOf(difference);
+        return "It took: "+ String.valueOf(difference);
     }
 
     /**

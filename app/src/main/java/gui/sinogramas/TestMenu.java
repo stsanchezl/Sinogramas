@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 import java.util.Scanner;
 
 import logic.sinogramas.Archive;
@@ -37,16 +38,18 @@ public class TestMenu extends AppCompatActivity {
         deleteOneElementsButton = (Button) findViewById(R.id.deleteOneButton);
         showLengthElementsButton = (Button) findViewById(R.id.showLengthButton);
 
+        displayOptionTextView = (TextView) findViewById(R.id.displayOptionsTextView);
+
         if(getIntent().hasExtra("gui.InitiateDataStructure.dataStructure")) {
             String spanishDataStructure = getIntent().getExtras().getString("gui.InitiateDataStructure.dataStructure");
             this.dataStructure = spanishToEnglishSelection(spanishDataStructure);
         } else {
-            this.dataStructure = "";
+            this.dataStructure = null;
         }
         if(getIntent().hasExtra("gui.InitiateDataStructure.arrayOrReference")) {
             this.arrayOrReference = getIntent().getExtras().getString("gui.InitiateDataStructure.arrayOrReference");
         } else {
-            this.arrayOrReference = "";
+            this.arrayOrReference = null;
         }
         openFile(this.arrayOrReference, this.dataStructure);
 
@@ -59,7 +62,6 @@ public class TestMenu extends AppCompatActivity {
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-
             }
         });
         addOneElementsButton.setOnClickListener(new View.OnClickListener() {
