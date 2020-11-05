@@ -1,10 +1,15 @@
-## Bienvenidos a nuestro proyecto de sinogramas
-
-Montaremos el código en Java para nuestras proyecto.
+## Sinogramas
+Montaremos el código necesario para desarrollar un diccionario chino-español.
 
 ## Estructura
 
-El workspace contiene 2 directorios las cuales son:
+El workspace contiene varios archivos y directorios. La mayoria de estos dueron generados automáticamente por el IDE Android Studio.
+Ubicándose en a `app/src/main/`, sin embargo, se tiene el núcleo del proyecto: Esto es, tenemos tres directoios los cuales son:
 
-- `src`: el directorio que contiene el código de Java: data con las estructuras, logic con el main, y ui con el bosquejo de interfaz.
-- `unihan`: el directorio con la información de la base de datos de UNICODE-HAN (UNIHAN).
+- `assets`: el directorio que contiene los archivos con la información de la base de datos de Unicode.
+- `res`: el directorio que contiene los recursos de la aplicacion, e.g., cadenas, colores, logo.
+- `java`: el directorio que contiene el código de Java: data con las estructuras, logic con el main, y gui con la interfaz.
+
+## Wiki
+
+//TODO
