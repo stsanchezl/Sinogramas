@@ -1,10 +1,10 @@
 /**
- * Undocumentated methods are getters and setters
+ * Undocumented methods are getters and setters
  */
 package logic.sinogramas;
 
 /**
- * This class is meant to manage the data within the data structures. It can
+ * This class is meant to manage the data within the data structures.
  * @author Cristian Davil Camilo Santos Gil
  * @author Diego Esteban Quintero Rey
  * @author Kevin Jair Gonzalez Sanchez
@@ -16,14 +16,9 @@ package logic.sinogramas;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import data.sinogramas.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -36,7 +31,7 @@ public class Archive {
     private boolean needSort = false;
     private String dataStructure; //data structure to use.
     private String regex = "[U].[\\dA-Z]{4,5}"; //Regular expresion to find info in the given text
-    private BufferedReader text;  //Representation of the text in memory
+    private Scanner text;  //Representation of the text in memory
     private InputStream textToParse;
 
     private ListGeneric<Character> tempList;
@@ -44,7 +39,7 @@ public class Archive {
     private StackGeneric<Character> tempStack;
 
     /**
-     * Class constructor, it initializates a specific linear data structure so they can hold the
+     * Class constructor, it initializes a specific linear data structure so they can hold the
      * Han characters, it does not matter the implementation of the data structure
      * @param arrayOrReferences: Implementation of the array
      * @param dataStructure: Data structure to be used.
@@ -53,7 +48,7 @@ public class Archive {
      */
     public Archive(String arrayOrReferences, String dataStructure, String ordered, InputStream textToParse) {
         this.dataStructure = dataStructure;
-        this.text = new BufferedReader(new InputStreamReader(textToParse, StandardCharsets.UTF_16));
+        this.textToParse = textToParse;
 
         switch (dataStructure) {
             case "l":
@@ -70,19 +65,22 @@ public class Archive {
                     } else {
                         this.tempList = new LinkedListGeneric<>();
                     }
-                } 
+                }
+                break;
             case "q":
                 if (arrayOrReferences.equals("a")) {
                     this.tempQueue = new QueueArrayGeneric<>(1500000);
                 } else {
                     this.tempQueue = new QueueRefGeneric<>();
                 }
+                break;
             case "s":
                 if (arrayOrReferences.equals("a")) {
                     this.tempStack = new StackArrayGeneric<>(1500000);
                 } else {
                     this.tempStack = new StackRefGeneric<>();
                 }
+                break;
             default:
                 break;
         }
@@ -107,19 +105,19 @@ public class Archive {
     }
 
 
-    public void openFile() throws IOException {
-        this.text = new BufferedReader(new InputStreamReader(this.textToParse));
+    public void openFile(){
+        this.text = new Scanner(this.textToParse);
     }
     /**
      * This method de-loads a file off memory
      * @throws FileNotFoundException
      */
-    public void closeFile() throws IOException{
+    public void closeFile() {
         this.text.close();
     }
 
-    public String readLine() throws IOException{
-        return text.readLine();
+    public String readLine() {
+        return text.nextLine();
     }
 
     /**
@@ -129,14 +127,13 @@ public class Archive {
      * @return String with the time passed from the beginning to the end of the insertion
      * @throws IOException
      */
-    public String readText() throws IOException{
-        long firstTime = System.nanoTime();
-        String currentLine = text.readLine();
-        Pattern pattern;
-        Matcher matcher;
-        while (currentLine!=null) {
-            pattern = Pattern.compile(this.regex);
-            matcher = pattern.matcher(currentLine);
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String readText() {
+        Instant firstTime = Instant.now();
+        while (text.hasNext()) {
+            String currentLine = readLine();
+            Pattern pattern = Pattern.compile(this.regex);
+            Matcher matcher = pattern.matcher(currentLine);
             if (matcher.find()) {
                 String found = matcher.group();
                 char elementToAdd = stringToChar(found.substring(2));
@@ -154,21 +151,22 @@ public class Archive {
                         break;
                 }
             }
-            currentLine = text.readLine();
         }
         if (needSort) tempList.sort();
-        long lastTime = System.nanoTime();
-        long difference = TimeUnit.SECONDS.convert(lastTime-firstTime,TimeUnit.NANOSECONDS);
-        return "It took: "+ String.valueOf(difference);
+        Instant lastTime = Instant.now();
+        String totalTime = Duration.between(firstTime, lastTime).toString();
+        return "It took: "+ String.valueOf(totalTime);
     }
 
     /**
      * This method adds a character to a specific data structure
-     * @param elementToAdd: Char to be added
+     * @param stringToAdd: String with the 4 or 5 symbols to be parsed to char
      * @return String with the time passed during he addition
      */
-    public String addElement(char elementToAdd) {
-        long firstTime = System.nanoTime();
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String addElement(String stringToAdd) {
+        Instant firstTime = Instant.now();
+        char elementToAdd = stringToChar(stringToAdd);
         switch(this.dataStructure) {
             case "l":
                 this.tempList.insert(elementToAdd);
@@ -182,27 +180,23 @@ public class Archive {
             default:
                 break;
         }
-        long lastTime = System.nanoTime();
-        long difference = TimeUnit.SECONDS.convert(lastTime-firstTime,TimeUnit.NANOSECONDS);
-        return String.valueOf(difference);
+        Instant lastTime = Instant.now();
+        String totalTime = Duration.between(firstTime, lastTime).toString();
+        return "It took "+totalTime+" to add "+String.valueOf(elementToAdd);
     }
 
     /**
      * This method removes a character from a specific data structure
      * When used with lists, a character is needed to be passed
-     * The user must type the four or five hexadecimal symbols of the han character.
+     * @param stringToDelete String with four or five hexadecimal symbols of the han character.
      */
-    public String removeElement() {
-        long firstTime = System.nanoTime();
-        char toDelete;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String removeElement(String stringToDelete) {
+        Instant firstTime = Instant.now();
+        char toDelete = stringToChar(stringToDelete);
         boolean removed = true;
         if (this.dataStructure.equals("l")) {
-            /*
-            toDelete = stringToChar(CommandLines.input("Char to remove:"));
-            firstTime = Instant.now();
             removed = this.tempList.delete(toDelete);
-            */
-            throw new UnsupportedOperationException();
         } else {
             if (this.dataStructure.equals("q")) {
                 toDelete = this.tempQueue.dequeue();
@@ -210,10 +204,10 @@ public class Archive {
                 toDelete = this.tempStack.pop();
             }
         }
-        long lastTime = System.nanoTime();
-        long difference = TimeUnit.SECONDS.convert(lastTime-firstTime,TimeUnit.NANOSECONDS);
+        Instant lastTime = Instant.now();
+        String totalTime = Duration.between(firstTime, lastTime).toString();
         if (removed) {
-            return "It took "+difference+ " seconds to delete "+String.valueOf(toDelete);
+            return "It took "+totalTime+ " seconds to delete "+String.valueOf(toDelete);
         } else {
             return String.valueOf(toDelete)+" was not removed.";
         }
@@ -224,8 +218,9 @@ public class Archive {
      * This method removes all the elements from a specific data structure and displays in console
      * the time it took to do it.
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String removeAll() {
-        long firstTime = System.nanoTime();
+        Instant firstTime = Instant.now();
         switch(this.dataStructure) {
             case "l":
                 throw new UnsupportedOperationException("Not implemented yet");
@@ -242,9 +237,9 @@ public class Archive {
             default:
                 break;
         }
-        long lastTime = System.nanoTime();
-        long difference = TimeUnit.SECONDS.convert(lastTime-firstTime,TimeUnit.NANOSECONDS);
-        return String.valueOf(difference);
+        Instant lastTime = Instant.now();
+        String totalTime = Duration.between(firstTime, lastTime).toString();
+        return "It took: "+ String.valueOf(totalTime);
     }
 
     /**

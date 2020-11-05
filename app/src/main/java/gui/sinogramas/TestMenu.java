@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class TestMenu extends AppCompatActivity {
     private Button deleteAllElementsButton;
     private Button deleteOneElementsButton;
     private Button showLengthElementsButton;
+    private EditText characterEntryEditText;
     private String arrayOrReference;
     private String dataStructure;
     private TextView displayOptionTextView;
@@ -37,6 +39,7 @@ public class TestMenu extends AppCompatActivity {
         deleteAllElementsButton = (Button) findViewById(R.id.deleteAllButton);
         deleteOneElementsButton = (Button) findViewById(R.id.deleteOneButton);
         showLengthElementsButton = (Button) findViewById(R.id.showLengthButton);
+        characterEntryEditText = (EditText) findViewById(R.id.characterEntryEditText);
 
         displayOptionTextView = (TextView) findViewById(R.id.displayOptionsTextView);
 
@@ -51,41 +54,53 @@ public class TestMenu extends AppCompatActivity {
         } else {
             this.arrayOrReference = null;
         }
-        openFile(this.arrayOrReference, this.dataStructure);
+
+        openFile(arrayOrReference, dataStructure);
 
         addAllElementsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
+                file.openFile();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     displayOptionTextView.setText(file.readText());
-                    file.closeFile();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
                 }
+                file.closeFile();
             }
         });
         addOneElementsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String stringEntry = characterEntryEditText.getText().toString();
+                if (stringEntry!=null && (stringEntry.length()>=4 && stringEntry.length()<=5) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    displayOptionTextView.setText(file.addElement(stringEntry));
+                }
             }
         });
         deleteAllElementsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) displayOptionTextView.setText(file.removeAll());
             }
         });
         deleteOneElementsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (dataStructure.equals("l")) {
+                        String stringEntry = characterEntryEditText.getText().toString();
+                        if (stringEntry != null && stringEntry.length() >= 4 && stringEntry.length() <= 5) {
+                            displayOptionTextView.setText(file.removeElement(stringEntry));
+                        }
+                    } else {
+                        displayOptionTextView.setText(file.removeElement("3400"));
+                    }
+                }
             }
         });
         showLengthElementsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                displayOptionTextView.setText(file.getDataStructureLength());
             }
         });
     }
