@@ -68,7 +68,7 @@ public class TestMenu extends AppCompatActivity {
             public void onClick(View v) {
                 file.openFile();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    displayOptionTextView.setText(file.readText());
+                    displayOptionTextView.setText(file.addAll());
                 }
                 file.closeFile();
             }
