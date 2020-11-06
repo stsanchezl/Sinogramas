@@ -60,11 +60,67 @@
         android:id="@+id/continueButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
         android:text="Continuar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSelectorEditText"
+        app:layout_constraintVertical_bias="0.341" />
+
+    <TextView
+        android:id="@+id/selectFileTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/arrayOrReferencesEditText"
-        app:layout_constraintVertical_bias="1.0" />
+        tools:text="Seleccione el texto:" />
+
+    <TextView
+        android:id="@+id/fileOneTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 - 16500 chars"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectFileTextView" />
+
+    <TextView
+        android:id="@+id/fileTwoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2 - 110150 chars"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fileOneTextView" />
+
+    <TextView
+        android:id="@+id/fileThreeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3 - 1300000 chars"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fileTwoTextView" />
+
+    <EditText
+        android:id="@+id/textSelectorEditText"
+        android:layout_width="87dp"
+        android:layout_height="47dp"
+        android:ems="10"
+        android:hint="1 - 2 - 3"
+        android:inputType="numberSigned"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fileThreeTextView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

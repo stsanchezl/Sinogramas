@@ -27,6 +27,7 @@ public class TestMenu extends AppCompatActivity {
     private EditText characterEntryEditText;
     private String arrayOrReference;
     private String dataStructure;
+    private String textToOpen;
     private TextView displayOptionTextView;
 
     @Override
@@ -40,7 +41,6 @@ public class TestMenu extends AppCompatActivity {
         deleteOneElementsButton = (Button) findViewById(R.id.deleteOneButton);
         showLengthElementsButton = (Button) findViewById(R.id.showLengthButton);
         characterEntryEditText = (EditText) findViewById(R.id.characterEntryEditText);
-
         displayOptionTextView = (TextView) findViewById(R.id.displayOptionsTextView);
 
         if(getIntent().hasExtra("gui.InitiateDataStructure.dataStructure")) {
@@ -54,8 +54,14 @@ public class TestMenu extends AppCompatActivity {
         } else {
             this.arrayOrReference = null;
         }
+        if(getIntent().hasExtra("gui.InitiateDataStructure.textSelector")) {
+            String tempTextToOpen = getIntent().getExtras().getString("gui.InitiateDataStructure.textSelector");
+            this.textToOpen = selectFile(tempTextToOpen);
+        } else {
+            this.textToOpen = null;
+        }
 
-        openFile(arrayOrReference, dataStructure);
+        openFile(arrayOrReference, dataStructure,textToOpen);
 
         addAllElementsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,13 +110,31 @@ public class TestMenu extends AppCompatActivity {
             }
         });
     }
-    private void openFile(String arrayOrReference, String dataStructure) {
+    private void openFile(String arrayOrReference, String dataStructure, String textToOpen) {
         try {
-            InputStream readText = getAssets().open("mergedFiles.txt");
+            InputStream readText = getAssets().open(textToOpen);
             this.file = new Archive(arrayOrReference, dataStructure, "o", readText);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+    }
+    private String selectFile(String selector) {
+        String fileToReturnName;
+        switch (selector) {
+            case "1":
+                fileToReturnName = "Unihan_DictionaryLikeData.txt";
+                break;
+            case "2":
+                fileToReturnName = "Unihan_Variants.txt";
+                break;
+            case "3":
+                fileToReturnName = "mergedFiles.txt";
+                break;
+            default:
+                fileToReturnName = "Unihan_IRGSources.txt";
+                break;
+        }
+        return fileToReturnName;
     }
     private String spanishToEnglishSelection(String tempStructure) {
         String dataStructure;
