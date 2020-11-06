@@ -16,9 +16,12 @@ package logic.sinogramas;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import data.sinogramas.*;
+
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -30,8 +33,8 @@ public class Archive {
 
     private boolean needSort = false;
     private String dataStructure; //data structure to use.
-    private String regex = "[U].[\\dA-Z]{4,5}"; //Regular expresion to find info in the given text
-    private Scanner text;  //Representation of the text in memory
+    private String regex = "[U].[\\dA-Z]{4,5}"; //Regular expression to find info in the given text
+    private BufferedReader text;  //Representation of the text in memory
     private InputStream textToParse;
 
     private ListGeneric<Character> tempList;
@@ -85,9 +88,6 @@ public class Archive {
                 break;
         }
     }
-    public Archive(InputStream textToParse) {
-        this.textToParse = textToParse;
-    }
     public StackGeneric<Character> getTempStack() {
         return this.tempStack;
     }
@@ -106,18 +106,28 @@ public class Archive {
 
 
     public void openFile(){
-        this.text = new Scanner(this.textToParse);
+        this.text = new BufferedReader(new InputStreamReader(this.textToParse));
     }
+
     /**
      * This method de-loads a file off memory
-     * @throws FileNotFoundException
      */
     public void closeFile() {
-        this.text.close();
+        try {
+            this.text.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String readLine() {
-        return text.nextLine();
+        String toReturn;
+        try {
+            toReturn = text.readLine();
+        } catch (IOException e) {
+            toReturn = "?";
+        }
+        return toReturn;
     }
 
     /**
@@ -128,11 +138,11 @@ public class Archive {
      * @throws IOException
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public String readText() {
+    public String addAll() {
         Instant firstTime = Instant.now();
-        while (text.hasNext()) {
-            String currentLine = readLine();
-            Pattern pattern = Pattern.compile(this.regex);
+        Pattern pattern = Pattern.compile(this.regex);
+        String currentLine = readLine();
+        while (currentLine!=null) {
             Matcher matcher = pattern.matcher(currentLine);
             if (matcher.find()) {
                 String found = matcher.group();
@@ -151,6 +161,7 @@ public class Archive {
                         break;
                 }
             }
+            currentLine = readLine();
         }
         if (needSort) tempList.sort();
         Instant lastTime = Instant.now();
@@ -183,6 +194,34 @@ public class Archive {
         Instant lastTime = Instant.now();
         String totalTime = Duration.between(firstTime, lastTime).toString();
         return "It took "+totalTime+" to add "+String.valueOf(elementToAdd);
+    }
+
+    /**
+     * This method removes all the elements from a specific data structure and displays in console
+     * the time it took to do it.
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String removeAll() {
+        Instant firstTime = Instant.now();
+        switch(this.dataStructure) {
+            case "l":
+                throw new UnsupportedOperationException("Not implemented yet");
+            case "q":
+                while (!tempQueue.empty()) {
+                    this.tempQueue.dequeue();
+                }
+                break;
+            case "s":
+                while (!tempStack.empty()) {
+                    this.tempStack.pop();
+                }
+                break;
+            default:
+                break;
+        }
+        Instant lastTime = Instant.now();
+        String totalTime = Duration.between(firstTime, lastTime).toString();
+        return "It took: "+ String.valueOf(totalTime);
     }
 
     /**
@@ -231,34 +270,6 @@ public class Archive {
     }
 
     /**
-     * This method removes all the elements from a specific data structure and displays in console
-     * the time it took to do it.
-     */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String removeAll() {
-        Instant firstTime = Instant.now();
-        switch(this.dataStructure) {
-            case "l":
-                throw new UnsupportedOperationException("Not implemented yet");
-            case "q":
-                while (!tempQueue.empty()) {
-                    this.tempQueue.dequeue();
-                }
-                break;
-            case "s":
-                while (!tempStack.empty()) {
-                    this.tempStack.pop();
-                }
-                break;
-            default:
-                break;
-        }
-        Instant lastTime = Instant.now();
-        String totalTime = Duration.between(firstTime, lastTime).toString();
-        return "It took: "+ String.valueOf(totalTime);
-    }
-
-    /**
      * This method shows the length of the data struture.
      */
     public String getDataStructureLength() {
@@ -300,7 +311,6 @@ public class Archive {
                 break;
         }
         return toReturn;
-
     }
 
     /**
