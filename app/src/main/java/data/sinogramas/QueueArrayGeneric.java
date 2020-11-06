@@ -44,7 +44,7 @@ public class QueueArrayGeneric<T> implements QueueGeneric<T> {
     public T dequeue() {
         T item = null;
         if(this.empty()) {
-            throw new RuntimeException("Queue is empty");
+            throw new NullPointerException("Queue is empty");
         } else {
             item = queueArray[front];
             front = (front+1)% this.size;

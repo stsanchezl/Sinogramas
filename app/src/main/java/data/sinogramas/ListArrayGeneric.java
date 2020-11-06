@@ -63,7 +63,7 @@ public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T>
                 deleted = true;
             }
         } else {
-            throw new RuntimeException("List is empty");
+            throw new NullPointerException("List is empty");
         }
         return deleted;
     }

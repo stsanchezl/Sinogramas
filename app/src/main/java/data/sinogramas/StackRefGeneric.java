@@ -39,7 +39,7 @@ public class StackRefGeneric<T> implements StackGeneric<T> {
     @Override
     public T pop() {
         if(empty()) {
-            throw new RuntimeException("Stack is empty");
+            throw new NullPointerException("Stack is empty");
         } else {
             T itemToReturn = top.getData();
             top=top.getNext();

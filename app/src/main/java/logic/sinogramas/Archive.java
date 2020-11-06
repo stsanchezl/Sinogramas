@@ -192,17 +192,34 @@ public class Archive {
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String removeElement(String stringToDelete) {
-        Instant firstTime = Instant.now();
+        boolean removed = false;
         char toDelete = stringToChar(stringToDelete);
-        boolean removed = true;
-        if (this.dataStructure.equals("l")) {
-            removed = this.tempList.delete(toDelete);
-        } else {
-            if (this.dataStructure.equals("q")) {
-                toDelete = this.tempQueue.dequeue();
-            } else {
-                toDelete = this.tempStack.pop();
-            }
+        Instant firstTime = Instant.now();
+        String message;
+        switch (dataStructure) {
+            case "l":
+                try {
+                    removed = this.tempList.delete(toDelete);
+                } catch (NullPointerException nullPointerException) {
+                    return nullPointerException.getMessage();
+                }
+                break;
+            case "q":
+                try {
+                    toDelete = this.tempQueue.dequeue();
+                    removed = true;
+                } catch (NullPointerException nullPointerException) {
+                    return nullPointerException.getMessage();
+                }
+                break;
+            case "s":
+                try {
+                    toDelete = this.tempStack.pop();
+                    removed = true;
+                } catch (NullPointerException nullPointerException) {
+                    return nullPointerException.getMessage();
+                }
+                break;
         }
         Instant lastTime = Instant.now();
         String totalTime = Duration.between(firstTime, lastTime).toString();
@@ -211,7 +228,6 @@ public class Archive {
         } else {
             return String.valueOf(toDelete)+" was not removed.";
         }
-        
     }
 
     /**

@@ -66,7 +66,7 @@ public class UnorderedListArrayGeneric<T extends Comparable<T>> implements ListG
                 deleted = true;
             }
         } else {
-            throw new RuntimeException("List is empty");
+            throw new NullPointerException("List is empty");
         }
         return deleted;
     }

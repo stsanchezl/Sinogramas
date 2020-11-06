@@ -122,10 +122,10 @@ public class TestMenu extends AppCompatActivity {
         String fileToReturnName;
         switch (selector) {
             case "1":
-                fileToReturnName = "Unihan_DictionaryLikeData.txt";
+                fileToReturnName = "Unihan_Variants.txt";
                 break;
             case "2":
-                fileToReturnName = "Unihan_Variants.txt";
+                fileToReturnName = "Unihan_DictionaryLikeData.txt";
                 break;
             case "3":
                 fileToReturnName = "mergedFiles.txt";

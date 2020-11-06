@@ -39,7 +39,7 @@ public class StackArrayGeneric<T> implements StackGeneric<T> {
     @Override
     public T pop() {
         if (empty()) {
-            throw new RuntimeException("Stack is empty");
+            throw new NullPointerException("Stack is empty");
         }
         top--;
         return stackArray[top];
