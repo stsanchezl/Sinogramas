@@ -9,7 +9,7 @@ package logic.sinogramas;
  * @author Diego Esteban Quintero Rey
  * @author Kevin Jair Gonzalez Sanchez
  * @author Stiven Leonardo Sánchez León 
- * @version 1.0
+ * @version 5.0
  * @since 16/10/2020
  */
 
@@ -33,7 +33,7 @@ public class Archive {
 
     private boolean needSort = false;
     private String dataStructure; //data structure to use.
-    private String regex = "[U].[\\dA-Z]{4,5}"; //Regular expression to find info in the given text
+    private String regex = "[U].[\\dA-F]{4,5}"; //Regular expression to find info in the given text
     private BufferedReader text;  //Representation of the text in memory
     private InputStream textToParse;
 
