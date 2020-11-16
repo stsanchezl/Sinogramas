@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are descripted in the interface this class implements.
  */
-package data;
+package data.sinogramas;
 
 /**
  * This class pretends to be a mix between a stack and a list to build an unordered list
@@ -13,9 +13,9 @@ package data;
  * @since 08/10/2020
  */
 
-import logic.ArrayQuickSort;
+import logic.sinogramas.ArrayQuickSort;
 
-public class UnorderedListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T> {
+public class UnorderedListDynamicArrayGeneric<T extends Comparable<T>> implements ListGeneric<T> {
     private int top;
     private T[] slarray;
     private boolean sorted;
@@ -26,7 +26,7 @@ public class UnorderedListArrayGeneric<T extends Comparable<T>> implements ListG
      * @param size: int that shows the top of the stack
      */
     
-    public UnorderedListArrayGeneric(int size) {
+    public UnorderedListDynamicArrayGeneric(int size) {
         this.top = 0;
         this.slarray = (T[]) new Comparable[size]; // newLine
         this.sorted = false;

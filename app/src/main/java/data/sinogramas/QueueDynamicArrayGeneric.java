@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are descripted in the interface this class implements.
  */
-package data;
+package data.sinogramas;
 
 /**
  * This class is a "fixed" version of the QueueArray seen in the data structures class 
@@ -13,7 +13,7 @@ package data;
  * @since 08/09/2020
  */
 
-public class QueueArrayGeneric<T> implements QueueGeneric<T> {
+public class QueueDynamicArrayGeneric<T> implements QueueGeneric<T> {
     private int front;
     private int rear;
     private int count;  //This keeps tracks of the elements of the array
@@ -24,7 +24,7 @@ public class QueueArrayGeneric<T> implements QueueGeneric<T> {
      * Class constructor
      * @param size, size of the queue
      */
-    public QueueArrayGeneric(int size) {
+    public QueueDynamicArrayGeneric(int size) {
         front = rear = count =0;
         queueArray = (T[]) new Object[size];
         this.size = size;

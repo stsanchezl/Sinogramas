@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are descripted in the interface this class implements.
  */
-package data;
+package data.sinogramas;
 
 /**
  * This class is a "fixed" version of the StackArray seen in the data structures class 
@@ -13,7 +13,7 @@ package data;
  * @since 03/09/2020
  */
 
-public class StackArrayGeneric<T> implements StackGeneric<T> {
+public class StackDynamicArrayGeneric<T> implements StackGeneric<T> {
 	private int top;
     private T[] stackArray;
 
@@ -21,7 +21,7 @@ public class StackArrayGeneric<T> implements StackGeneric<T> {
      * Class constructor
      * @param top: int that shows the top of the stack
      */
-    public StackArrayGeneric(int size) {
+    public StackDynamicArrayGeneric(int size) {
         this.top = 0;
         this.stackArray = (T[]) new Object[size];
     }

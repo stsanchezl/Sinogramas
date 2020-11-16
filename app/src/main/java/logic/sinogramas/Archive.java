@@ -37,9 +37,9 @@ public class Archive {
     private BufferedReader text;  //Representation of the text in memory
     private InputStream textToParse;
 
-    private ListGeneric<Character> tempList;
-    private QueueGeneric<Character> tempQueue;
-    private StackGeneric<Character> tempStack;
+    private ListGeneric<Unihan> tempList;
+    private QueueGeneric<Unihan> tempQueue;
+    private StackGeneric<Unihan> tempStack;
 
     /**
      * Class constructor, it initializes a specific linear data structure so they can hold the
@@ -88,13 +88,13 @@ public class Archive {
                 break;
         }
     }
-    public StackGeneric<Character> getTempStack() {
+    public StackGeneric<Unihan> getTempStack() {
         return this.tempStack;
     }
-    public ListGeneric<Character> getTempList() {
+    public ListGeneric<Unihan> getTempList() {
         return this.tempList;
     }
-    public QueueGeneric<Character> getTempQueue() {
+    public QueueGeneric<Unihan> getTempQueue() {
         return this.tempQueue;
     }
     public String getRegex () {
@@ -103,7 +103,6 @@ public class Archive {
     public void setRegex(String regex) {
         this.regex = regex;
     }
-
 
     public void openFile(){
         this.text = new BufferedReader(new InputStreamReader(this.textToParse));
@@ -146,7 +145,7 @@ public class Archive {
             Matcher matcher = pattern.matcher(currentLine);
             if (matcher.find()) {
                 String found = matcher.group();
-                char elementToAdd = stringToChar(found.substring(2));
+                Unihan elementToAdd = new Unihan(found.substring(2));
                 switch (this.dataStructure) {
                     case "l":
                         tempList.insert(elementToAdd);
@@ -177,7 +176,7 @@ public class Archive {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String addElement(String stringToAdd) {
         Instant firstTime = Instant.now();
-        char elementToAdd = stringToChar(stringToAdd);
+        Unihan elementToAdd = new Unihan(stringToAdd);
         switch(this.dataStructure) {
             case "l":
                 this.tempList.insert(elementToAdd);
@@ -232,7 +231,7 @@ public class Archive {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String removeElement(String stringToDelete) {
         boolean removed = false;
-        char toDelete = stringToChar(stringToDelete);
+        Unihan toDelete = new Unihan(stringToDelete);
         Instant firstTime = Instant.now();
         String message;
         switch (dataStructure) {
@@ -312,16 +311,4 @@ public class Archive {
         }
         return toReturn;
     }
-
-    /**
-     * This method converts a string with the integer representation to its unicode equivalance
-     * to a char; e.g. "3400" to '\u3400'.
-     * @param stringToChar String to be converted
-     * @return the unicode equivalence character of Unihan
-     */
-    private char stringToChar(String stringToChar) {
-        return ;
-    }
-
-    
 }

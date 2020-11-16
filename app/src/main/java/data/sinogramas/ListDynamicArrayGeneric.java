@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are descripted in the interface this class implements.
  */
-package data;
+package data.sinogramas;
 /**
  * This class is a "fixed" version of the ListArray seen in the data structures class 
  * @author Cristian Davil Camilo Santos Gil
@@ -12,13 +12,13 @@ package data;
  * @since 15/09/2020
  */
 
-public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T> {
+public class ListDynamicArrayGeneric<T extends Comparable<T>> implements ListGeneric<T> {
     private int position;
     private int count;
     private T[] listArray;
     T reference;
 
-    public ListArrayGeneric(int size) {
+    public ListDynamicArrayGeneric(int size) {
         count=0;
         listArray = (T[]) new Comparable[size];
     }
