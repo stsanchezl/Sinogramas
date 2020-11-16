@@ -320,7 +320,7 @@ public class Archive {
      * @return the unicode equivalence character of Unihan
      */
     private char stringToChar(String stringToChar) {
-        return Character.toChars(Integer.parseInt(stringToChar,16))[0];
+        return ;
     }
 
     
