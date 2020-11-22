@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are descripted in the interface this class implements.
  */
-package data.sinogramas;
+package data;
 
 /**
  * This class pretends to be a mix between a stack and a list to build an unordered list
@@ -13,7 +13,7 @@ package data.sinogramas;
  * @since 08/10/2020
  */
 
-import logic.sinogramas.ArrayQuickSort;
+import logic.ArrayQuickSort;
 
 public class UnorderedListDynamicArrayGeneric<T extends Comparable<T>> implements ListGeneric<T> {
     private int top;
@@ -26,9 +26,9 @@ public class UnorderedListDynamicArrayGeneric<T extends Comparable<T>> implement
      * @param size: int that shows the top of the stack
      */
     
-    public UnorderedListDynamicArrayGeneric(int size) {
+    public UnorderedListDynamicArrayGeneric() {
         this.top = 0;
-        this.slarray = (T[]) new Comparable[size]; // newLine
+        this.slarray = (T[]) new Comparable[16];
         this.sorted = false;
     }
 
@@ -45,8 +45,12 @@ public class UnorderedListDynamicArrayGeneric<T extends Comparable<T>> implement
 
     @Override
     public boolean insert(T item) {
-        if (full()) {
-            throw new RuntimeException("List is full");
+        if (top == slarray.length) {
+            T[] newArray = (T[]) new Comparable[2 * slarray.length];
+            for (int i = 0; i < top; i++) {
+                newArray[i] = slarray[i];
+            }
+            this.slarray = newArray;        
         }
         slarray[top] = item;
         top++;
