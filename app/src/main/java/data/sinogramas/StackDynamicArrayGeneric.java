@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are descripted in the interface this class implements.
  */
-package data.sinogramas;
+package data;
 
 /**
  * This class is a "fixed" version of the StackArray seen in the data structures class 
@@ -14,16 +14,16 @@ package data.sinogramas;
  */
 
 public class StackDynamicArrayGeneric<T> implements StackGeneric<T> {
-	private int top;
+    private int top;
     private T[] stackArray;
 
     /**
      * Class constructor
      * @param top: int that shows the top of the stack
      */
-    public StackDynamicArrayGeneric(int size) {
+    public StackDynamicArrayGeneric() {
         this.top = 0;
-        this.stackArray = (T[]) new Object[size];
+        this.stackArray = (T[]) new Object[16];
     }
 
     @Override
@@ -47,8 +47,12 @@ public class StackDynamicArrayGeneric<T> implements StackGeneric<T> {
 
     @Override
     public void push(T item) {
-        if (full()) {
-            throw new RuntimeException("Stack is full");
+        if (this.top == stackArray.length) {
+            T[] newArray = (T[]) new Comparable[2 * stackArray.length];
+            for (int i = 0; i < this.top; i++) {
+                newArray[i] = stackArray[i];
+            }
+            this.stackArray = newArray;
         }
         stackArray[top] = item;
         top++;

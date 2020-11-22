@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are descripted in the interface this class implements.
  */
-package data.sinogramas;
+package data;
 /**
  * This class is a "fixed" version of the ListArray seen in the data structures class 
  * @author Cristian Davil Camilo Santos Gil
@@ -18,9 +18,9 @@ public class ListDynamicArrayGeneric<T extends Comparable<T>> implements ListGen
     private T[] listArray;
     T reference;
 
-    public ListDynamicArrayGeneric(int size) {
+    public ListDynamicArrayGeneric() {
         count=0;
-        listArray = (T[]) new Comparable[size];
+        listArray = (T[]) new Comparable[16];
     }
 
     @Override
@@ -36,17 +36,20 @@ public class ListDynamicArrayGeneric<T extends Comparable<T>> implements ListGen
     @Override
     public boolean insert(T item) {
         boolean inserted = false;
-        if (!full()) {
-            if (!search(item)) {
-                for (int j=count; j>position; j--) {
-                    listArray[j] = listArray[j-1];
-                }
-                listArray[position] = item;
-                count++;
-                inserted = true;
+        if (count == listArray.length) {
+            T[] newArray = (T[]) new Comparable[2 * listArray.length];
+            for (int i = 0; i < count; i++) {
+                newArray[i] = listArray[i];
             }
-        } else {
-            throw new RuntimeException("List is full");
+            this.listArray = newArray;
+        }   
+        if (!search(item)) {
+            for (int j=count; j>position; j--) {
+                listArray[j] = listArray[j-1];
+            }
+            listArray[position] = item;
+            count++;
+            inserted = true;
         }
         return inserted;
     }
