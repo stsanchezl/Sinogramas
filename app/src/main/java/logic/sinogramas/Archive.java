@@ -16,7 +16,6 @@ package logic.sinogramas;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import data.sinogramas.*;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,11 +31,14 @@ import java.time.Instant;
 public class Archive {
 
     private boolean needSort = false;
+    private boolean needHeapSort = false;
     private String dataStructure; //data structure to use.
     private String regex = "[U].[\\dA-F]{4,5}"; //Regular expression to find info in the given text
     private BufferedReader text;  //Representation of the text in memory
     private InputStream textToParse;
 
+    private BSTRefGeneric<Unihan> tempBST;
+    private HeapArray<Unihan> tempHeap;
     private ListGeneric<Unihan> tempList;
     private QueueGeneric<Unihan> tempQueue;
     private StackGeneric<Unihan> tempStack;
@@ -52,7 +54,6 @@ public class Archive {
     public Archive(String arrayOrReferences, String dataStructure, String ordered, InputStream textToParse) {
         this.dataStructure = dataStructure;
         this.textToParse = textToParse;
-
         switch (dataStructure) {
             case "l":
                 if (ordered.equals("u")) {
@@ -84,18 +85,28 @@ public class Archive {
                     this.tempStack = new StackRefGeneric<>();
                 }
                 break;
+            case "t":
+                this.tempBST = new BSTRefGeneric<>();
+                break;
+            case "h":
+                needHeapSort = true;
+                this.tempHeap = new HeapArray<>(1500000);
             default:
                 break;
         }
     }
-    public StackGeneric<Unihan> getTempStack() {
-        return this.tempStack;
+
+    public BSTRefGeneric<Unihan> tempBST() {
+        return this.tempBST;
     }
     public ListGeneric<Unihan> getTempList() {
         return this.tempList;
     }
     public QueueGeneric<Unihan> getTempQueue() {
         return this.tempQueue;
+    }
+    public StackGeneric<Unihan> getTempStack() {
+        return this.tempStack;
     }
     public String getRegex () {
         return this.regex;
@@ -104,6 +115,9 @@ public class Archive {
         this.regex = regex;
     }
 
+    /**
+     * This method loads a file into memory so it can be used
+     */
     public void openFile(){
         this.text = new BufferedReader(new InputStreamReader(this.textToParse));
     }
@@ -119,6 +133,10 @@ public class Archive {
         }
     }
 
+    /**
+     * This method reads a line: parse a complete line and skips over the next
+     * @return read line - null if it is the end of the file
+     */
     public String readLine() {
         String toReturn;
         try {
@@ -134,7 +152,6 @@ public class Archive {
      * Using regex, it finds the unicode characters and parse them so they can be added to the structures
      * And print the time it takes to store all characters it the structures so speed test can be performed
      * @return String with the time passed from the beginning to the end of the insertion
-     * @throws IOException
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String addAll() {
@@ -147,6 +164,9 @@ public class Archive {
                 String found = matcher.group();
                 Unihan elementToAdd = new Unihan(found.substring(2));
                 switch (this.dataStructure) {
+                    case "h":
+                        tempHeap.insertItem(elementToAdd);
+                        break;
                     case "l":
                         tempList.insert(elementToAdd);
                         break;
@@ -156,6 +176,9 @@ public class Archive {
                     case "s":
                         tempStack.push(elementToAdd);
                         break;
+                    case "t":
+                        tempBST.insertBST(elementToAdd);
+                        break;
                     default:
                         break;
                 }
@@ -163,6 +186,7 @@ public class Archive {
             currentLine = readLine();
         }
         if (needSort) tempList.sort();
+        if (needHeapSort) tempHeap.sort();
         Instant lastTime = Instant.now();
         String totalTime = Duration.between(firstTime, lastTime).toString();
         return "It took: "+ String.valueOf(totalTime);
@@ -178,6 +202,9 @@ public class Archive {
         Instant firstTime = Instant.now();
         Unihan elementToAdd = new Unihan(stringToAdd);
         switch(this.dataStructure) {
+            case "h":
+                this.tempHeap.insertItem(elementToAdd);
+                break;
             case "l":
                 this.tempList.insert(elementToAdd);
                 break;
@@ -187,6 +214,8 @@ public class Archive {
             case "s":
                 this.tempStack.push(elementToAdd);
                 break;
+            case "t":
+                this.tempBST.insert(elementToAdd);
             default:
                 break;
         }
@@ -203,6 +232,8 @@ public class Archive {
     public String removeAll() {
         Instant firstTime = Instant.now();
         switch(this.dataStructure) {
+            case "h":
+                throw new UnsupportedOperationException("Not implemented yet");
             case "l":
                 throw new UnsupportedOperationException("Not implemented yet");
             case "q":
@@ -215,6 +246,8 @@ public class Archive {
                     this.tempStack.pop();
                 }
                 break;
+            case "t":
+                throw new UnsupportedOperationException("Not implemented yet");
             default:
                 break;
         }
@@ -235,6 +268,9 @@ public class Archive {
         Instant firstTime = Instant.now();
         String message;
         switch (dataStructure) {
+            case "h":
+                throw new UnsupportedOperationException("Not implemented yet");
+                break;                
             case "l":
                 try {
                     removed = this.tempList.delete(toDelete);
@@ -257,6 +293,11 @@ public class Archive {
                 } catch (NullPointerException nullPointerException) {
                     return nullPointerException.getMessage();
                 }
+                break;
+            case "t":
+                throw new UnsupportedOperationException("Not implemented yet");
+                break;
+            default:
                 break;
         }
         Instant lastTime = Instant.now();
