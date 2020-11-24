@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background_perfil"
+    tools:context=".ui.slideshow.SlideshowFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="377dp"
+        android:layout_height="687dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.636">
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="121dp"
+            android:layout_height="35dp"
+            android:text="Ingresar"
+            android:textSize="12sp"
+            app:backgroundTint="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.728" />
+
+        <Button
+            android:id="@+id/button6"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="114dp"
+            android:layout_height="35dp"
+            android:text="Registrate"
+            android:textColor="@color/purple_700"
+            android:textColorHint="#332B2B"
+            android:textSize="12sp"
+            app:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.836"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.909"
+            app:rippleColor="@color/purple_500"
+            app:strokeColor="@color/purple_700" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName8"
+            android:layout_width="220dp"
+            android:layout_height="35dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Contraseña"
+            android:textColor="#575656"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.55" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName9"
+            android:layout_width="220dp"
+            android:layout_height="35dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Usuario"
+            android:textColor="#575656"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.434" />
+
+        <TextView
+            android:id="@+id/text_slideshow"
+            android:layout_width="56dp"
+            android:layout_height="18dp"
+            android:textAlignment="center"
+            android:textSize="8sp"
+            tools:layout_editor_absoluteX="7dp"
+            tools:layout_editor_absoluteY="662dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="145dp"
+            android:layout_height="33dp"
+            android:text="¿No tienes una cuenta?"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button6"
+            app:layout_constraintHorizontal_bias="0.546"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.92" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Iniciar Sesión"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.227" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

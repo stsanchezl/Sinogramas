@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="gui.sinogramas">
+    package="com.example.interfazdeusuariosinogramas">
 
     <application
         android:allowBackup="true"
@@ -8,10 +8,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Sinogramas">
-        <activity android:name=".TestMenu"></activity>
-        <activity android:name=".InitiateDataStructure" />
-        <activity android:name=".MainActivity">
+        android:theme="@style/Theme.InterfazDeUsuarioSinogramas">
+        <activity
+            android:name=".MenuPrincipalActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.InterfazDeUsuarioSinogramas.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
