@@ -215,7 +215,7 @@ public class Archive {
                 this.tempStack.push(elementToAdd);
                 break;
             case "t":
-                this.tempBST.insert(elementToAdd);
+                this.tempBST.insertBST(elementToAdd);
             default:
                 break;
         }
@@ -270,7 +270,6 @@ public class Archive {
         switch (dataStructure) {
             case "h":
                 throw new UnsupportedOperationException("Not implemented yet");
-                break;                
             case "l":
                 try {
                     removed = this.tempList.delete(toDelete);
@@ -295,8 +294,7 @@ public class Archive {
                 }
                 break;
             case "t":
-                throw new UnsupportedOperationException("Not implemented yet");
-                break;
+                throw new UnsupportedOperationException ("Not implemented yet");
             default:
                 break;
         }
