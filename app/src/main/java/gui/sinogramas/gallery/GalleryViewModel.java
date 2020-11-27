@@ -1,4 +1,4 @@
-package com.example.interfazdeusuariosinogramas.ui.gallery;
+package gui.sinogramas.gallery;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

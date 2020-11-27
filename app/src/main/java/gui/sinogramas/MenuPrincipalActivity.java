@@ -1,4 +1,4 @@
-package com.example.interfazdeusuariosinogramas;
+package gui.sinogramas;
 
 import android.os.Bundle;
 import android.view.View;
