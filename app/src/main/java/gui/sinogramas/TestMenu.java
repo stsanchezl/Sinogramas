@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.File;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -119,19 +119,19 @@ public class TestMenu extends AppCompatActivity {
         }
     }
     private String selectFile(String selector) {
-        String fileToReturnName = "unihan" + File.separator;
+        String fileToReturnName;
         switch (selector) {
             case "1":
-                fileToReturnName += "Unihan_Variants.txt";
+                fileToReturnName = "Unihan_Variants.txt";
                 break;
             case "2":
-                fileToReturnName += "Unihan_DictionaryLikeData.txt";
+                fileToReturnName = "Unihan_DictionaryLikeData.txt";
                 break;
             case "3":
-                fileToReturnName += "mergedFiles.txt";
+                fileToReturnName = "mergedFiles.txt";
                 break;
             default:
-                fileToReturnName += "Unihan_IRGSources.txt";
+                fileToReturnName = "Unihan_IRGSources.txt";
                 break;
         }
         return fileToReturnName;
