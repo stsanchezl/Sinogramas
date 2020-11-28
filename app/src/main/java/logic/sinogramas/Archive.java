@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -138,13 +139,16 @@ public class Archive {
      * @return read line - null if it is the end of the file
      */
     public String readLine() {
-        String toReturn;
+        String toReturn = "";
         try {
             toReturn = text.readLine();
         } catch (IOException e) {
             toReturn = "?";
+        } catch (NoSuchElementException noSuchElementException) {
+            toReturn = null;
+        } finally {
+            return toReturn;
         }
-        return toReturn;
     }
 
     /**
@@ -190,6 +194,45 @@ public class Archive {
         Instant lastTime = Instant.now();
         String totalTime = Duration.between(firstTime, lastTime).toString();
         return "It took: "+ String.valueOf(totalTime);
+    }
+
+    public Unihan parseChunck() {
+        String chrStr = readLine();
+        try {
+            String[] englishDefinitions = stringToArray(readLine());
+            String[] spanishDefinitions = stringToArray(readLine());
+            String[] pictureLinks = stringToArray(readLine());
+            String codePoint = readLine();
+            int numOfStrokes = Integer.parseInt(readLine());
+            String pinyin = readLine();
+            String radix = readLine();
+            String mp3file = readLine();
+            Unihan thisChar = new Unihan(numOfStrokes,codePoint,mp3file,pinyin,radix,englishDefinitions,pictureLinks,spanishDefinitions);
+            return thisChar;
+        } catch (NoSuchElementException noSuchElementException) {
+            Unihan emptyChar = new Unihan("U+0000");
+            return emptyChar;
+        } catch (NullPointerException nullPointerException) {
+            Unihan emptyChar = new Unihan("U+0000");
+            return emptyChar;
+        }
+    }
+
+    public void parseText() {
+        Unihan thisChar = parseChunck();
+        if (this.dataStructure.equals("l")) this.tempList.insert(thisChar);
+        else if (this.dataStructure.equals("q")) this.tempQueue.enqueue(thisChar);
+        else if (this.dataStructure.equals("s")) this.tempStack.push(thisChar);
+        else if (this.dataStructure.equals("h")) this.tempHeap.insertItem(thisChar);
+        else this.tempBST.insertBST(thisChar);
+
+        while (readLine()!= null) {
+            if (this.dataStructure.equals("l")) this.tempList.insert(parseChunck());
+            else if (this.dataStructure.equals("q")) this.tempQueue.enqueue(parseChunck());
+            else if (this.dataStructure.equals("s")) this.tempStack.push(parseChunck());
+            else if (this.dataStructure.equals("h")) this.tempHeap.insertItem(parseChunck());
+            else this.tempBST.insertBST(parseChunck());
+        }
     }
 
     /**
@@ -349,5 +392,14 @@ public class Archive {
                 break;
         }
         return toReturn;
+    }
+
+    private String[] stringToArray(String strToParse) {
+        strToParse = strToParse.substring(1,strToParse.length()-1);
+        String[] data = strToParse.split(", ");
+        for (int i=0; i<data.length; i++) {
+            data[i] = data[i].substring(1,data[i].length()-1);
+        }
+        return data;
     }
 }
