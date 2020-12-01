@@ -17,6 +17,7 @@ public class NodeGeneric<T> {
     private T data;
     private NodeGeneric<T> next; // right
     private NodeGeneric<T> prev; // left
+    private int height;
 
     /**
      * Constructor of a Node: stores a value in memory and sets the next node to null
@@ -25,6 +26,7 @@ public class NodeGeneric<T> {
     public NodeGeneric(T data) {
         this.data = data;
         next = null;
+        height = 0;
     }
 
     /**
@@ -61,6 +63,14 @@ public class NodeGeneric<T> {
     public void setPrev(NodeGeneric<T> prev) {
         this.prev = next;
     }
+    
+    public int getHeight() {
+        return this.height;
+    }
+    
+    public void setHeight(int h) {
+        this.height = h;
+    }
 
     /**
      * This method gives a visual representation of a node, if next attribute is not empty, the nodes looks like a list
@@ -78,6 +88,5 @@ public class NodeGeneric<T> {
         toPrint.append("]");
         return toPrint.toString();
     }
-
 
 }

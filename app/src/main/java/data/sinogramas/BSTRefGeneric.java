@@ -5,6 +5,8 @@
  */
 package data.sinogramas;
 
+import java.util.Comparator;
+
 /**
  *
  * @author dequi
@@ -30,6 +32,8 @@ public class BSTRefGeneric<T extends Comparable<T>> {
                     return p;
         return p;
     }
+    
+    
     public void removeBST(T data){
         root = remove(data, root);
     }
@@ -90,5 +94,27 @@ public class BSTRefGeneric<T extends Comparable<T>> {
             contains(p.getPrev(), data);
         return false;
     }
-
+    
+    QueueDynamicArrayGeneric queue = new QueueDynamicArrayGeneric<T>();
+    
+    public QueueDynamicArrayGeneric<T> inOrderToQueue(NodeGeneric<T> node) 
+    { 
+        if (node == null) 
+            return queue; 
+  
+        /* first recur on left child */
+        inOrderToQueue(node.getPrev()); 
+  
+        /* then enqueue the data of node */
+        queue.enqueue(node.getData()); 
+  
+        /* now recur on right child */
+        inOrderToQueue(node.getNext()); 
+        
+        return queue;
+    } 
+    
+    public NodeGeneric<T> getRoot() {
+        return this.root;
+    }
 }

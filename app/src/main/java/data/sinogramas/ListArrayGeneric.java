@@ -112,7 +112,7 @@ public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T>
         }
         return toPrint.toString();
     }
-
+    
     /**
      * This method allows comparison
      * @param item to be compared with the reference

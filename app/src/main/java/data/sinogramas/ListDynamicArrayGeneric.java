@@ -115,6 +115,14 @@ public class ListDynamicArrayGeneric<T extends Comparable<T>> implements ListGen
         }
         return toPrint.toString();
     }
+    
+    public T getLast() {
+        return listArray[count];
+    }
+    
+    public T getItem(int i) {
+        return listArray[i];
+    }
 
     /**
      * This method allows comparison

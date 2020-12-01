@@ -1,5 +1,7 @@
 package data.sinogramas;
 
+import java.util.Comparator;
+
 /**
  * This class represents a character from the Unihan database
  * @author Cristian Davil Camilo Santos Gil
