@@ -21,6 +21,7 @@ import data.sinogramas.ListDynamicArrayGeneric;
 import data.sinogramas.UnorderedListArrayGeneric;
 import gui.sinogramas.ListAdapter;
 import gui.sinogramas.ListElement;
+
 import gui.sinogramas.R;
 
 public class HomeFragment extends Fragment {
@@ -35,13 +36,13 @@ public class HomeFragment extends Fragment {
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
-
         listSinograms = new UnorderedListArrayGeneric<>(200);
         recyclerSinograms = root.findViewById(R.id.recycler_favorites);
         recyclerSinograms.setLayoutManager(new LinearLayoutManager(getContext()));
         fillList();
         ListAdapter adapter = new ListAdapter(listSinograms,getContext());
         recyclerSinograms.setAdapter(adapter);
+
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

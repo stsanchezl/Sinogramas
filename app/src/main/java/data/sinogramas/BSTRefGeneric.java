@@ -5,6 +5,7 @@
  */
 package data.sinogramas;
 
+
 /**
  *
  * @author dequi

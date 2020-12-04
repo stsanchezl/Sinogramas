@@ -30,7 +30,6 @@ import data.sinogramas.QueueGeneric;
 import data.sinogramas.StackGeneric;
 import data.sinogramas.Unihan;
 import data.sinogramas.UnorderedListDynamicArrayGeneric;
-
 import static java.lang.Float.parseFloat;
 
 public class Archive {

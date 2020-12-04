@@ -27,6 +27,7 @@ import data.sinogramas.ListDynamicArrayGeneric;
 import data.sinogramas.UnorderedListArrayGeneric;
 import gui.sinogramas.ListAdapter;
 import gui.sinogramas.ListElement;
+
 import gui.sinogramas.R;
 
 public class GalleryFragment extends Fragment {
@@ -55,7 +56,6 @@ public class GalleryFragment extends Fragment {
         });
         return root;
     }
-
     private void fillListCSV() {
 
         InputStream is = getResources().openRawResource(R.raw.sinograms_list);
@@ -78,6 +78,4 @@ public class GalleryFragment extends Fragment {
                 e.printStackTrace();
             }
     }
-
-
 }

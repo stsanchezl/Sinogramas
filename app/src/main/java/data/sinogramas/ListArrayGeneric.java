@@ -135,7 +135,7 @@ public class ListArrayGeneric<T extends Comparable<T>> implements ListGeneric<T>
     public T getItem(int i) {
         return listArray[i];
     }
-
+  
     public int length() {
         return this.count;
     }
