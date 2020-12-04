@@ -13,23 +13,24 @@ package logic.sinogramas;
  * @since 16/10/2020
  */
 
-import android.os.Build;
-import androidx.annotation.RequiresApi;
-import data.sinogramas.*;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import static java.lang.Float.parseFloat;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
+
+import data.sinogramas.AVLTreeGeneric;
+import data.sinogramas.BSTRefGeneric;
+import data.sinogramas.HeapArray;
+import data.sinogramas.ListDynamicArrayGeneric;
+import data.sinogramas.ListGeneric;
+import data.sinogramas.NodeGeneric;
+import data.sinogramas.QueueDynamicArrayGeneric;
+import data.sinogramas.QueueGeneric;
+import data.sinogramas.StackGeneric;
+import data.sinogramas.Unihan;
+import data.sinogramas.UnorderedListDynamicArrayGeneric;
+import static java.lang.Float.parseFloat;
 
 public class Archive {
 
@@ -47,7 +48,7 @@ public class Archive {
     private ListDynamicArrayGeneric<Integer> favRadixesList;
     private ListGeneric<Unihan> tempListU;
     private QueueGeneric<Unihan> tempQueue;
-    private StackGeneric<Unihan> tempStack;  
+    private StackGeneric<Unihan> tempStack;
     private AVLTreeGeneric<Unihan> tempAVL;
     private BSTRefGeneric<Unihan>[] bstStrokesArray;
     private BSTRefGeneric<Unihan>[] favBSTStrokesArray;

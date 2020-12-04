@@ -18,18 +18,32 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.636">
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="300dp"
-            android:layout_height="130dp"
-            android:text="Sinograma: 火 Significado: Fuego Nombre: huǒ bù total de trazos: 4 radical: 86"
-            android:textSize="12sp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_favorites"
+            android:layout_width="358dp"
+            android:layout_height="447dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.47" />
+            app:layout_constraintVertical_bias="0.975" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName7"
+            android:layout_width="363dp"
+            android:layout_height="35dp"
+            android:drawableRight="@android:drawable/ic_menu_search"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Expresión"
+            android:textColor="#575656"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.093" />
 
         <Button
             android:id="@+id/button5"
@@ -43,7 +57,23 @@
             app:layout_constraintHorizontal_bias="0.027"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.276" />
+            app:layout_constraintVertical_bias="0.26" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName9"
+            android:layout_width="178dp"
+            android:layout_height="35dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Numero de trazos"
+            android:textColor="#575656"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.035"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.174" />
 
         <Button
             android:id="@+id/button6"
@@ -60,26 +90,9 @@
             app:layout_constraintHorizontal_bias="0.653"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.276"
+            app:layout_constraintVertical_bias="0.26"
             app:rippleColor="@color/purple_500"
             app:strokeColor="@color/purple_700" />
-
-        <EditText
-            android:id="@+id/editTextTextPersonName7"
-            android:layout_width="363dp"
-            android:layout_height="35dp"
-            android:drawableRight="@android:drawable/ic_menu_search"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Expresión"
-            android:textColor="#575656"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.481"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.109" />
 
         <EditText
             android:id="@+id/editTextTextPersonName8"
@@ -95,31 +108,16 @@
             app:layout_constraintHorizontal_bias="0.964"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.19" />
-
-        <EditText
-            android:id="@+id/editTextTextPersonName9"
-            android:layout_width="178dp"
-            android:layout_height="35dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Numero de trazos"
-            android:textColor="#575656"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.035"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.19" />
+            app:layout_constraintVertical_bias="0.174" />
 
         <TextView
             android:id="@+id/text_gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
+            android:textColor="@color/white"
             android:textSize="8sp"
-            tools:layout_editor_absoluteX="45dp"
-            tools:layout_editor_absoluteY="602dp" />
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

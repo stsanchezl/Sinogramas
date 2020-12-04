@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/background_sinogramas"
+    android:background="@mipmap/background_sinogramas2"
     tools:context=".ui.home.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,43 +13,10 @@
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintHorizontal_bias="0.417"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.636">
-
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="121dp"
-            android:layout_height="35dp"
-            android:text="Buscar"
-            android:textSize="12sp"
-            app:backgroundTint="#BA9B4D"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.027"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.276" />
-
-        <Button
-            android:id="@+id/button6"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="181dp"
-            android:layout_height="35dp"
-            android:text="Agregar a favoritos"
-            android:textColor="#BA9B4D"
-            android:textColorHint="#332B2B"
-            android:textSize="12sp"
-            app:backgroundTint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.653"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.276"
-            app:rippleColor="@color/purple_500"
-            app:strokeColor="@color/purple_700" />
+        app:layout_constraintVertical_bias="0.637">
 
         <EditText
             android:id="@+id/editTextTextPersonName7"
@@ -63,26 +30,43 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.481"
+            app:layout_constraintHorizontal_bias="0.714"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.109" />
+            app:layout_constraintVertical_bias="0.095" />
 
-        <EditText
-            android:id="@+id/editTextTextPersonName8"
-            android:layout_width="178dp"
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="121dp"
             android:layout_height="35dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Radical"
-            android:textColor="#575656"
-            android:textSize="14sp"
+            android:text="Buscar"
+            android:textSize="12sp"
+            app:backgroundTint="#BA9B4D"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.964"
+            app:layout_constraintHorizontal_bias="0.039"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.19" />
+            app:layout_constraintVertical_bias="0.262" />
+
+        <Button
+            android:id="@+id/button6"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="181dp"
+            android:layout_height="35dp"
+            android:text="Agregar a favoritos"
+            android:textColor="#BA9B4D"
+            android:textColorHint="#332B2B"
+            android:textSize="12sp"
+            app:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.668"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.262"
+            app:rippleColor="@color/purple_500"
+            app:strokeColor="@color/purple_700" />
 
         <EditText
             android:id="@+id/editTextTextPersonName9"
@@ -95,55 +79,48 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.035"
+            app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.19" />
+            app:layout_constraintVertical_bias="0.176" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName8"
+            android:layout_width="178dp"
+            android:layout_height="35dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Radical"
+            android:textColor="#575656"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.979"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.176" />
 
         <TextView
             android:id="@+id/text_gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
+            android:textColor="@color/white"
             android:textSize="8sp"
-            tools:layout_editor_absoluteX="45dp"
-            tools:layout_editor_absoluteY="602dp" />
+            tools:layout_editor_absoluteX="10dp"
+            tools:layout_editor_absoluteY="16dp" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="300dp"
-            android:layout_height="130dp"
-            android:text="Sinograma: 火 Significado: Fuego Nombre: huǒ bù total de trazos: 4 radical: 86"
-            android:textSize="12sp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_favorites"
+            android:layout_width="358dp"
+            android:layout_height="447dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.47" />
+            app:layout_constraintVertical_bias="0.933" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="300dp"
-            android:layout_height="130dp"
-            android:text="Sinograma: 父 Significado: padre Nombre: fù　bù total de trazos: 4 radical: 88"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/button3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="300dp"
-            android:layout_height="130dp"
-            android:layout_marginBottom="16dp"
-            android:text="Sinograma: 爿 Significado: medio tronco Nombre: qián　bù total de trazos: 4 radical: 90"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.493"
-            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

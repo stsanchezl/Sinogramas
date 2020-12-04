@@ -139,6 +139,10 @@ public class UnorderedListArrayGeneric<T extends Comparable<T>> implements ListG
         this.sorted = true;
         return true;
     }
+
+    public T getItem(int i) {
+        return slarray[i];
+    }
     
     public int getTop() {
         return top;

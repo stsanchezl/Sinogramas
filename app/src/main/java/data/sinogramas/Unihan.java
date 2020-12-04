@@ -1,7 +1,6 @@
 package data.sinogramas;
 
 import java.util.Comparator;
-
 /**
  * This class represents a character from the Unihan database
  * @author Cristian Davil Camilo Santos Gil
@@ -51,6 +50,7 @@ public class Unihan implements Comparable<Unihan>{
             this.characterInString = String.valueOf(codePoint);
         }
     }
+    
     public Unihan (String codePoint) {
         this(-1,codePoint,null,null,null,null,null,null);
     }

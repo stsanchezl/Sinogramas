@@ -1,0 +1,77 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_sinogram"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    app:cardCornerRadius="28dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="389dp"
+        android:layout_height="98dp"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <TextView
+                android:id="@+id/sinogramText"
+                android:layout_width="75dp"
+                android:layout_height="76dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:background="@color/white"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:text="s"
+                android:textSize="50dp" />
+
+            <LinearLayout
+                android:id="@+id/linealLayout"
+                android:layout_width="258dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_toEndOf="@+id/sinogramText"
+                android:layout_toRightOf="@id/sinogramText"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/radicalText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Radical: " />
+
+                <TextView
+                    android:id="@+id/meaningText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Significado:" />
+
+                <TextView
+                    android:id="@+id/pronunciationText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pronunciacion:" />
+
+                <TextView
+                    android:id="@+id/strokesText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Trazos:" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

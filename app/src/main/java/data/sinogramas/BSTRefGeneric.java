@@ -5,7 +5,6 @@
  */
 package data.sinogramas;
 
-import java.util.Comparator;
 
 /**
  *
@@ -97,7 +96,7 @@ public class BSTRefGeneric<T extends Comparable<T>> {
     
     QueueDynamicArrayGeneric queue = new QueueDynamicArrayGeneric<T>();
     
-    public QueueDynamicArrayGeneric<T> inOrderToQueue(NodeGeneric<T> node) 
+    public QueueDynamicArrayGeneric<T> inOrderToQueue(NodeGeneric<T> node)
     { 
         if (node == null) 
             return queue; 
