@@ -29,7 +29,7 @@ public class main {
         // NO LEER 163 NI 164 PUES GENERAN PROBLEMAS
         for (int i = 81; i < 163; i++) {
             System.out.println("PAGE " + i);
-            in = new BufferedReader(new FileReader("C:\\users\\dequi\\Desktop\\sinocharsBD\\charsFiles\\chars_"+i+".txt"));
+            in = new BufferedReader(new FileReader("C:\\users\\Stiven\\Documents\\sinocharsBD\\charsFiles\\chars_"+i+".txt"));
             arc.text = in;
             // Inserta todo en el AVL principal (tempAVL)
             // Hace la clasificación por strokes y radixes en los BST almacenados en arreglos
