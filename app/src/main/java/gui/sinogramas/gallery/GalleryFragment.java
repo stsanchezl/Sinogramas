@@ -20,15 +20,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 
-import data.sinogramas.ListArrayGeneric;
-import data.sinogramas.ListDynamicArrayGeneric;
 import data.sinogramas.UnorderedListArrayGeneric;
 import gui.sinogramas.ListAdapter;
 import gui.sinogramas.ListElement;
 
-import gui.sinogramas.R;
+import gui.sinogramas.*;
+import gui.sinogramas.R.id.*;
 
 public class GalleryFragment extends Fragment {
 
@@ -36,10 +34,8 @@ public class GalleryFragment extends Fragment {
     private RecyclerView recyclerFavorites;
     UnorderedListArrayGeneric<ListElement> listFavorites;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        galleryViewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
         listFavorites = new UnorderedListArrayGeneric<>(200);
