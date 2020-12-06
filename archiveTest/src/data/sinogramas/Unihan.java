@@ -18,6 +18,9 @@ public class Unihan implements Comparable<Unihan>{
     private char character;
     private char highSurrogative;
     private char lowSurrogative;
+
+    private double score; // Campo agregado para ordenar resultados en el MaxHeap al hacer searchPattern
+
     private int numOfStrokes;
     private String characterInString;
     private String codePoint;
@@ -28,9 +31,6 @@ public class Unihan implements Comparable<Unihan>{
     private String[] pictureLinks;
     private String[] spanishDefinitions;
     
-    // Campo agregado para ordenar resultados en el MaxHeap al hacer searchPattern
-    private double score;
-
     // Constructor agregado para el MaxHeap específicamente
     // Permite crear un Unihan de mentiras con score = MAX_VALUE
     public Unihan(double s) {
@@ -99,7 +99,6 @@ public class Unihan implements Comparable<Unihan>{
         this.lowSurrogative = lowSurrogative;
     }
     public void setLowSurrogative(String codePoint) {
-        this.lowSurrogative = lowSurrogative;
         String diff = Unihan.hexSub(codePoint,"10000");
         String mod = Unihan.hexDiv(diff,"400");
         String sum = Unihan.hexSum(mod,"DC00");
@@ -159,11 +158,9 @@ public class Unihan implements Comparable<Unihan>{
     public void setSpanishDefinitions(String[] spanishDefinitions) {
         this.spanishDefinitions = spanishDefinitions;
     }
-    
     public void setScore(double s) {
         this.score = s;
     }
-    
     public double getScore() {
         return this.score;
     }

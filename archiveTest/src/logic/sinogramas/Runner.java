@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logic.sinogramas;
 
 import data.sinogramas.MaxHeap;
@@ -12,19 +7,15 @@ import java.io.FileReader;
 import java.io.File;
 
 /**
- *
  * @author dequi
  */
 public class Runner {
-
-  
     public static void main(String[] args){
         
         try {
             Archive arc = new Archive();
             BufferedReader in;
             for (int i = 81; i < 163; i++) { // NO LEER 163 NI 164 PUES GENERAN PROBLEMAS
-                System.out.println("PAGE " + i);
                 String path = "src"+File.separator+"assets"+File.separator+"charsFiles"+File.separator+"chars_"+i+".txt";
                 in = new BufferedReader(new FileReader(path));
                 arc.text = in;
@@ -32,8 +23,6 @@ public class Runner {
                 // Hace la clasificación por strokes y radixes en los BST almacenados en arreglos
                 arc.parseText();
             }
-            // Método print que hice para verificar si el AVL si quedó bien
-            arc.print();
             // SearchPattern retorna un MaxHeap con los Unihan que coinciden
             // El ordenamiento del MaxHeap es según un atributo score que agreugé a Unihan
             // El score se calcula como (double) pattern.length / definition.length
