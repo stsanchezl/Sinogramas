@@ -9,67 +9,44 @@ package logic.sinogramas;
  * @author Diego Esteban Quintero Rey
  * @author Kevin Jair Gonzalez Sanchez
  * @author Stiven Leonardo Sánchez León 
- * @version 5.0
+ * @version 6.0
  * @since 16/10/2020
  */
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-
-import data.sinogramas.AVLTreeGeneric;
-import data.sinogramas.BSTRefGeneric;
-import data.sinogramas.HeapArray;
-import data.sinogramas.ListDynamicArrayGeneric;
-import data.sinogramas.ListGeneric;
-import data.sinogramas.NodeGeneric;
-import data.sinogramas.QueueDynamicArrayGeneric;
-import data.sinogramas.QueueGeneric;
-import data.sinogramas.StackGeneric;
-import data.sinogramas.Unihan;
-import data.sinogramas.UnorderedListDynamicArrayGeneric;
+import data.sinogramas.*;
 import static java.lang.Float.parseFloat;
 
 public class Archive {
 
-    // private boolean needSort = false;
-    // private boolean needHeapSort = false;
-    // private String dataStructure; //data structure to use.
-    // private String regex = "[U].[\\dA-F]{4,5}"; //Regular expression to find info in the given text
-    private BufferedReader text;  //Representation of the text in memory
-    // private InputStream textToParse;
+    private BufferedReader text;
+    private int intRadix;
+    private Integer[] treesByStrokes;
+    private Integer[] favStrokesList;
+    private InputStream textToParse;
 
+    private ArrayList<BSTRefGeneric<Unihan>> bstRadixesArray;
+    private ArrayList<BSTRefGeneric<Unihan>> favBSTRadixesArray;
+    private AVLTreeGeneric<Unihan> favAVL;
+    private AVLTreeGeneric<Unihan> tempAVL;
+    private BSTRefGeneric<Unihan>[] bstStrokesArray;
+    private BSTRefGeneric<Unihan>[] favBSTStrokesArray;
+    private BSTRefGeneric<Unihan> tempBST;
     private HeapArray<Unihan> tempHeap;
-    private int[] strokesList;
-    private int[] favStrokesList;
     private ListDynamicArrayGeneric<Integer> radixesList;
     private ListDynamicArrayGeneric<Integer> favRadixesList;
     private ListGeneric<Unihan> tempListU;
     private QueueGeneric<Unihan> tempQueue;
     private StackGeneric<Unihan> tempStack;
-    private AVLTreeGeneric<Unihan> tempAVL;
-    private BSTRefGeneric<Unihan>[] bstStrokesArray;
-    private BSTRefGeneric<Unihan>[] favBSTStrokesArray;
-    private ArrayList<BSTRefGeneric<Unihan>> bstRadixesArray;
-    private ArrayList<BSTRefGeneric<Unihan>> favBSTRadixesArray;
-    private BSTRefGeneric<Unihan> tempBST;
-    private AVLTreeGeneric<Unihan> favAVL;
 
-    /**
-     * Class constructor, it initializes a specific linear data structure so they can hold the
-     * Han characters, it does not matter the implementation of the data structure
-     * @param arrayOrReferences: Implementation of the array
-     * @param dataStructure: Data structure to be used.
-     * @param ordered: whether the structure is ordered or not
-     * @param textToParse: InputStream with the file so it can be put onto a BufferReader
-     */
-    
     public Archive() {
-        this.strokesList = new int[59]; // 58 is the maximum number of strokes according to Wikipedia
-        // we use 59 to leave the first position i=0 free and not use it
-        this.favStrokesList = new int[59];
+        this.treesByStrokes = new Integer[59]; // 58 is the maximum number of strokes according to Wikipedia, position 0 not used
+        this.favStrokesList = new Integer[59]; // Position 0 not used
         this.radixesList = new ListDynamicArrayGeneric<>();
         this.favRadixesList = new ListDynamicArrayGeneric<>();
         this.bstRadixesArray = new ArrayList<>();
@@ -80,96 +57,16 @@ public class Archive {
         this.tempAVL = new AVLTreeGeneric<>();
         this.favAVL = new AVLTreeGeneric<>();
     }
-    
-    
-    
-    public Archive(String arrayOrReferences, String dataStructure, String ordered, InputStream textToParse) {
-        
-        /*
-        this.dataStructure = dataStructure;
-        this.textToParse = textToParse;
-        switch (dataStructure) {
-            case "l":
-                if (ordered.equals("u")) {
-                    needSort = true;
-                    if (arrayOrReferences.equals("a")) {
-                        this.tempList = new UnorderedListArrayGeneric<>(1500000);
-                    } else {
-                        this.tempList = new UnorderedListRefGeneric<>();
-                    }
-                } else {
-                    if (arrayOrReferences.equals("a")) {
-                        this.tempList = new ListArrayGeneric<>(1500000);
-                    } else {
-                        this.tempList = new LinkedListGeneric<>();
-                    }
-                }
-                break;
-            case "q":
-                if (arrayOrReferences.equals("a")) {
-                    this.tempQueue = new QueueArrayGeneric<>(1500000);
-                } else {
-                    this.tempQueue = new QueueRefGeneric<>();
-                }
-                break;
-            case "s":
-                if (arrayOrReferences.equals("a")) {
-                    this.tempStack = new StackArrayGeneric<>(1500000);
-                } else {
-                    this.tempStack = new StackRefGeneric<>();
-                }
-                break;
-            case "t":
-                this.tempBST = new BSTRefGeneric<>();
-                break;
-            case "h":
-                needHeapSort = true;
-                this.tempHeap = new HeapArray<>(1500000);        
-            case "a":
-                this.tempAVL = new AVLTreeGeneric<>();
-            default:
-                break;
-        }
-        */
-    }
-
-    
-    /*
-    public BSTRefGeneric<Unihan> tempBST() {
-        return this.tempBST;
-    }
-    public ListGeneric<Unihan> getTempList() {
-        return this.tempList;
-    }
-    public QueueGeneric<Unihan> getTempQueue() {
-        return this.tempQueue;
-    }
-    public StackGeneric<Unihan> getTempStack() {
-        return this.tempStack;
-    }
-    public String getRegex () {
-        return this.regex;
-    }
-    public void setRegex(String regex) {
-        this.regex = regex;
-    }
-    */
 
     /**
      * This method loads a file into memory so it can be used
      */
-    
-    /*
     public void openFile(){
         this.text = new BufferedReader(new InputStreamReader(this.textToParse));
     }
-    */
-
     /**
      * This method de-loads a file off memory
      */
-    
-    /*
     public void closeFile() {
         try {
             this.text.close();
@@ -177,8 +74,6 @@ public class Archive {
             e.printStackTrace();
         }
     }
-    */
-
     /**
      * This method reads a line: parse a complete line and skips over the next
      * @return read line - null if it is the end of the file
@@ -195,56 +90,13 @@ public class Archive {
             return toReturn;
         }
     }
-    
+
 
     /**
-     * This method takes the text loaded in memory, looks every line of it
-     * Using regex, it finds the unicode characters and parse them so they can be added to the structures
-     * And print the time it takes to store all characters it the structures so speed test can be performed
-     * @return String with the time passed from the beginning to the end of the insertion
+     * This method reads 9 lines from the file selected and creates a Unihan character.
+     * @return the created Unihan character.
      */
-    /*
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String addAll() {
-        Instant firstTime = Instant.now();
-        Pattern pattern = Pattern.compile(this.regex);
-        String currentLine = readLine();
-        while (currentLine!=null) {
-            Matcher matcher = pattern.matcher(currentLine);
-            if (matcher.find()) {
-                String found = matcher.group();
-                Unihan elementToAdd = new Unihan(found.substring(2));
-                switch (this.dataStructure) {
-                    case "h":
-                        tempHeap.insertItem(elementToAdd);
-                        break;
-                    case "l":
-                        tempList.insert(elementToAdd);
-                        break;
-                    case "q":
-                        tempQueue.enqueue(elementToAdd);
-                        break;
-                    case "s":
-                        tempStack.push(elementToAdd);
-                        break;
-                    case "t":
-                        tempBST.insertBST(elementToAdd);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            currentLine = readLine();
-        }
-        if (needSort) tempList.sort();
-        if (needHeapSort) tempHeap.sort();
-        Instant lastTime = Instant.now();
-        String totalTime = Duration.between(firstTime, lastTime).toString();
-        return "It took: "+ String.valueOf(totalTime);
-    }
-    */
-
-    public Unihan parseChunck() {
+    private Unihan parseChunck() {
         String chrStr = readLine();
         try {
             String[] englishDefinitions = stringToArray(readLine());
@@ -268,7 +120,6 @@ public class Archive {
     
     /*
     La presente clase se modificó de la siguiente manera:
-    Se puso en comentario lo que se considera que no se va a usar
     Se declararon otras variables como por ejemplo:
     strokesList y radixesList
     strokeList es un arreglo estático de tamaño 59 que lleva registro de cuáles árboles ya
@@ -293,18 +144,14 @@ public class Archive {
     Las tres búsquedas soportadas entonces serían por character directamente que usa el AVL,
     y los filter by Strokes y by Radixes.
     */
-    
-    int intRadix;
-    
+
     public void parseText() {
-        
         Unihan thisChar = parseChunck();
-        
-        this.strokesList[thisChar.getNumOfStrokes()] = thisChar.getNumOfStrokes();
+        this.treesByStrokes[thisChar.getNumOfStrokes()] = thisChar.getNumOfStrokes();
         // the line below checks whether the position is null. In case it is null we
         // then procede to create the bst and store it in that position.
         // I am not completely sure if it works properly, though
-        if (strokesList[thisChar.getNumOfStrokes()] != thisChar.getNumOfStrokes()) {
+        if (treesByStrokes[thisChar.getNumOfStrokes()] != thisChar.getNumOfStrokes()) {
             BSTRefGeneric<Unihan> tempBST = new BSTRefGeneric<>();
             bstStrokesArray[thisChar.getNumOfStrokes()] = tempBST;
         } else {
@@ -322,9 +169,10 @@ public class Archive {
             bstRadixesArray.get(intRadix - 1).insertBST(thisChar);
         } 
         tempAVL.setRoot(this.tempAVL.insert(tempAVL.getRoot(), thisChar));
+
         while (readLine()!= null) {
-            this.strokesList[parseChunck().getNumOfStrokes()] = parseChunck().getNumOfStrokes();
-            if (strokesList[parseChunck().getNumOfStrokes()] != parseChunck().getNumOfStrokes()) {
+            this.treesByStrokes[parseChunck().getNumOfStrokes()] = parseChunck().getNumOfStrokes();
+            if (treesByStrokes[parseChunck().getNumOfStrokes()] != parseChunck().getNumOfStrokes()) {
                 tempBST = new BSTRefGeneric<>();
                 bstStrokesArray[parseChunck().getNumOfStrokes()] = tempBST;
             } else {
@@ -388,181 +236,13 @@ public class Archive {
             favBSTRadixesArray.get(intRadix - 1).insertBST(n.getData());
         } 
     }
-    
-    /**
-     * This method adds a character to a specific data structure
-     * @param stringToAdd: String with the 4 or 5 symbols to be parsed to char
-     * @return String with the time passed during he addition
-     */
-    
-    /*
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String addElement(String stringToAdd) {
-        Instant firstTime = Instant.now();
-        Unihan elementToAdd = new Unihan(stringToAdd);
-        switch(this.dataStructure) {
-            case "h":
-                this.tempHeap.insertItem(elementToAdd);
-                break;
-            case "l":
-                this.tempList.insert(elementToAdd);
-                break;
-            case "q":
-                this.tempQueue.enqueue(elementToAdd);
-                break;
-            case "s":
-                this.tempStack.push(elementToAdd);
-                break;
-            case "t":
-                this.tempBST.insertBST(elementToAdd);
-            default:
-                break;
-        }
-        Instant lastTime = Instant.now();
-        String totalTime = Duration.between(firstTime, lastTime).toString();
-        return "It took "+totalTime+" to add "+String.valueOf(elementToAdd);
-    }
-    */
 
     /**
-     * This method removes all the elements from a specific data structure and displays in console
-     * the time it took to do it.
+     * This method parse a String line and converts it into an array
+     * The tokens are separated by commas
+     * @param strToParse Stirng to be parsed
+     * @return String[] array with the tokens
      */
-    
-    /*
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String removeAll() {
-        Instant firstTime = Instant.now();
-        switch(this.dataStructure) {
-            case "h":
-                throw new UnsupportedOperationException("Not implemented yet");
-            case "l":
-                throw new UnsupportedOperationException("Not implemented yet");
-            case "q":
-                while (!tempQueue.empty()) {
-                    this.tempQueue.dequeue();
-                }
-                break;
-            case "s":
-                while (!tempStack.empty()) {
-                    this.tempStack.pop();
-                }
-                break;
-            case "t":
-                throw new UnsupportedOperationException("Not implemented yet");
-            default:
-                break;
-        }
-        Instant lastTime = Instant.now();
-        String totalTime = Duration.between(firstTime, lastTime).toString();
-        return "It took: "+ String.valueOf(totalTime);
-    }
-    */
-
-    /**
-     * This method removes a character from a specific data structure
-     * When used with lists, a character is needed to be passed
-     * @param stringToDelete String with four or five hexadecimal symbols of the han character.
-     */
-    
-    /*
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String removeElement(String stringToDelete) {
-        boolean removed = false;
-        Unihan toDelete = new Unihan(stringToDelete);
-        Instant firstTime = Instant.now();
-        String message;
-        switch (dataStructure) {
-            case "h":
-                throw new UnsupportedOperationException("Not implemented yet");
-            case "l":
-                try {
-                    removed = this.tempList.delete(toDelete);
-                } catch (NullPointerException nullPointerException) {
-                    return nullPointerException.getMessage();
-                }
-                break;
-            case "q":
-                try {
-                    toDelete = this.tempQueue.dequeue();
-                    removed = true;
-                } catch (NullPointerException nullPointerException) {
-                    return nullPointerException.getMessage();
-                }
-                break;
-            case "s":
-                try {
-                    toDelete = this.tempStack.pop();
-                    removed = true;
-                } catch (NullPointerException nullPointerException) {
-                    return nullPointerException.getMessage();
-                }
-                break;
-            case "t":
-                throw new UnsupportedOperationException ("Not implemented yet");
-            default:
-                break;
-        }
-        Instant lastTime = Instant.now();
-        String totalTime = Duration.between(firstTime, lastTime).toString();
-        if (removed) {
-            return "It took "+totalTime+ " seconds to delete "+String.valueOf(toDelete);
-        } else {
-            return String.valueOf(toDelete)+" was not removed.";
-        }
-    }
-    */
-
-    /**
-     * This method shows the length of the data struture.
-     */
-    
-    /*
-    public String getDataStructureLength() {
-        int size;
-        switch(this.dataStructure) {
-            case "l":
-                size = tempList.length();
-                break;
-            case "q":
-                size = tempQueue.length();
-                break;
-            case "s":
-                size = tempStack.length();
-                break;
-            default:
-                size = -1;
-                break;
-        }
-        return String.valueOf(size);
-    }
-    */
-
-    /**
-     * This method prints the characters of the data structures
-     */
-    
-    /*
-    public String print() {
-        String toReturn;
-        switch(this.dataStructure) {
-            case "l":
-                toReturn = tempList.toString();
-                break;
-            case "q":
-                toReturn = tempQueue.toString();
-                break;
-            case "s":
-                toReturn = tempStack.toString();
-                break;
-            default:
-                toReturn = "";
-                break;
-        }
-        return toReturn;
-    }
-    */
-
     private String[] stringToArray(String strToParse) {
         strToParse = strToParse.substring(1,strToParse.length()-1);
         String[] data = strToParse.split(", ");
