@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background_favoritos"
-    tools:context=".ui.gallery.GalleryFragment">
+    tools:context="gui.sinogramas.gallery.GalleryFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="377dp"
@@ -110,14 +110,5 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.174" />
 
-        <TextView
-            android:id="@+id/text_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@color/white"
-            android:textSize="8sp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="16dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
