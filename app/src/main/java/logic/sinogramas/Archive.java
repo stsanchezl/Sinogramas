@@ -183,7 +183,6 @@ public class Archive {
      * This method reads a line: parse a complete line and skips over the next
      * @return read line - null if it is the end of the file
      */
-   
     public String readLine() {
         String toReturn = "";
         try {
@@ -204,7 +203,6 @@ public class Archive {
      * And print the time it takes to store all characters it the structures so speed test can be performed
      * @return String with the time passed from the beginning to the end of the insertion
      */
-    
     /*
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String addAll() {
