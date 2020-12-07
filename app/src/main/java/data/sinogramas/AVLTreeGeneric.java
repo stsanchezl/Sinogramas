@@ -66,7 +66,7 @@ public class AVLTreeGeneric<T extends Comparable<T>> {
         // Return new root 
         return y; 
     } 
-  
+ 
     // Get Balance factor of node N 
     int getBalance(NodeGeneric<T> N) { 
         if (N == null) 
@@ -78,9 +78,9 @@ public class AVLTreeGeneric<T extends Comparable<T>> {
     public NodeGeneric<T> insert(NodeGeneric<T> node, T key) { 
   
         /* 1.  Perform the normal BST insertion */
-        if (node == null) 
+        if (node == null)  {
             return (new NodeGeneric<T>(key)); 
-  
+        }
         if (node.getData().compareTo(key) > 0) 
             node.setPrev(insert(node.getPrev(), key)); 
         else if (node.getData().compareTo(key) < 0) 
@@ -121,18 +121,168 @@ public class AVLTreeGeneric<T extends Comparable<T>> {
         return node; 
     }
     
+    public int size(NodeGeneric<Unihan> node) 
+    { 
+        if (node == null) 
+            return 0; 
+        else
+            return(size(node.getPrev()) + 1 + size(node.getNext())); 
+    } 
+    
+    
     public NodeGeneric<Unihan> find(NodeGeneric<Unihan> R, char c) {
-        if (R.getData().getCharacter() == c) {
-            return R;
-        } else if (R.getData().getCharacter() > c) {
-            if (R.getPrev() != null)
-                return find(R.getPrev(), c);
-            return R;
-        } else if (R.getData().getCharacter() < c) {
-            if (R.getNext() != null)
-                return find(R.getNext(), c);
-            return R;
-        }
-        return R;
+        // Base Cases: root is null or key is present at root 
+        if (R==null || R.getData().getCharacter() == c) 
+            return R; 
+  
+        // Key is greater than root's key 
+        if (R.getData().getCharacter() < c) 
+            return find(R.getNext(), c); 
+  
+        // Key is smaller than root's key 
+        return find(R.getPrev(), c); 
     }
+    
+    NodeGeneric<T> minValueNode(NodeGeneric<T> node)  
+    {  
+        NodeGeneric<T> current = node;  
+  
+        /* loop down to find the leftmost leaf */
+        while (current.getPrev() != null)  
+        current = current.getPrev();  
+  
+        return current;  
+    }  
+  
+    public NodeGeneric<T> deleteNode(NodeGeneric<T> root, T key)  
+    {  
+        
+        NodeGeneric<T> n = new NodeGeneric<>(key);
+        // STEP 1: PERFORM STANDARD BST DELETE  
+        if (root == null)  
+            return root;  
+  
+        // If the key to be deleted is smaller than  
+        // the root's key, then it lies in left subtree  
+        if (root.getData().compareTo(n.getData()) > 0)  
+            root.setPrev(deleteNode(root.getPrev(), key));  
+  
+        // If the key to be deleted is greater than the  
+        // root's key, then it lies in right subtree  
+        else if (root.getData().compareTo(n.getData()) < 0)  
+            root.setNext(deleteNode(root.getNext(), key));   
+  
+        // if key is same as root's key, then this is the node  
+        // to be deleted  
+        else
+        {  
+  
+            // node with only one child or no child  
+            if ((root.getPrev() == null) || (root.getNext() == null))  
+            {  
+                NodeGeneric<T> temp = null;  
+                if (temp == root.getPrev())  
+                    temp = root.getNext();  
+                else
+                    temp = root.getPrev();  
+  
+                // No child case  
+                if (temp == null)  
+                {  
+                    temp = root;  
+                    root = null;  
+                }  
+                else // One child case  
+                    root = temp; // Copy the contents of  
+                                // the non-empty child  
+            }  
+            else
+            {  
+  
+                // node with two children: Get the inorder  
+                // successor (smallest in the right subtree)  
+                NodeGeneric<T> temp = minValueNode(root.getNext());  
+  
+                // Copy the inorder successor's data to this node  
+                root.setData(temp.getData());  
+  
+                // Delete the inorder successor  
+                root.setNext(deleteNode(root.getNext(), temp.getData()));  
+            }  
+        }  
+            // If the tree had only one node then return  
+        if (root == null)  
+            return root;  
+  
+        // STEP 2: UPDATE HEIGHT OF THE CURRENT NODE  
+        root.setHeight(max(height(root.getPrev()), height(root.getNext())) + 1);  
+  
+        // STEP 3: GET THE BALANCE FACTOR OF THIS NODE (to check whether  
+        // this node became unbalanced)  
+        int balance = getBalance(root);  
+  
+        // If this node becomes unbalanced, then there are 4 cases  
+        // Left Left Case  
+        if (balance > 1 && getBalance(root.getPrev()) >= 0)  
+            return rightRotate(root);  
+  
+        // Left Right Case  
+        if (balance > 1 && getBalance(root.getPrev()) < 0)  
+        {  
+            root.setPrev(leftRotate(root.getPrev()));  
+            return rightRotate(root);  
+        }  
+  
+        // Right Right Case  
+        if (balance < -1 && getBalance(root.getNext()) <= 0)  
+            return leftRotate(root);  
+  
+        // Right Left Case  
+        if (balance < -1 && getBalance(root.getNext()) > 0)  
+        {  
+            root.setNext(rightRotate(root.getNext()));  
+            return leftRotate(root);  
+        }  
+  
+        return root;  
+    }  
+    
+    public void preOrder(NodeGeneric<T> node)  
+    {  
+        if (node != null)  
+        {  
+            System.out.print(node.getData() + " ");  
+            preOrder(node.getPrev());  
+            preOrder(node.getNext());  
+        }  
+    } 
+    
+    public void inOrder(NodeGeneric<Unihan> node)  
+    {  
+        if (node != null)  
+        {  
+            inOrder(node.getPrev()); 
+            System.out.print(node.getData() + " ");  
+            inOrder(node.getNext());  
+        }  
+    }  
+    
+    public void levelOrder(NodeGeneric<Unihan> root){
+      //Write your code here
+      QueueDynamicArrayGeneric<NodeGeneric> queue = new QueueDynamicArrayGeneric<>(); 
+      if (root != null) {
+        queue.enqueue(root);
+        while (!queue.empty()) {
+            NodeGeneric t = queue.dequeue();
+            System.out.print(t.getData() + " ");
+            if(t.getPrev() != null) {
+                queue.enqueue(t.getPrev());
+            }
+            if(t.getNext() != null) {
+                queue.enqueue(t.getNext());
+            }
+        }
+      }
+    }
+    
 }

@@ -9,53 +9,64 @@ package logic.sinogramas;
  * @author Diego Esteban Quintero Rey
  * @author Kevin Jair Gonzalez Sanchez
  * @author Stiven Leonardo Sánchez León 
- * @version 6.0
+ * @version 7.0
  * @since 16/10/2020
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+
 import data.sinogramas.*;
 import static java.lang.Float.parseFloat;
 
 public class Archive {
 
-    private BufferedReader text;
-    private int intRadix;
-    private Integer[] treesByStrokes;
-    private Integer[] favStrokesList;
+    public BufferedReader text;  //Representation of the text in memory
     private InputStream textToParse;
+    private int intRadix;
 
-    private ArrayList<BSTRefGeneric<Unihan>> bstRadixesArray;
-    private ArrayList<BSTRefGeneric<Unihan>> favBSTRadixesArray;
-    private AVLTreeGeneric<Unihan> favAVL;
-    private AVLTreeGeneric<Unihan> tempAVL;
+    // Llevan registro de cuales árboles se han creado en los arreglos de BSTs
+    private int[] strokesList;
+    private int[] favStrokesList;
+    private int[] radixesList;
+    private int[] favRadixesList;
+    
+    private AVLTreeGeneric<Unihan> tempAVL; // AVL principal o general
+    
+    //Arreglos de árboles BST que aplican en los filtros
     private BSTRefGeneric<Unihan>[] bstStrokesArray;
     private BSTRefGeneric<Unihan>[] favBSTStrokesArray;
+    private BSTRefGeneric<Unihan>[] bstRadixesArray;
+    private BSTRefGeneric<Unihan>[] favBSTRadixesArray;
+    
+    // Árbol auxiliar usado para instanciar los BST que se almacenan en los anteriores arreglos
     private BSTRefGeneric<Unihan> tempBST;
-    private HeapArray<Unihan> tempHeap;
-    private ListDynamicArrayGeneric<Integer> radixesList;
-    private ListDynamicArrayGeneric<Integer> favRadixesList;
-    private ListGeneric<Unihan> tempListU;
-    private QueueGeneric<Unihan> tempQueue;
-    private StackGeneric<Unihan> tempStack;
-
+    
+    private AVLTreeGeneric<Unihan> favAVL; // AVL de favoritos
+    private ArrayList<SpanishDef> esDefArray; // Arreglo que guarda los SpanishDef
+    private RabinKarp rabinKarp;
+    
+    /**
+     * Class constructor, it initializates all the attributes within the class
+     */
     public Archive() {
-        this.treesByStrokes = new Integer[59]; // 58 is the maximum number of strokes according to Wikipedia, position 0 not used
-        this.favStrokesList = new Integer[59]; // Position 0 not used
-        this.radixesList = new ListDynamicArrayGeneric<>();
-        this.favRadixesList = new ListDynamicArrayGeneric<>();
-        this.bstRadixesArray = new ArrayList<>();
-        this.favBSTRadixesArray = new ArrayList<>();
-        this.bstStrokesArray = (BSTRefGeneric<Unihan>[]) new Object[59];
-        this.favBSTStrokesArray = (BSTRefGeneric<Unihan>[]) new Object[59];
-        this.tempListU = new UnorderedListDynamicArrayGeneric<>();
+        this.strokesList = new int[59];
+        this.favStrokesList = new int[59];
+        this.radixesList = new int[215];
+        this.favRadixesList = new int[215];
+        this.bstRadixesArray = new BSTRefGeneric[215];
+        this.favBSTRadixesArray = new BSTRefGeneric[215];
+        this.bstStrokesArray = new BSTRefGeneric[59];
+        this.favBSTStrokesArray = new BSTRefGeneric[59];
         this.tempAVL = new AVLTreeGeneric<>();
         this.favAVL = new AVLTreeGeneric<>();
+        this.esDefArray = new ArrayList<>();
     }
 
     /**
@@ -74,9 +85,10 @@ public class Archive {
             e.printStackTrace();
         }
     }
+
     /**
      * This method reads a line: parse a complete line and skips over the next
-     * @return read line - null if it is the end of the file
+     * @return read line - null if it is the end of the file - "?" if there is an exception
      */
     public String readLine() {
         String toReturn = "";
@@ -90,20 +102,26 @@ public class Archive {
             return toReturn;
         }
     }
-
-
+    
     /**
-     * This method reads 9 lines from the file selected and creates a Unihan character.
-     * @return the created Unihan character.
+     * This method takes 9 lines from the database and parse them, then creates an Unihan object
+     * @return Unihan character with the information parsed
      */
-    private Unihan parseChunck() {
+    public Unihan parseChunck() {
         String chrStr = readLine();
         try {
             String[] englishDefinitions = stringToArray(readLine());
             String[] spanishDefinitions = stringToArray(readLine());
             String[] pictureLinks = stringToArray(readLine());
             String codePoint = readLine();
-            int numOfStrokes = Integer.parseInt(readLine());
+            int numOfStrokes = 0;
+            String line = readLine();
+            try {
+                numOfStrokes = Integer.parseInt(line);
+            } catch (NumberFormatException e) {
+                String[] s = line.split(" ");
+                numOfStrokes = Integer.parseInt(s[0]);
+            }
             String pinyin = readLine();
             String radix = readLine();
             String mp3file = readLine();
@@ -118,79 +136,111 @@ public class Archive {
         }
     }
     
-    /*
-    La presente clase se modificó de la siguiente manera:
-    Se declararon otras variables como por ejemplo:
-    strokesList y radixesList
-    strokeList es un arreglo estático de tamaño 59 que lleva registro de cuáles árboles ya
-    han sido creados y cuales aun no. Si el valor es null entonces es que no se ha creado
-    y se debe crear el árbol. Si no es nulo entonces ya existte la raiz en bstStrokesArray
-    y se procede a hacer la inserción. No estoy seguro de si aquí pueda generarse un NullPointer
-    Exception en la condición del if.
-    La segunda lleva registro de cuál es el máximo radical guardado y se accede a él con
-    getLast(). En este caso se usó así porque en el orden de lectura, los radicales si siguen un
-    orden consecutivo a diferencia de los strokes y por eso allí se usa el arreglo estático
-    o el radix máximo (parte entera únicamente) encontrado durante el parseo. Se
-    accede a este máximo con getLast() que es un método que incluí para las listas ordenadas
-    dinámicas únicamente. El método parseText() que está abajo es el que más modifiqué:
-    Ya no importan las demás estructuras sino principalmente el AVL. Se hacen las inserciones
-    correspondientes en esas estructuras y adicionalmente se crearon dos ArrayList que
-    almacenan BSTs. Un BST por cada número diferente de strokes en bstStrokesArray 
-    y un BST por cada parte entera de radix diferente en bstRadixesArray. De esa manera
-    cuando el usuario quiera buscar por número de strokes o por radix (solo está soportado la
-    parte entera) se acceda a estos ArrayList por el número y se acceda al BST correspondiente
-    y justo ahí se hace un traverse que va almacenando en un Queue y ese se usará para
-    desplegar los resultados en pantalla en la app.
-    Las tres búsquedas soportadas entonces serían por character directamente que usa el AVL,
-    y los filter by Strokes y by Radixes.
-    */
-
+    
+    
+    // Funciona correctamente siempre que se lean los arcchivos individualmente (no el mergedFile)
+    // No se deben leer las páginas 163 y 164 pues generan problemas
     public void parseText() {
+        
         Unihan thisChar = parseChunck();
-        this.treesByStrokes[thisChar.getNumOfStrokes()] = thisChar.getNumOfStrokes();
-        // the line below checks whether the position is null. In case it is null we
-        // then procede to create the bst and store it in that position.
-        // I am not completely sure if it works properly, though
-        if (treesByStrokes[thisChar.getNumOfStrokes()] != thisChar.getNumOfStrokes()) {
+        
+        this.strokesList[thisChar.getNumOfStrokes()] = thisChar.getNumOfStrokes();
+        if (strokesList[thisChar.getNumOfStrokes()] == 0) {
             BSTRefGeneric<Unihan> tempBST = new BSTRefGeneric<>();
             bstStrokesArray[thisChar.getNumOfStrokes()] = tempBST;
+            bstStrokesArray[thisChar.getNumOfStrokes()].insertBST(thisChar);
         } else {
+            if (bstStrokesArray[thisChar.getNumOfStrokes()] == null) {
+                BSTRefGeneric<Unihan> tempBST = new BSTRefGeneric<>();
+                bstStrokesArray[thisChar.getNumOfStrokes()] = tempBST;
+            }
             bstStrokesArray[thisChar.getNumOfStrokes()].insertBST(thisChar);
         }
-        // la próxima linea seguramente generará un error cuando se llegue a algún
-        // caracter de la forma 196'.5 o así por el estilo, es decir, uno con comilla
-        // no sé cuál es la mejor manera de prevenirlo. ¿Con una excepción o con un regex?
-        intRadix = (int) Math.floor(parseFloat(thisChar.getRadix()));
-        this.radixesList.insert(intRadix);
-        if (radixesList.getLast().compareTo(intRadix) > 0) {
+        // Maneja los casos en los que hay comillas en el radical
+        try {
+            intRadix = (int) Math.floor(parseFloat(thisChar.getRadix()));
+        } catch(NumberFormatException e) {
+            String[] s = thisChar.getRadix().split("[.]", 0);
+            if (s[0].charAt(s[0].length()-1) == '\'')
+                s[0] = s[0].substring(0, s[0].length()-1);
+            try {
+                intRadix = Integer.parseInt(s[0]);
+            }
+            catch (NumberFormatException ex) {
+                intRadix = 0;
+            }
+        }
+        this.radixesList[intRadix] = intRadix;
+        if (radixesList[intRadix] == 0) {
             tempBST = new BSTRefGeneric<>();
-            bstRadixesArray.add(tempBST);
+            bstRadixesArray[intRadix] = tempBST;
         } else {
-            bstRadixesArray.get(intRadix - 1).insertBST(thisChar);
+            if (bstRadixesArray[intRadix] == null) {
+                BSTRefGeneric<Unihan> tempBST = new BSTRefGeneric<>();
+                bstRadixesArray[intRadix] = tempBST;
+            }
+            bstRadixesArray[intRadix].insertBST(thisChar);
         } 
-        tempAVL.setRoot(this.tempAVL.insert(tempAVL.getRoot(), thisChar));
-
+        tempAVL.setRoot(tempAVL.insert(tempAVL.getRoot(), thisChar));
+        for (int i = 0; i < thisChar.getSpanishDefinitions().length; i++) {
+            String def = thisChar.getSpanishDefinitions()[i];
+            if (def.compareTo("NONE") == 0 || def.compareTo("NINGUNA") == 0) continue;
+            SpanishDef sd = new SpanishDef(thisChar.getCharacter(), def);
+            esDefArray.add(sd);
+        }
         while (readLine()!= null) {
-            this.treesByStrokes[parseChunck().getNumOfStrokes()] = parseChunck().getNumOfStrokes();
-            if (treesByStrokes[parseChunck().getNumOfStrokes()] != parseChunck().getNumOfStrokes()) {
+            Unihan currentChar = parseChunck();
+            try {
+                this.strokesList[currentChar.getNumOfStrokes()] = currentChar.getNumOfStrokes();
+            } catch(ArrayIndexOutOfBoundsException e) {
+                break;
+            }    
+            if (strokesList[currentChar.getNumOfStrokes()] == 0) {
                 tempBST = new BSTRefGeneric<>();
-                bstStrokesArray[parseChunck().getNumOfStrokes()] = tempBST;
+                bstStrokesArray[currentChar.getNumOfStrokes()] = tempBST;
+                bstStrokesArray[currentChar.getNumOfStrokes()].insertBST(currentChar);
             } else {
-                bstStrokesArray[parseChunck().getNumOfStrokes()].insertBST(parseChunck());
-            } 
-            intRadix = (int) Math.floor(parseFloat(parseChunck().getRadix()));
-            this.radixesList.insert(intRadix);
-            if (radixesList.getLast().compareTo(intRadix) > 0) {
+                if (bstStrokesArray[currentChar.getNumOfStrokes()] == null) {
+                    BSTRefGeneric<Unihan> tempBST = new BSTRefGeneric<>();
+                    bstStrokesArray[currentChar.getNumOfStrokes()] = tempBST;
+                }
+                bstStrokesArray[currentChar.getNumOfStrokes()].insertBST(currentChar);
+            }
+            // Maneja los casos en los que hay comillas en el radical
+            try {
+                intRadix = (int) Math.floor(parseFloat(currentChar.getRadix()));
+            } catch(NumberFormatException e) {
+                String[] s = currentChar.getRadix().split("[.]", 0);
+                if (s[0].charAt(s[0].length()-1) == '\'')
+                    s[0] = s[0].substring(0, s[0].length()-1);
+                intRadix = Integer.parseInt(s[0]);
+            }
+            this.radixesList[intRadix] = intRadix;
+            if (radixesList[intRadix] == 0) {
                 tempBST = new BSTRefGeneric<>();
-                bstRadixesArray.add(tempBST);
+                bstRadixesArray[intRadix] = tempBST;
             } else {
-                bstRadixesArray.get(intRadix - 1).insertBST(thisChar);
+                if (bstRadixesArray[intRadix] == null) {
+                    BSTRefGeneric<Unihan> tempBST = new BSTRefGeneric<>();
+                    bstRadixesArray[intRadix] = tempBST;
+                }
+                bstRadixesArray[intRadix].insertBST(currentChar);
             } 
-            tempAVL.setRoot(this.tempAVL.insert(tempAVL.getRoot(), parseChunck()));
+            tempAVL.setRoot(tempAVL.insert(tempAVL.getRoot(), currentChar));
+            for (int i = 0; i < currentChar.getSpanishDefinitions().length; i++) {
+                String def = currentChar.getSpanishDefinitions()[i];
+                if (def.compareTo("NONE") == 0 || def.compareTo("NINGUNA") == 0) continue;
+                SpanishDef sd = new SpanishDef(currentChar.getCharacter(), def);
+                esDefArray.add(sd);
+            }
+            
         }
     }
     
-    
+    // Búsqueda por caracter directamente
+    // Nota: Se requeriría agregar una celda adicional a la app
+    // La primera para buscar por caracter (searchByChar)
+    // La segunda para buscar por patrón en español (searchPattern)
     public Unihan searchByChar(char c, char selector) {
         NodeGeneric<Unihan> n = null;
         if (selector == 'g') { // g de general
@@ -201,6 +251,7 @@ public class Archive {
         return n.getData();
     }
     
+    // Retorna una cola con los caracteres del árbol BST que corresponde a número de trazos s
     public QueueDynamicArrayGeneric<Unihan> filterByStrokes(int s, char selector) {
         if (selector == 'g')
             tempBST = this.bstStrokesArray[s];
@@ -209,45 +260,94 @@ public class Archive {
         return tempBST.inOrderToQueue(tempBST.getRoot());
     }
     
+    // Retorna una cola con los caracteres del árbol BST que corresponde al radical r
     public QueueDynamicArrayGeneric<Unihan> filterByRadixes(int r, char selector) {
         if (selector == 'g')
-            tempBST = this.bstRadixesArray.get(r);
+            tempBST = this.bstRadixesArray[r];
         else if (selector == 'f')
-            tempBST = this.favBSTRadixesArray.get(r);
+            tempBST = this.favBSTRadixesArray[r];
         return tempBST.inOrderToQueue(tempBST.getRoot());
     }
     
-    public void addFavorite(char c) {
-        NodeGeneric<Unihan> n = this.tempAVL.find(tempAVL.getRoot(), c);
-        favAVL.setRoot(favAVL.insert(favAVL.getRoot(), n.getData()));
-        this.favStrokesList[n.getData().getNumOfStrokes()] = n.getData().getNumOfStrokes();
-        if (favStrokesList[n.getData().getNumOfStrokes()] != n.getData().getNumOfStrokes()) {
+    // No se probó este método, creo que hay que hacerlo desde la misma app
+    // Solo se debe verificar si si se agrega al AVL cuando se haga clic en agregar favorito
+    // Todo lo demás debe funcionar correctamente porque es prácticamente igual a parseText
+    // Y todo el parseText se verificó que funciona correctamente
+    public void addFavorite(Unihan u) {
+        favAVL.setRoot(favAVL.insert(favAVL.getRoot(), u));
+        this.favStrokesList[u.getNumOfStrokes()] = u.getNumOfStrokes();
+        if (favBSTStrokesArray[u.getNumOfStrokes()] == null) {
             BSTRefGeneric<Unihan> tempBST = new BSTRefGeneric<>();
-            favBSTStrokesArray[n.getData().getNumOfStrokes()] = tempBST;
+            favBSTStrokesArray[u.getNumOfStrokes()] = tempBST;
         } else {
-            favBSTStrokesArray[n.getData().getNumOfStrokes()].insertBST(n.getData());
+            if (favBSTStrokesArray[u.getNumOfStrokes()] == null) {
+                BSTRefGeneric<Unihan> tempBST = new BSTRefGeneric<>();
+                favBSTStrokesArray[u.getNumOfStrokes()] = tempBST;
+            }
+            favBSTStrokesArray[u.getNumOfStrokes()].insertBST(u);
         }
-        intRadix = (int) Math.floor(parseFloat(n.getData().getRadix()));
-        this.favRadixesList.insert(intRadix);
-        if (favRadixesList.getLast().compareTo(intRadix) > 0) {
+        intRadix = (int) Math.floor(parseFloat(u.getRadix()));
+        this.favRadixesList[intRadix] = intRadix;
+        if (favRadixesList[intRadix] == 0) {
             tempBST = new BSTRefGeneric<>();
-            favBSTRadixesArray.add(tempBST);
+            favBSTRadixesArray[intRadix] = tempBST;
         } else {
-            favBSTRadixesArray.get(intRadix - 1).insertBST(n.getData());
+            if (favBSTRadixesArray[intRadix] == null) {
+                BSTRefGeneric<Unihan> tempBST = new BSTRefGeneric<>();
+                favBSTRadixesArray[intRadix] = tempBST;
+            }
+            bstRadixesArray[intRadix].insertBST(u);
         } 
+    }
+    
+    // No se probó este método, creo que hay que hacerlo desde la misma app
+    // Se debe verificar si al oprimir el botón eliminar favorito en la app, se elimina 
+    // del arbol AVL de favoritos
+    public void deleteFavorite(Unihan u) {
+        favAVL.deleteNode(favAVL.getRoot(), u);
+    }
+    
+    
+    public MaxHeap searchPattern(String p) {
+        MaxHeap heap = new MaxHeap();
+        this.rabinKarp = new RabinKarp();
+        for (int i = 0; i < esDefArray.size(); i++) {
+            SpanishDef def = esDefArray.get(i);
+            if (p.length() <= def.getLen()) {
+                rabinKarp.search(def.getText(), p);
+                // El RabinKarp se detiene la primera vez que haya encontrado el patrón
+                // Y activa el flag Found que nos dice que el caracter debe agregarse al Heap
+                if (rabinKarp.found) {
+                    Unihan u = tempAVL.find(tempAVL.getRoot(), def.getChar()).getData();
+                    u.setScore((double)p.length()/def.getText().length());
+                    // Sentencia solo para verificar los puntajes obtenidos. Puede eliminarse 
+                    System.out.println(u + " " + String.format("%.5f", u.getScore()));
+                    heap.insert(u);
+                }
+            } else continue; // Si el patrón es mayor al texto en longitud no se ejecuta el rabinkarp
+        }
+        return heap;
     }
 
     /**
-     * This method parse a String line and converts it into an array
-     * The tokens are separated by commas
-     * @param strToParse Stirng to be parsed
-     * @return String[] array with the tokens
+     * This method shows in the command line the AVL tree
+     */
+    public void print() {
+        System.out.println("Final Root: " + tempAVL.getRoot().getData());
+        tempAVL.inOrder(tempAVL.getRoot());
+    }
+
+    /**
+     * Convers a String line into a String[] array separating by ", "
+     * If there are apostrophes, then it removes them 
+     * @param strToParse String to parse
+     * @return String[] array correctly parsed
      */
     private String[] stringToArray(String strToParse) {
         strToParse = strToParse.substring(1,strToParse.length()-1);
         String[] data = strToParse.split(", ");
         for (int i=0; i<data.length; i++) {
-            data[i] = data[i].substring(1,data[i].length()-1);
+            data[i] = data[i].replaceAll("'", "");
         }
         return data;
     }

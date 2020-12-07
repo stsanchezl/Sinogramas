@@ -1,6 +1,7 @@
 package data.sinogramas;
 
 import java.util.Comparator;
+
 /**
  * This class represents a character from the Unihan database
  * @author Cristian Davil Camilo Santos Gil
@@ -17,6 +18,9 @@ public class Unihan implements Comparable<Unihan>{
     private char character;
     private char highSurrogative;
     private char lowSurrogative;
+
+    private double score; // Campo agregado para ordenar resultados en el MaxHeap al hacer searchPattern
+
     private int numOfStrokes;
     private String characterInString;
     private String codePoint;
@@ -26,7 +30,13 @@ public class Unihan implements Comparable<Unihan>{
     private String[] englishDefinitions;
     private String[] pictureLinks;
     private String[] spanishDefinitions;
-
+    
+    // Constructor agregado para el MaxHeap específicamente
+    // Permite crear un Unihan de mentiras con score = MAX_VALUE
+    public Unihan(double s) {
+        this.score = s;
+    }
+    
     public Unihan(int numOfStrokes, String codePoint, String mp3file, String pinyin, String radix, String[] englishDefinitions, String[] pictureLinks, String[] spanishDefinitions) {
         this.numOfStrokes = numOfStrokes;
         this.codePoint = codePoint;
@@ -49,10 +59,6 @@ public class Unihan implements Comparable<Unihan>{
             setLowSurrogative(Character.MAX_VALUE);
             this.characterInString = String.valueOf(codePoint);
         }
-    }
-    public Unihan (String chrStr, String radix, String meaning, String pinyin, String strokes) {
-        this(Integer.valueOf(strokes),strToCodePoint(chrStr),null,pinyin,radix,null,null,meaning.split(" "));
-
     }
     public Unihan (String codePoint) {
         this(-1,codePoint,null,null,null,null,null,null);
@@ -93,7 +99,6 @@ public class Unihan implements Comparable<Unihan>{
         this.lowSurrogative = lowSurrogative;
     }
     public void setLowSurrogative(String codePoint) {
-        this.lowSurrogative = lowSurrogative;
         String diff = Unihan.hexSub(codePoint,"10000");
         String mod = Unihan.hexDiv(diff,"400");
         String sum = Unihan.hexSum(mod,"DC00");
@@ -153,14 +158,15 @@ public class Unihan implements Comparable<Unihan>{
     public void setSpanishDefinitions(String[] spanishDefinitions) {
         this.spanishDefinitions = spanishDefinitions;
     }
-    public String getFirstSpanishDefinitions() {
-        String toReturn = "";
-        if (this.spanishDefinitions!=null) toReturn = this.spanishDefinitions[0];
-        return toReturn;
+    public void setScore(double s) {
+        this.score = s;
+    }
+    public double getScore() {
+        return this.score;
     }
 
     public static char stringToChar(String codePoint) {
-        char toReturn;
+        char toReturn = ' ';
         if (codePoint.startsWith("U")) toReturn = Character.toChars(Integer.parseInt(codePoint.substring(2),16))[0];
         else toReturn = Character.toChars(Integer.parseInt(codePoint,16))[0];
         return  toReturn;
@@ -170,9 +176,6 @@ public class Unihan implements Comparable<Unihan>{
     }
     public static String decToHex(int dec) {
         return  Integer.toHexString(dec);
-    }
-    public static String strToCodePoint(String str) {
-        return String.valueOf(str.codePointAt(0));
     }
 
     public static String hexSum(String item1, String item2) {
@@ -217,9 +220,15 @@ public class Unihan implements Comparable<Unihan>{
     @Override
     public int compareTo(Unihan otherCharacter) {
         int toReturn;
-        if (this.character>otherCharacter.getCharacter()) toReturn = 1;
-        else if (this.character==otherCharacter.getCharacter()) toReturn = 0;
-        else toReturn = -1;
+        if (this.character>otherCharacter.getCharacter()) {
+            toReturn = 1;
+        }
+        else if (this.character==otherCharacter.getCharacter()) {
+            toReturn = 0;
+        }
+        else {
+            toReturn = -1;
+        }
         return toReturn;
     }
 }

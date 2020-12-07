@@ -5,6 +5,7 @@
  */
 package data.sinogramas;
 
+import java.util.Comparator;
 
 /**
  *
@@ -27,8 +28,10 @@ public class BSTRefGeneric<T extends Comparable<T>> {
             else
                 if(((T) p.getData()).compareTo(data) < 0)
                     p.setNext(insert(data, p.getNext()));
-                else
+                else {
+                    System.out.println("Not inserted");
                     return p;
+                }
         return p;
     }
     
@@ -94,9 +97,29 @@ public class BSTRefGeneric<T extends Comparable<T>> {
         return false;
     }
     
+    
+    public void levelOrder(NodeGeneric root){
+      //Write your code here
+      QueueDynamicArrayGeneric<NodeGeneric> queue = new QueueDynamicArrayGeneric<>(); 
+      if (root != null) {
+        queue.enqueue(root);
+        while (!queue.empty()) {
+            NodeGeneric t = queue.dequeue();
+            System.out.print(t.getData() + " ");
+            if(t.getPrev() != null) {
+                queue.enqueue(t.getPrev());
+            }
+            if(t.getNext() != null) {
+                queue.enqueue(t.getNext());
+            }
+        }
+      }
+    }
+    
+    
     QueueDynamicArrayGeneric queue = new QueueDynamicArrayGeneric<T>();
     
-    public QueueDynamicArrayGeneric<T> inOrderToQueue(NodeGeneric<T> node)
+    public QueueDynamicArrayGeneric<T> inOrderToQueue(NodeGeneric<T> node) 
     { 
         if (node == null) 
             return queue; 

@@ -25,8 +25,7 @@ public class NodeGeneric<T> {
      */
     public NodeGeneric(T data) {
         this.data = data;
-        next = null;
-        height = 0;
+        height = 1; // Debe ser 1 para que funcione con nuestro AVL
     }
 
     /**
@@ -61,7 +60,7 @@ public class NodeGeneric<T> {
     }
 
     public void setPrev(NodeGeneric<T> prev) {
-        this.prev = next;
+        this.prev = prev;
     }
     
     public int getHeight() {
