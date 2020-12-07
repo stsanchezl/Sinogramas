@@ -21,28 +21,29 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
-import data.sinogramas.UnorderedListArrayGeneric;
+import data.sinogramas.QueueDynamicArrayGeneric;
+import data.sinogramas.Unihan;
 import gui.sinogramas.ListAdapter;
-import gui.sinogramas.ListElement;
 
 import gui.sinogramas.*;
-import gui.sinogramas.R.id.*;
 
 public class GalleryFragment extends Fragment {
 
     private GalleryViewModel galleryViewModel;
     private RecyclerView recyclerFavorites;
-    UnorderedListArrayGeneric<ListElement> listFavorites;
+    QueueDynamicArrayGeneric<Unihan> favoriteQueue;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
-        listFavorites = new UnorderedListArrayGeneric<>(200);
+
+        favoriteQueue = new QueueDynamicArrayGeneric<>();
+
         recyclerFavorites = root.findViewById(R.id.recycler_favorites);
         recyclerFavorites.setLayoutManager(new LinearLayoutManager(getContext()));
         fillListCSV();
-        ListAdapter adapter = new ListAdapter(listFavorites,getContext());
+        ListAdapter adapter = new ListAdapter(favoriteQueue,getContext());
         recyclerFavorites.setAdapter(adapter);
         galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -62,12 +63,9 @@ public class GalleryFragment extends Fragment {
         String line = "";
             try {
                 while( (line = reader.readLine()) != null) {
-                    //Split by ";"
                     String[] tokens = line.split(";");
-
-                    //read the data
-                    ListElement sinogramE = new ListElement(tokens[0],tokens[1],tokens[2],tokens[3],tokens[4]);
-                    listFavorites.insert(sinogramE);
+                    Unihan thisChar = new Unihan(tokens[0],tokens[1],tokens[2],tokens[3],tokens[4]);
+                    favoriteQueue.enqueue(thisChar);
                 }
             } catch (IOException e) {
                 Log.wtf("MyActivity", "Error reading data file on line"+line,e);

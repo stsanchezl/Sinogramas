@@ -100,4 +100,8 @@ public class QueueDynamicArrayGeneric<T> implements QueueGeneric<T> {
     public int length() {
         return this.count;
     }
+
+    public T getItem(int position) {
+        return this.queueArray[position];
+    }
 }

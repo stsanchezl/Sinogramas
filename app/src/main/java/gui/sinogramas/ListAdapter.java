@@ -9,25 +9,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
-import data.sinogramas.ListArrayGeneric;
-import data.sinogramas.ListDynamicArrayGeneric;
-import data.sinogramas.UnorderedListArrayGeneric;
+import data.sinogramas.QueueDynamicArrayGeneric;
+import data.sinogramas.Unihan;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
-    private UnorderedListArrayGeneric<ListElement> mData;
+    private QueueDynamicArrayGeneric<Unihan> allData;
     private LayoutInflater mInflater;
     private Context context;
 
-    public ListAdapter(UnorderedListArrayGeneric<ListElement> itemList, Context context) {
+    public ListAdapter(QueueDynamicArrayGeneric<Unihan> itemList, Context context) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
-        this.mData = itemList;
+        this.allData = itemList;
     }
 
     @Override
-    public int getItemCount() { return mData.length(); }
+    public int getItemCount() { return allData.length(); }
 
     @NonNull
     @Override
@@ -38,10 +35,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ListAdapter.ViewHolder holder, final int position) {
-        holder.bindData(mData.getItem(position));
+        holder.bindData(allData.getItem(position));
     }
 
-    public void setItems(UnorderedListArrayGeneric<ListElement> items) {mData = items;}
+    public void setItems(QueueDynamicArrayGeneric<Unihan> items) {allData = items;}
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView sinogram, radical, meaning, pronunciation, strokes;
@@ -55,12 +52,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             strokes = itemView.findViewById(R.id.strokesText);
         }
 
-        void bindData(final ListElement item) {
+        void bindData(final Unihan item) {
             sinogram.setText(item.getSinogram());
-            radical.setText("Radical: " + item.getRadical());
-            meaning.setText("Significado: " + item.getMeaning());
-            pronunciation.setText("Nombre: " + item.getPronunciation());
-            strokes.setText("Trazos: " + item.getStrokes());
+            radical.setText("Radical: " + item.getRadix());
+            meaning.setText("Significado: " + item.getFirstSpanishDefinition());
+            pronunciation.setText("Nombre: " + item.getPinyin());
+            strokes.setText("Trazos: " + String.valueOf(item.getNumOfStrokes()));
         }
     }
 }

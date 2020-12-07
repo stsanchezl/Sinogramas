@@ -63,6 +63,9 @@ public class Unihan implements Comparable<Unihan>{
     public Unihan (String codePoint) {
         this(-1,codePoint,null,null,null,null,null,null);
     }
+    public Unihan(String chrStr, String radix, String meaning, String pinyin, String strokes) {
+        this(Integer.valueOf(strokes),strToCodePoint(chrStr),null,pinyin,radix,null,null,meaning.split(" "));
+    }
 
     public boolean isBMP() {
         return this.isBMP;
@@ -158,11 +161,17 @@ public class Unihan implements Comparable<Unihan>{
     public void setSpanishDefinitions(String[] spanishDefinitions) {
         this.spanishDefinitions = spanishDefinitions;
     }
+    public String getFirstSpanishDefinition() {
+        return this.spanishDefinitions[0];
+    }
     public void setScore(double s) {
         this.score = s;
     }
     public double getScore() {
         return this.score;
+    }
+    public String getSinogram() {
+        return String.valueOf(stringToChar(this.codePoint));
     }
 
     public static char stringToChar(String codePoint) {
@@ -176,6 +185,9 @@ public class Unihan implements Comparable<Unihan>{
     }
     public static String decToHex(int dec) {
         return  Integer.toHexString(dec);
+    }
+    public static String strToCodePoint(String chrStr) {
+        return String.valueOf(decToHex(chrStr.codePointAt(0)));
     }
 
     public static String hexSum(String item1, String item2) {

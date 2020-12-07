@@ -29,6 +29,7 @@ import logic.sinogramas.Archive;
 public class MenuPrincipalActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    public Archive controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +52,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setDrawerLayout(drawer)
-                .build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -74,26 +72,15 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private void startUp() {
+    public void startUp() {
+        this.controller = new Archive();
         try {
-            Archive controller = new Archive();
-            BufferedReader text;
             for (int i = 81; i < 163; i++) { // NO LEER 163 NI 164 PUES GENERAN PROBLEMAS
                 String path = "charsFiles"+File.separator+"chars_"+i+".txt";
                 controller.openFile(getAssets().open(path));
                 controller.parseText();
                 controller.closeFile();
             }
-            /*
-            MaxHeap mh = controller.searchPattern("perro");
-            // Extrae el resultado con mayor puntaje.
-            // Ese debe ser el orden en el que se despleguen en la app
-            System.out.println("Extracted: " + mh.extractMax());
-            // Prueba la búsqueda por caracter
-            System.out.println(controller.searchByChar('业', 'g'));
-            System.out.println(controller.filterByStrokes(8, 'g'));
-            System.out.println(controller.filterByRadixes(2, 'g'));
-            */
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         } catch (IOException ioException) {
