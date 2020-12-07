@@ -69,11 +69,105 @@ public class Archive {
         this.esDefArray = new ArrayList<>();
     }
 
+    public BufferedReader getText() {
+        return text;
+    }
+    public void setText(BufferedReader text) {
+        this.text = text;
+    }
+    public int getIntRadix() {
+        return intRadix;
+    }
+    public void setIntRadix(int intRadix) {
+        this.intRadix = intRadix;
+    }
+    public int[] getStrokesList() {
+        return strokesList;
+    }
+    public void setStrokesList(int[] strokesList) {
+        this.strokesList = strokesList;
+    }
+    public int[] getFavStrokesList() {
+        return favStrokesList;
+    }
+    public void setFavStrokesList(int[] favStrokesList) {
+        this.favStrokesList = favStrokesList;
+    }
+    public int[] getRadixesList() {
+        return radixesList;
+    }
+    public void setRadixesList(int[] radixesList) {
+        this.radixesList = radixesList;
+    }
+    public int[] getFavRadixesList() {
+        return favRadixesList;
+    }
+    public void setFavRadixesList(int[] favRadixesList) {
+        this.favRadixesList = favRadixesList;
+    }
+    public AVLTreeGeneric<Unihan> getTempAVL() {
+        return tempAVL;
+    }
+    public void setTempAVL(AVLTreeGeneric<Unihan> tempAVL) {
+        this.tempAVL = tempAVL;
+    }
+    public BSTRefGeneric<Unihan>[] getBstStrokesArray() {
+        return bstStrokesArray;
+    }
+    public void setBstStrokesArray(BSTRefGeneric<Unihan>[] bstStrokesArray) {
+        this.bstStrokesArray = bstStrokesArray;
+    }
+    public BSTRefGeneric<Unihan>[] getFavBSTStrokesArray() {
+        return favBSTStrokesArray;
+    }
+    public void setFavBSTStrokesArray(BSTRefGeneric<Unihan>[] favBSTStrokesArray) {
+        this.favBSTStrokesArray = favBSTStrokesArray;
+    }
+    public BSTRefGeneric<Unihan>[] getBstRadixesArray() {
+        return bstRadixesArray;
+    }
+    public void setBstRadixesArray(BSTRefGeneric<Unihan>[] bstRadixesArray) {
+        this.bstRadixesArray = bstRadixesArray;
+    }
+    public BSTRefGeneric<Unihan>[] getFavBSTRadixesArray() {
+        return favBSTRadixesArray;
+    }
+    public void setFavBSTRadixesArray(BSTRefGeneric<Unihan>[] favBSTRadixesArray) {
+        this.favBSTRadixesArray = favBSTRadixesArray;
+    }
+    public BSTRefGeneric<Unihan> getTempBST() {
+        return tempBST;
+    }
+    public void setTempBST(BSTRefGeneric<Unihan> tempBST) {
+        this.tempBST = tempBST;
+    }
+    public AVLTreeGeneric<Unihan> getFavAVL() {
+        return favAVL;
+    }
+    public void setFavAVL(AVLTreeGeneric<Unihan> favAVL) {
+        this.favAVL = favAVL;
+    }
+    public ArrayList<SpanishDef> getEsDefArray() {
+        return esDefArray;
+    }
+    public void setEsDefArray(ArrayList<SpanishDef> esDefArray) {
+        this.esDefArray = esDefArray;
+    }
+    public RabinKarp getRabinKarp() {
+        return rabinKarp;
+    }
+    public void setRabinKarp(RabinKarp rabinKarp) {
+        this.rabinKarp = rabinKarp;
+    }
+
     /**
      * This method loads a file into memory so it can be used
      */
     public void openFile(){
         this.text = new BufferedReader(new InputStreamReader(this.textToParse));
+    }
+    public void openFile(InputStream text){
+        this.text = new BufferedReader(new InputStreamReader(text));
     }
     /**
      * This method de-loads a file off memory
