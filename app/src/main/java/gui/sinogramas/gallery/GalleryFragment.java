@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,12 @@ import gui.sinogramas.*;
 
 public class GalleryFragment extends Fragment {
 
+    private Button searchButton;
+    private Button deleteButton;
+    private EditText expressionEditText;
+    private EditText numOfStrokesEditText;
+    private EditText radixEditText;
+
     private GalleryViewModel galleryViewModel;
     private RecyclerView recyclerFavorites;
     QueueDynamicArrayGeneric<Unihan> favoriteQueue;
@@ -39,6 +47,12 @@ public class GalleryFragment extends Fragment {
         final TextView textView = root.findViewById(R.id.text_gallery);
 
         favoriteQueue = new QueueDynamicArrayGeneric<>();
+
+        searchButton = root.findViewById(R.id.searchSinogramButton);
+        deleteButton = root.findViewById(R.id.addRmFavSinogramButton);
+        expressionEditText = root.findViewById(R.id.expressionEditText);
+        numOfStrokesEditText = root.findViewById(R.id.numOfStrokesEditText);
+        radixEditText = root.findViewById(R.id.radixEditText);
 
         recyclerFavorites = root.findViewById(R.id.recycler_favorites);
         recyclerFavorites.setLayoutManager(new LinearLayoutManager(getContext()));

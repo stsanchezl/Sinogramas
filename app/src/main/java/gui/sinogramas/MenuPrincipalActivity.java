@@ -16,30 +16,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-
-import data.sinogramas.*;
-import logic.sinogramas.Archive;
-
 public class MenuPrincipalActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    public Archive controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
+
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
-
-        startUp();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,21 +60,5 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-    public void startUp() {
-        this.controller = new Archive();
-        try {
-            for (int i = 81; i < 163; i++) { // NO LEER 163 NI 164 PUES GENERAN PROBLEMAS
-                String path = "charsFiles"+File.separator+"chars_"+i+".txt";
-                controller.openFile(getAssets().open(path));
-                controller.parseText();
-                controller.closeFile();
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println(e.getMessage());
-        } catch (IOException ioException) {
-            System.exit(1);
-        }
     }
 }

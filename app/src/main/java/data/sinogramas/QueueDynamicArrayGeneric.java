@@ -22,7 +22,6 @@ public class QueueDynamicArrayGeneric<T> implements QueueGeneric<T> {
 
     /**
      * Class constructor
-     * @param size, size of the queue
      */
     public QueueDynamicArrayGeneric() {
         front = rear = count =0;

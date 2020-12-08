@@ -53,11 +53,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         }
 
         void bindData(final Unihan item) {
-            sinogram.setText(item.getSinogram());
-            radical.setText("Radical: " + item.getRadix());
-            meaning.setText("Significado: " + item.getFirstSpanishDefinition());
-            pronunciation.setText("Nombre: " + item.getPinyin());
-            strokes.setText("Trazos: " + String.valueOf(item.getNumOfStrokes()));
+            if (item!=null) {
+                sinogram.setText(item.getSinogram());
+                radical.setText("Radical: " + item.getRadix());
+                meaning.setText("Significado: " + item.getFirstSpanishDefinition());
+                pronunciation.setText("Nombre: " + item.getPinyin());
+                strokes.setText("Trazos: " + String.valueOf(item.getNumOfStrokes()));
+            }
         }
     }
 }
