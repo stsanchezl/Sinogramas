@@ -46,7 +46,7 @@ public class QueueDynamicArrayGeneric<T> implements QueueGeneric<T> {
             throw new RuntimeException("Queue is empty");
         } else {
             item = queueArray[front];
-            front = (front+1)% this.size;
+            front++;
             count--;
         }
         return item;
@@ -54,17 +54,17 @@ public class QueueDynamicArrayGeneric<T> implements QueueGeneric<T> {
 
     @Override
     public void enqueue(T item) {
-        if (this.count == this.size) {
+        if (this.rear == this.size) {
             T[] newArray = (T[]) new Comparable[2 * this.size];
-            for (int i = 0; i < this.count; i++) {
+            for (int i = 0; i < this.size; i++) {
                 newArray[i] = queueArray[i];
             }
             this.queueArray = newArray;
             this.size = queueArray.length;
         }
         queueArray[rear] = item;
-        rear = (rear+1)%this.size;
-        count++; 
+        rear++;
+        count++;
     }
 
     /**

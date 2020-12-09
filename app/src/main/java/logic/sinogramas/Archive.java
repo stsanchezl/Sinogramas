@@ -351,7 +351,8 @@ public class Archive {
             tempBST = this.bstStrokesArray[s];
         else if (selector == 'f')
             tempBST = this.favBSTStrokesArray[s];
-        return tempBST.inOrderToQueue(tempBST.getRoot());
+        if (tempBST!=null) return tempBST.inOrderToQueue(tempBST.getRoot());
+        else return null;
     }
     
     // Retorna una cola con los caracteres del árbol BST que corresponde al radical r
@@ -360,7 +361,8 @@ public class Archive {
             tempBST = this.bstRadixesArray[r];
         else if (selector == 'f')
             tempBST = this.favBSTRadixesArray[r];
-        return tempBST.inOrderToQueue(tempBST.getRoot());
+        if (tempBST!= null) return tempBST.inOrderToQueue(tempBST.getRoot());
+        else return null;
     }
     
     // No se probó este método, creo que hay que hacerlo desde la misma app

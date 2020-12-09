@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import data.sinogramas.MaxHeap;
@@ -26,6 +28,7 @@ import data.sinogramas.Unihan;
 import gui.sinogramas.ListAdapter;
 import gui.sinogramas.R;
 import logic.sinogramas.Archive;
+import logic.sinogramas.DataStorage;
 
 public class HomeFragment extends Fragment {
 
@@ -68,14 +71,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        /*
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                DataStorage saveFavorites = new DataStorage(root.getContext(), sinogramsQueue);
+                if (saveFavorites.store()) Toast.makeText(root.getContext(), "YEY", Toast.LENGTH_LONG).show();
+                else addButton.setText("Gonorrea");
             }
         });
-        */
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,17 +97,19 @@ public class HomeFragment extends Fragment {
                 } catch (NumberFormatException numberFormatException) {
                     radix = 0;
                 }
+
                 if (!expression.equals("")) {
                     sinogramsQueue.enqueue(controller.searchByChar(expression.charAt(0),'g'));
-                } else if (radix>0) {
+                } else if (radix>0 && radix<215) {
                     sinogramsQueue = controller.filterByRadixes(radix,'g');
-                } else if (numOfStrokes>0) {
+                } else if (numOfStrokes>0 && numOfStrokes<59) {
                     sinogramsQueue = controller.filterByStrokes(numOfStrokes, 'g');
                 }
 
-                ListAdapter adapter = new ListAdapter(sinogramsQueue,getContext());
-                recyclerSinograms.setAdapter(adapter);
-
+                if (sinogramsQueue!=null) {
+                    ListAdapter adapter = new ListAdapter(sinogramsQueue,getContext());
+                    recyclerSinograms.setAdapter(adapter);
+                }
             }
         });
 

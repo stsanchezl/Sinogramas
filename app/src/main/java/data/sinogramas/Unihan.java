@@ -1,5 +1,6 @@
 package data.sinogramas;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 /**
@@ -225,10 +226,28 @@ public class Unihan implements Comparable<Unihan>{
         return Unihan.decToHex(result);
     }
 
+    public String print() {
+        String englishDefinitionsToString="";
+        String pictureLinksToString="";
+        String spanishDefinitionsToString="";
+        for(String english: englishDefinitions) {
+            englishDefinitionsToString+=english+"-";
+        }
+        for(String spanish: spanishDefinitions) {
+            englishDefinitionsToString+=spanish+"-";
+        }
+        for(String pictures: pictureLinks) {
+            englishDefinitionsToString+=pictures+"-";
+        }
+        return numOfStrokes+":"+codePoint+":"+mp3file+":"+pinyin+":"+radix+":"+englishDefinitionsToString+":"+pictureLinksToString+":"+spanishDefinitionsToString;
+    }
+
+
     @Override
     public String toString() {
         return String.valueOf(this.character);
     }
+
     @Override
     public int compareTo(Unihan otherCharacter) {
         int toReturn;
