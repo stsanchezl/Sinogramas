@@ -28,6 +28,7 @@ import data.sinogramas.Unihan;
 import gui.sinogramas.ListAdapter;
 
 import gui.sinogramas.*;
+import logic.sinogramas.DataStorage;
 
 public class GalleryFragment extends Fragment {
 
@@ -40,6 +41,7 @@ public class GalleryFragment extends Fragment {
     private GalleryViewModel galleryViewModel;
     private RecyclerView recyclerFavorites;
     QueueDynamicArrayGeneric<Unihan> favoriteQueue;
+    DataStorage myfavorites;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
@@ -47,6 +49,10 @@ public class GalleryFragment extends Fragment {
         final TextView textView = root.findViewById(R.id.text_gallery);
 
         favoriteQueue = new QueueDynamicArrayGeneric<>();
+        myfavorites = new DataStorage(root.getContext(), favoriteQueue);
+        if (myfavorites.retreive()) {
+            favoriteQueue = myfavorites.getSinogramQueue();
+        }
 
         searchButton = root.findViewById(R.id.searchSinogramButton);
         deleteButton = root.findViewById(R.id.addRmFavSinogramButton);
@@ -56,8 +62,10 @@ public class GalleryFragment extends Fragment {
 
         recyclerFavorites = root.findViewById(R.id.recycler_favorites);
         recyclerFavorites.setLayoutManager(new LinearLayoutManager(getContext()));
-        fillListCSV();
+
+        //fillListCSV();
         ListAdapter adapter = new ListAdapter(favoriteQueue,getContext());
+
         recyclerFavorites.setAdapter(adapter);
         galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -67,13 +75,15 @@ public class GalleryFragment extends Fragment {
         });
         return root;
     }
+
+    private void start() {
+
+    }
+
     private void fillListCSV() {
 
         InputStream is = getResources().openRawResource(R.raw.sinograms_list);
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(is, Charset.forName("UTF-8"))
-        );
-
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         String line = "";
             try {
                 while( (line = reader.readLine()) != null) {

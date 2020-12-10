@@ -234,10 +234,10 @@ public class Unihan implements Comparable<Unihan>{
             englishDefinitionsToString+=english+"-";
         }
         for(String spanish: spanishDefinitions) {
-            englishDefinitionsToString+=spanish+"-";
+            spanishDefinitionsToString+=spanish+"-";
         }
         for(String pictures: pictureLinks) {
-            englishDefinitionsToString+=pictures+"-";
+            pictureLinksToString+=pictures+"-";
         }
         return numOfStrokes+":"+codePoint+":"+mp3file+":"+pinyin+":"+radix+":"+englishDefinitionsToString+":"+pictureLinksToString+":"+spanishDefinitionsToString;
     }

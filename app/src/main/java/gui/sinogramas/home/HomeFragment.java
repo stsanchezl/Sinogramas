@@ -1,5 +1,8 @@
 package gui.sinogramas.home;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,6 +31,7 @@ import data.sinogramas.MaxHeap;
 import data.sinogramas.QueueDynamicArrayGeneric;
 import data.sinogramas.Unihan;
 import gui.sinogramas.ListAdapter;
+import gui.sinogramas.MenuPrincipalActivity;
 import gui.sinogramas.R;
 import logic.sinogramas.Archive;
 import logic.sinogramas.DataStorage;
@@ -40,6 +46,8 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private RecyclerView recyclerSinograms;
+
+    private int STORAGE_PERMISSION_CODE = 1;
 
     public Archive controller;
     public MaxHeap searchByPattern;
@@ -61,7 +69,6 @@ public class HomeFragment extends Fragment {
 
         recyclerSinograms = root.findViewById(R.id.recycler_favorites);
         recyclerSinograms.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
 
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -112,7 +119,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-
         return root;
     }
 
