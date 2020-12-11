@@ -14,7 +14,7 @@ package data.sinogramas;
  */
 
 public class StackArrayGeneric<T> implements StackGeneric<T> {
-	private int top;
+    private int top;
     private T[] stackArray;
 
     /**

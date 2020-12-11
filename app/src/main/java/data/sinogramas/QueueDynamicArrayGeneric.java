@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are descripted in the interface this class implements.
  */
-package data;
+package data.sinogramas;
 
 /**
  * This class is a "fixed" version of the QueueArray seen in the data structures class 
@@ -22,7 +22,6 @@ public class QueueDynamicArrayGeneric<T> implements QueueGeneric<T> {
 
     /**
      * Class constructor
-     * @param size, size of the queue
      */
     public QueueDynamicArrayGeneric() {
         front = rear = count =0;
@@ -47,7 +46,7 @@ public class QueueDynamicArrayGeneric<T> implements QueueGeneric<T> {
             throw new RuntimeException("Queue is empty");
         } else {
             item = queueArray[front];
-            front = (front+1)% this.size;
+            front++;
             count--;
         }
         return item;
@@ -55,17 +54,17 @@ public class QueueDynamicArrayGeneric<T> implements QueueGeneric<T> {
 
     @Override
     public void enqueue(T item) {
-        if (this.count == this.size) {
+        if (this.rear == this.size) {
             T[] newArray = (T[]) new Comparable[2 * this.size];
-            for (int i = 0; i < this.count; i++) {
+            for (int i = 0; i < this.size; i++) {
                 newArray[i] = queueArray[i];
             }
             this.queueArray = newArray;
             this.size = queueArray.length;
         }
         queueArray[rear] = item;
-        rear = (rear+1)%this.size;
-        count++; 
+        rear++;
+        count++;
     }
 
     /**
@@ -99,5 +98,9 @@ public class QueueDynamicArrayGeneric<T> implements QueueGeneric<T> {
     @Override
     public int length() {
         return this.count;
+    }
+
+    public T getItem(int position) {
+        return this.queueArray[position];
     }
 }

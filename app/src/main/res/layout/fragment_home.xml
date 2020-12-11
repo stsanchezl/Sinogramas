@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background_sinogramas2"
+    tools:context="gui.sinogramas.home.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="377dp"
+        android:layout_height="687dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.417"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.637">
+
+        <EditText
+            android:id="@+id/expressionEditText"
+            android:layout_width="363dp"
+            android:layout_height="35dp"
+            android:drawableRight="@android:drawable/ic_menu_search"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Expresión"
+            android:textColor="#575656"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.714"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.095" />
+
+        <Button
+            android:id="@+id/searchSinogramButton"
+            android:layout_width="121dp"
+            android:layout_height="35dp"
+            android:text="Buscar"
+            android:textSize="12sp"
+            app:backgroundTint="#BA9B4D"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.039"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.262" />
+
+        <Button
+            android:id="@+id/addRmFavSinogramButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="181dp"
+            android:layout_height="35dp"
+            android:text="Agregar a favoritos"
+            android:textColor="#BA9B4D"
+            android:textColorHint="#332B2B"
+            android:textSize="12sp"
+            app:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.668"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.262"
+            app:rippleColor="@color/purple_500"
+            app:strokeColor="@color/purple_700" />
+
+        <EditText
+            android:id="@+id/numOfStrokesEditText"
+            android:layout_width="178dp"
+            android:layout_height="35dp"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="Numero de trazos"
+            android:textColor="#575656"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.176" />
+
+        <EditText
+            android:id="@+id/radixEditText"
+            android:layout_width="178dp"
+            android:layout_height="35dp"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="Radical"
+            android:textColor="#575656"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.979"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.176" />
+
+        <TextView
+            android:id="@+id/text_gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.028"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.023" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_favorites"
+            android:layout_width="358dp"
+            android:layout_height="447dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.473"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.933" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

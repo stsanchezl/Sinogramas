@@ -1,7 +1,7 @@
 /**
  * Undocumentated methods are descripted in the interface this class implements.
  */
-package data;
+package data.sinogramas;
 /**
  * This class is a "fixed" version of the ListArray seen in the data structures class 
  * @author Cristian Davil Camilo Santos Gil
@@ -114,6 +114,14 @@ public class ListDynamicArrayGeneric<T extends Comparable<T>> implements ListGen
             toPrint.setCharAt(toPrint.lastIndexOf(","), ']');
         }
         return toPrint.toString();
+    }
+    
+    public T getLast() {
+        return listArray[count-1];
+    }
+    
+    public T getItem(int i) {
+        return listArray[i];
     }
 
     /**
